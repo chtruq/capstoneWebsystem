@@ -12,22 +12,10 @@ import TotalMoneyIcon from "@public/icon/dashboard/totalmoney";
 import CalendarIcon from "@public/icon/dashboard/calendar";
 import DepositIcon from "@public/icon/dashboard/deposit";
 import AvailableApartmentIcon from "@public/icon/dashboard/availableApartment";
-import { TrendingUp } from "lucide-react";
-import { Pie, PieChart } from "recharts";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+
+import PieChartComponent from "./chart/PieChart";
+import DashboardTable from "./table/DashboardTable";
+import { AreaChartDashboard } from "./chart/AreaChartDashboard";
 
 const AdminDashboard = () => {
   const cardData = [
@@ -62,23 +50,46 @@ const AdminDashboard = () => {
     { type: "Đã hoàn thành", data: 200, fill: "var(--color-safari)" },
     { type: "Đã huỷ", data: 187, fill: "var(--color-firefox)" },
   ];
-  const chartConfig = {
-    data: {
-      label: "Visitors",
+
+  // const chartData = [
+  //   { month: "January", desktop: 186, mobile: 80 },
+  //   { month: "February", desktop: 305, mobile: 200 },
+  //   { month: "March", desktop: 237, mobile: 120 },
+  //   { month: "April", desktop: 73, mobile: 190 },
+  //   { month: "May", desktop: 209, mobile: 130 },
+  //   { month: "June", desktop: 214, mobile: 140 },
+  // ];
+
+  const tableData = [
+    {
+      id: 1,
+      apartment: "Căn hộ view sống Sài gòn",
+      view: 100,
+      status: "Đã hoàn thành",
+      price: "1.000.000",
     },
-    chrome: {
-      label: "Đang tiến hành",
-      color: "hsl(var(--chart-1))",
+    {
+      id: 2,
+      apartment: "Căn hộ view sống Sài gòn",
+      view: 100,
+      status: "Đã hoàn thành",
+      price: "1.000.000",
     },
-    safari: {
-      label: "Đã hoàn thành",
-      color: "hsl(var(--chart-2))",
+    {
+      id: 3,
+      apartment: "Căn hộ view sống Sài gòn",
+      view: 100,
+      status: "Đã hoàn thành",
+      price: "1.000.000",
     },
-    firefox: {
-      label: "Đã huỷ",
-      color: "hsl(var(--chart-3))",
+    {
+      id: 4,
+      apartment: "Căn hộ view sống Sài gòn",
+      view: 100,
+      status: "Đã hoàn thành",
+      price: "1.000.000",
     },
-  } satisfies ChartConfig;
+  ];
 
   return (
     <div className="relative w-full">
@@ -109,57 +120,17 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
-      <div>
-        <Card className="flex flex-col w-[30%] p-2 my-2">
-          <CardHeader className="items-center pb-0">
-            <CardTitle>Giao dịch</CardTitle>
-            <CardDescription>Trong 7 ngày qua</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 pb-0">
-            <ChartContainer
-              config={chartConfig}
-              className="mx-auto aspect-square max-h-[150px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
-            >
-              <PieChart>
-                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                <Pie data={chartData} dataKey="data" label nameKey="type" />
-              </PieChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col gap-2 text-sm">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Tăng 5.2% so với tháng trước <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Trong 7 ngày qua
-            </div>
-          </CardFooter>
-        </Card>
-        <Card className="flex flex-col w-[30%] p-2 my-2">
-          <CardHeader className="items-center pb-0">
-            <CardTitle>Giao dịch</CardTitle>
-            <CardDescription>Trong 7 ngày qua</CardDescription>
-          </CardHeader>
-          <CardContent className="flex-1 pb-0">
-            <ChartContainer
-              config={chartConfig}
-              className="mx-auto aspect-square max-h-[150px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
-            >
-              <PieChart>
-                <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                <Pie data={chartData} dataKey="data" label nameKey="type" />
-              </PieChart>
-            </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col gap-2 text-sm">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Tăng 5.2% so với tháng trước <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="leading-none text-muted-foreground">
-              Trong 7 ngày qua
-            </div>
-          </CardFooter>
-        </Card>
+      <div className="flex w-full">
+        <div className="w-[30%]">
+          <PieChartComponent chartData={chartData} />
+          <PieChartComponent chartData={chartData} />
+        </div>
+        <div className="w-[70%] bg-white rounded-md border m-1 p-1">
+          <DashboardTable tableData={tableData} />
+        </div>
+      </div>
+      <div className="my-2">
+        <AreaChartDashboard />
       </div>
     </div>
   );

@@ -25,9 +25,14 @@ export function AppSidebar() {
       icon: Home,
     },
     {
-      title: "Quản lý người dùng",
+      title: "Quản lý tài khoản",
       url: "/admin/dashboard/user-manage",
       icon: User,
+    },
+    {
+      title: "Danh sách yêu cầu",
+      url: "/admin/dashboard/request-manage",
+      icon: Home,
     },
     {
       title: "Cài đặt",
@@ -50,10 +55,10 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <a
                       href={item.url}
-                      className={`flex items-center gap-2 p-2 rounded-lg ${
+                      className={`flex items-center gap-2 p-5 rounded-xl ${
                         pathname === item.url
-                          ? "bg-primary hover:bg-primary text-white hover:text-white"
-                          : "text-gray-700 hover:bg-gray-200"
+                          ? "bg-primary hover:bg-orange-300 text-white hover:text-white"
+                          : "text-gray-700 hover:bg-gray-400 hover:text-white"
                       }`}
                     >
                       <item.icon />
