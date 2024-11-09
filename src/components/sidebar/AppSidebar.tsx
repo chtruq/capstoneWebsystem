@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
@@ -13,7 +15,9 @@ import {
 import { Home, Settings, User } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
+import { usePathname } from "next/navigation";
 export function AppSidebar() {
+  const pathname = usePathname();
   const items = [
     {
       title: "Tổng quan",
@@ -44,7 +48,14 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <a
+                      href={item.url}
+                      className={`flex items-center gap-2 p-2 rounded-lg ${
+                        pathname === item.url
+                          ? "bg-primary hover:bg-primary text-white hover:text-white"
+                          : "text-gray-700 hover:bg-gray-200"
+                      }`}
+                    >
                       <item.icon />
                       <span>{item.title}</span>
                     </a>
