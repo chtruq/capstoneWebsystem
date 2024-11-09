@@ -1,9 +1,12 @@
 import apiClient from "./apiClient";
 
-export const getApartments = async (page: number, pageIndex: number) => {
+export const getUsers = async (page: number, pageSize: number) => {
   try {
     const response = await apiClient.get(
-      `/apartments/search?pageIndex=${page}&pageSize=${pageIndex}`
+      `/accounts/search
+      
+      `
+      //   ?page=${page}&pageSize=${pageSize}
     );
     const data = await response.data;
     return data.data;
