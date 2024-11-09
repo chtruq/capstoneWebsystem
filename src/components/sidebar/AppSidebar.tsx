@@ -35,6 +35,11 @@ export function AppSidebar() {
       icon: Home,
     },
     {
+      title: "Quản lý căn hộ",
+      url: "/admin/dashboard/apartment-manage",
+      icon: Home,
+    },
+    {
       title: "Cài đặt",
       url: "/admin/dashboard/setting",
       icon: Settings,
@@ -47,7 +52,6 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
