@@ -13,7 +13,6 @@ import {
 import { Home, Settings, User } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
-import { title } from "process";
 export function AppSidebar() {
   const items = [
     {
