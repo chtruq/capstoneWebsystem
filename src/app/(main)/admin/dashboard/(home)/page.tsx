@@ -1,4 +1,5 @@
 import BreadCrumb from "@/components/breadcrum/breadcrum";
+import AdminDashboard from "@/components/dashboard/AdminDashboard";
 import React from "react";
 
 function HomePage() {
@@ -12,7 +13,7 @@ function HomePage() {
     <div>
       <BreadCrumb items={breadcrumbItems} />
 
-      <div>HomePage</div>
+      <AdminDashboard />
     </div>
   );
 }
