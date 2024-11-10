@@ -16,7 +16,7 @@ function SearchInput({
 
   function handleSearch(term: string) {
     const params = new URLSearchParams(searchParams);
-    console.log(term);
+    params.set("pageIndex", "1");
     if (term) {
       params.set(query, term);
     } else {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import {
   Pagination,
   PaginationContent,
@@ -10,30 +10,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
+import { usePathname, useSearchParams } from "next/navigation";
 interface Props {
-  totalPages: number; // Total number of pages
-  handlePagination: (page: number) => void; // Function to call on page change
+  totalPages: number;
 }
 
-const PaginationComponent: FC<Props> = ({ handlePagination, totalPages }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const goToPage = (page: number) => {
-    setCurrentPage(page);
-    handlePagination(page); // Call the parent function with the new page
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      goToPage(currentPage - 1);
-    }
-  };
-
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      goToPage(currentPage + 1);
-    }
+const PaginationComponent: FC<Props> = ({ totalPages }) => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const createPageURL = (pageNumber: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
   };
 
   return (
@@ -41,16 +30,51 @@ const PaginationComponent: FC<Props> = ({ handlePagination, totalPages }) => {
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious onClick={() => handlePrevious()} />
+            {currentPage === 1 ? (
+              <></>
+            ) : (
+              <>
+                <PaginationPrevious href={createPageURL(currentPage - 1)} />
+              </>
+            )}
           </PaginationItem>
+          {currentPage === totalPages ? (
+            <PaginationItem>
+              <PaginationLink href={createPageURL(1)}>1</PaginationLink>
+            </PaginationItem>
+          ) : (
+            <>
+              <PaginationItem>
+                <PaginationLink href={createPageURL(currentPage)}>
+                  {currentPage}
+                </PaginationLink>
+              </PaginationItem>
+            </>
+          )}
+
+          {totalPages === 1 ? (
+            <></>
+          ) : (
+            <>
+              <PaginationItem>
+                <PaginationEllipsis />
+              </PaginationItem>
+              <PaginationItem>
+                <PaginationLink href={createPageURL(totalPages)}>
+                  {totalPages}
+                </PaginationLink>
+              </PaginationItem>
+            </>
+          )}
+
           <PaginationItem>
-            <PaginationLink href="#">{currentPage}</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext onClick={() => handleNext()} />
+            {currentPage === totalPages ? (
+              <></>
+            ) : (
+              <>
+                <PaginationNext href={createPageURL(currentPage + 1)} />
+              </>
+            )}
           </PaginationItem>
         </PaginationContent>
       </Pagination>
