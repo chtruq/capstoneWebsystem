@@ -17,7 +17,7 @@ async function ProviderManage(props: {
     <div>
       <h1 className="text-2xl font-semibold">Quản lý nhà cung cấp</h1>
       <div>
-        <SearchInput placeholder="tìm kiếm nhà cung cấp" query="providerName" />
+        <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
       </div>
       <div>
         <ProviderTable query={query} currentPage={currentPage} />

@@ -9,19 +9,20 @@ interface ProjectParams {
   pageSize?: number;
 }
 
-const getProjectApartment = async ({ params }: { params: ProjectParams }) => {
+export const getProjectApartment = async ({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) => {
   try {
-    console.log(params);
-    const res = await apiClient.get("/projects/search?", {
-      params: {
-        ...params,
-      },
-    });
+    const res = await apiClient.get(
+      `/projects/search?projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+    );
     return res.data.data;
   } catch (error) {
     console.error("Error fetching project apartments:", error);
     throw error;
   }
 };
-
-export default getProjectApartment;
