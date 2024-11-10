@@ -24,6 +24,7 @@ import {
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
 import { usePathname } from "next/navigation";
+import { handleLogout } from "@/app/actions/auth";
 export function AppSidebar() {
   const pathname = usePathname();
   const items = [
@@ -94,7 +95,13 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Button color="secondary" className="w-full">
+        <Button
+          onClick={() => {
+            handleLogout();
+          }}
+          color="secondary"
+          className="w-full"
+        >
           Đăng xuất
         </Button>
         <p>© 2024 Luxuer</p>

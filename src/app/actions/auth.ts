@@ -38,3 +38,8 @@ export const handleLogin = async (email: string, password: string) => {
     throw e;
   }
 };
+
+export const handleLogout = () => {
+  localStorage.removeItem("token");
+  window.location.href = "/auth/signin";
+};
