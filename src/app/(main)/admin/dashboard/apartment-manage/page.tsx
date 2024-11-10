@@ -15,7 +15,7 @@ async function ApartmentManage(props: {
   const totalPages = 4;
   return (
     <div className="h-screen">
-      <h1 className="text-2xl font-semibold">Quản lý nhà căn hộ</h1>
+      <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div>
         <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
       </div>

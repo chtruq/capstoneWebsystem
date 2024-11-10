@@ -19,10 +19,6 @@ export const getApartmentsTest = async ({
   query: string;
   currentPage: number;
 }) => {
-  console.log("abc", query);
-  const url = `/apartments/search?apartmentName=${query}&page=${currentPage}&pageSize=1`;
-  console.log("Request URL:", url);
-
   try {
     const res = apiClient.get(
       `/apartments/search?apartmentName=${query}&pageIndex=${currentPage}&pageSize=1`
