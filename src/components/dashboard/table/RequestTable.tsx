@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -7,71 +7,111 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getRequestAppointment } from "@/app/actions/apointment";
+import { getPropertyRequest } from "@/app/actions/property";
+import { getDeposit } from "@/app/actions/deposit";
 
-const RequestTable = () => {
-  const headerTable = [
-    { label: "Mã yêu cầu", key: "requestId" },
-    { label: "Mã căn hộ", key: "apartmentId" },
-    { label: "Ngày giờ", key: "requestTime" },
-    { label: "Tên khách hàng", key: "customerName" },
-    { label: "Nhân viên", key: "staffName" },
-    { label: "Trạng thái", key: "status" },
-    { label: "Hành động", key: "action" },
+interface Props {
+  type: number;
+}
+
+const RequestTable: FC<Props> = ({ type }) => {
+  const [data, setData] = useState<any>();
+  const getRequest = async () => {
+    try {
+      if (type === 1) {
+        const data = await getDeposit();
+        setData(data);
+      } else if (type === 2) {
+        const data = await getRequestAppointment();
+        setData(data);
+      } else if (type === 3) {
+        const data = await getPropertyRequest();
+        setData(data);
+        console.log(data.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setData([]);
+    getRequest();
+  }, [type]);
+
+  const header1 = [
+    { label: "Mã yêu cầu", key: "depositID" },
+    { label: "Mã căn hộ", key: "apartmentID" },
+    { label: "Tên căn hộ", key: "depositProfile[0].fullName" },
+    { label: "Tên khách hàng", key: "depositAmount" },
+    { label: "Số điện thoại", key: "depositProfile[0].phoneNumber" },
+    { label: "Địa chỉ", key: "createDate" },
+    { label: "Giá mong muốn", key: "depositStatus" },
   ];
-  const data = [
-    {
-      requestId: "INV001",
-      apartmentId: "AP001",
-      requestTime: "2021-10-10 10:00",
-      customerName: "Nguyễn Văn A",
-      staffName: "Nguyễn Văn B",
-      status: "Đã hoàn thành",
-      action: "Xem chi tiết",
-    },
-    {
-      requestId: "INV002",
-      apartmentId: "AP002",
-      requestTime: "2021-10-10 10:00",
-      customerName: "Nguyễn Văn A",
-      staffName: "Nguyễn Văn B",
-      status: "Đã hoàn thành",
-      action: "Xem chi tiết",
-    },
-    {
-      requestId: "INV003",
-      apartmentId: "AP003",
-      requestTime: "2021-10-10 10:00",
-      customerName: "Nguyễn Văn A",
-      staffName: "Nguyễn Văn B",
-      status: "Đã hoàn thành",
-      action: "Xem chi tiết",
-    },
+
+  const header3 = [
+    { label: "Mã yêu cầu", key: "requestId" },
+    { label: "Tên căn hộ", key: "propertyName" },
+    { label: "Tên khách hàng", key: "userName" },
+    { label: "Số điện thoại", key: "phoneNumber" },
+    { label: "Địa chỉ", key: "address" },
+    { label: "Giá mong muốn", key: "expectedPrice" },
+    { label: "Ngày tạo", key: "requestDate" },
   ];
 
   return (
     <div>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {headerTable.map((item) => (
-              <TableHead key={item.label}>{item.label}</TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.requestId}</TableCell>
-              <TableCell>{item.apartmentId}</TableCell>
-              <TableCell>{item.requestTime}</TableCell>
-              <TableCell>{item.customerName}</TableCell>
-              <TableCell>{item.staffName}</TableCell>
-              <TableCell>{item.status}</TableCell>
-              <TableCell>{item.action}</TableCell>
+      {!data ? (
+        <div className="flex justify-center items-center">Không có kết quả</div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {type === 1 &&
+                header1.map((item) => (
+                  <TableHead key={item.label}>{item.label}</TableHead>
+                ))}
+
+              {type === 3 &&
+                header3.map((item) => (
+                  <TableHead key={item.label}>{item.label}</TableHead>
+                ))}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHeader>
+          <TableBody>
+            {type === 1 &&
+              data?.data?.data?.map((item: Deposit) => (
+                <TableRow key={item.depositID}>
+                  <TableCell>{item.depositID}</TableCell>
+                  <TableCell>{item.apartmentID}</TableCell>
+                  <TableCell>
+                    {item.depositProfile?.[0]?.fullName || "N/A"}
+                  </TableCell>
+                  <TableCell>{item.depositAmount}</TableCell>
+                  <TableCell>
+                    {item.depositProfile?.[0]?.phoneNumber || "N/A"}
+                  </TableCell>
+                  <TableCell>{item.createDate}</TableCell>
+                  <TableCell>{item.depositStatus}</TableCell>
+                </TableRow>
+              ))}
+
+            {type === 3 &&
+              data?.data?.data?.map((item: PropertyRequest) => (
+                <TableRow key={item.requestID}>
+                  <TableCell>{item.requestID}</TableCell>
+                  <TableCell>{item.propertyName}</TableCell>
+                  <TableCell>{item.userName}</TableCell>
+                  <TableCell>{item.phoneNumber}</TableCell>
+                  <TableCell>{item.address}</TableCell>
+                  <TableCell>{item.expectedPrice}</TableCell>
+                  <TableCell>{item.requestDate}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
 };

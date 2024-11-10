@@ -13,7 +13,7 @@ async function ProjectManage(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.projectName || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 4;
+  const totalPages = 3;
 
   return (
     <div className="h-screen">

@@ -21,7 +21,7 @@ export const getApartmentsTest = async ({
 }) => {
   try {
     const res = apiClient.get(
-      `/apartments/search?apartmentName=${query}&pageIndex=${currentPage}&pageSize=1`
+      `/apartments/search?apartmentName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res;
   } catch (error) {

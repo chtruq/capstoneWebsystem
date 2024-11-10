@@ -12,7 +12,7 @@ async function ApartmentManage(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.apartmentName || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 4;
+  const totalPages = 3;
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>

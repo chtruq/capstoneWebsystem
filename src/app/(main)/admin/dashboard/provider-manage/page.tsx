@@ -12,7 +12,7 @@ async function ProviderManage(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.providerName || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 4;
+  const totalPages = 3;
   return (
     <div>
       <h1 className="text-2xl font-semibold">Quản lý nhà cung cấp</h1>
