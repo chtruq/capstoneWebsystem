@@ -6,7 +6,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -40,6 +39,15 @@ export function AppSidebar() {
       icon: Home,
     },
     {
+      title: "Quản lý dự án",
+      url: "/admin/dashboard/project-manage",
+      icon: Home,
+    },
+    {
+      title: "Quản lý nhà cung cấp",
+      url: "/admin/dashboard/provider-manage",
+    },
+    {
       title: "Cài đặt",
       url: "/admin/dashboard/setting",
       icon: Settings,
@@ -61,8 +69,8 @@ export function AppSidebar() {
                       href={item.url}
                       className={`flex items-center gap-2 p-5 rounded-xl ${
                         pathname === item.url
-                          ? "bg-primary hover:bg-orange-300 text-white hover:text-white"
-                          : "text-gray-700 hover:bg-gray-400 hover:text-white"
+                          ? "bg-primary  text-white hover:bg-primary "
+                          : "text-gray-700 hover:bg-gray-400 hover:text-black"
                       }`}
                     >
                       <item.icon />
