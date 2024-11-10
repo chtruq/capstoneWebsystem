@@ -46,6 +46,7 @@ export function AppSidebar() {
     {
       title: "Quản lý nhà cung cấp",
       url: "/admin/dashboard/provider-manage",
+      icon: Home,
     },
     {
       title: "Cài đặt",
