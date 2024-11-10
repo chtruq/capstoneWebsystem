@@ -75,37 +75,20 @@ const RequestComponent = () => {
           // List of request
           selectedRequest === 1 ? (
             <>
-              <RequestTable />
+              <RequestTable type={selectedRequest} />
             </>
           ) : selectedRequest === 2 ? (
             <>
-              <RequestTable />
+              <RequestTable type={selectedRequest} />
             </>
           ) : (
             <>
-              <RequestTable />
+              <RequestTable type={selectedRequest} />
             </>
           )
         }
       </div>
-      <div className="absolute bottom-0 right-0">
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <div className="absolute bottom-0 right-0"></div>
     </div>
   );
 };

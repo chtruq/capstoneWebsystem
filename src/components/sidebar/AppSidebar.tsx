@@ -11,7 +11,16 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Settings, User } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  Building2,
+  FolderKanban,
+  Home,
+  LayoutDashboard,
+  ListCheck,
+  Settings,
+  User,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
 import { usePathname } from "next/navigation";
@@ -21,7 +30,7 @@ export function AppSidebar() {
     {
       title: "Tổng quan",
       url: "/admin/dashboard",
-      icon: Home,
+      icon: LayoutDashboard,
     },
     {
       title: "Quản lý tài khoản",
@@ -31,22 +40,22 @@ export function AppSidebar() {
     {
       title: "Danh sách yêu cầu",
       url: "/admin/dashboard/request-manage",
-      icon: Home,
+      icon: ListCheck,
     },
     {
       title: "Quản lý căn hộ",
       url: "/admin/dashboard/apartment-manage",
-      icon: Home,
+      icon: Building2,
     },
     {
       title: "Quản lý dự án",
       url: "/admin/dashboard/project-manage",
-      icon: Home,
+      icon: FolderKanban,
     },
     {
       title: "Quản lý nhà cung cấp",
       url: "/admin/dashboard/provider-manage",
-      icon: Home,
+      icon: BriefcaseBusiness,
     },
     {
       title: "Cài đặt",
