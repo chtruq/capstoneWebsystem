@@ -45,7 +45,7 @@ const UserTable: FC<Props> = async ({ query, currentPage }: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.map((user: User) => (
+            {data?.accounts?.map((user: User) => (
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>

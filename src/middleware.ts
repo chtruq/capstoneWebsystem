@@ -11,7 +11,6 @@ export async function middleware(req: NextRequest) {
       sub: string;
       [key: string]: any;
     }>(token);
-
     const role =
       decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     console.log(role);
@@ -20,7 +19,7 @@ export async function middleware(req: NextRequest) {
     if (path.startsWith("/admin") && role !== "Admin") {
       return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
-    if (path.startsWith("/manager") && role !== "Manager") {
+    if (path.startsWith("/manager") && role !== "Management") {
       return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
     if (path.startsWith("/staff") && role !== "Staff") {

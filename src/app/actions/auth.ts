@@ -1,5 +1,8 @@
+"use server";
 import apiClient from "@/app/actions/apiClient";
 import { jwtDecode } from "jwt-decode";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const handleLogin = async (email: string, password: string) => {
   try {
@@ -9,10 +12,12 @@ export const handleLogin = async (email: string, password: string) => {
     });
     const data = await response.data;
     const token = data.data.token;
+    const cookieStore = await cookies();
 
     if (token) {
       // Save the token securely (e.g., in localStorage or cookies)
-      localStorage.setItem("token", token);
+      cookieStore.set("token", token, { secure: true, sameSite: "strict" });
+      // localStorage.setItem("token", token);
 
       // Decode the token to get role data
       const decoded = jwtDecode<{
@@ -25,11 +30,11 @@ export const handleLogin = async (email: string, password: string) => {
         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
       console.log(role); // Outputs: Admin (or the relevant role)
       if (role === "Admin") {
-        // Redirect to admin dashboard
-        window.location.href = "/admin/dashboard";
-      } else {
-        // Redirect to user dashboard
-        window.location.href = "/user/dashboard";
+        redirect("/admin/dashboard");
+      } else if (role === "Management") {
+        redirect("/manager/dashboard");
+      } else if (role === "Staff") {
+        redirect("/staff/dashboard");
       }
     }
 
@@ -39,7 +44,7 @@ export const handleLogin = async (email: string, password: string) => {
   }
 };
 
-export const handleLogout = () => {
-  localStorage.removeItem("token");
-  window.location.href = "/auth/signin";
+export const handleLogout = async () => {
+  (await cookies()).delete("token");
+  redirect("/auth/signin");
 };

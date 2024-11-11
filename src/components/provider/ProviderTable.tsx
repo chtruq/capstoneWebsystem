@@ -39,7 +39,7 @@ const ProviderTable = async ({ query, currentPage }: ProviderTableProps) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {providers?.data?.data.map((provider: Provider) => (
+            {providers?.data?.data?.providers?.map((provider: Provider) => (
               <TableRow key={provider.apartmentProjectProviderID}>
                 <TableCell>{provider.apartmentProjectProviderName}</TableCell>
                 <TableCell>{provider.apartmentProjectDescription}</TableCell>

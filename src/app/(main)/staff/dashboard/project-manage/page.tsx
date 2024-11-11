@@ -1,5 +1,5 @@
-import { getProjectApartment } from "@/app/actions/project";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
+import ProjectManageComponent from "@/components/project-manage/ProjectManageComponent";
 import ProjectTable from "@/components/project-manage/ProjectTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
@@ -13,12 +13,7 @@ async function ProjectManage(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.projectName || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getProjectApartment({
-    query,
-    currentPage,
-  });
-  const totalItem = data?.data?.data?.totalItem || 0;
-  const totalPages = Math.ceil(totalItem / 10); // Calculate total pages
+  const totalPages = 3;
 
   return (
     <div className="h-screen">
@@ -30,7 +25,7 @@ async function ProjectManage(props: {
         <ProjectTable query={query} currentPage={currentPage} />
       </div>
       <div className="absolute bottom-0 right-0">
-        {!totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
+        {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
       </div>
     </div>
   );

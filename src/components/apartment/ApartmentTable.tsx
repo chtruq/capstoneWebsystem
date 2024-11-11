@@ -42,7 +42,7 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data?.data?.data.map((apartment: Apartment) => (
+            {data?.data?.data?.apartments?.map((apartment: Apartment) => (
               <TableRow key={apartment.apartmentID}>
                 <TableCell>{apartment.apartmentCode}</TableCell>
                 <TableCell>{apartment.apartmentName}</TableCell>
