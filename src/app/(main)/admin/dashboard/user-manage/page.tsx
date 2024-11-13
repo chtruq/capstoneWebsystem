@@ -1,26 +1,25 @@
-import { getUsers } from "@/app/actions/user";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
-import AccountManage from "@/components/user/AccountManage";
 import UserTable from "@/components/user/table/UserTable";
 import React from "react";
 
 async function UserManage(props: {
   searchParams?: Promise<{
-    apartmentName?: string;
+    email?: string;
     page?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
-  const query = searchParams?.apartmentName || "";
+  const query = searchParams?.email || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = 4;
   return (
     <div className="h-screen">
-      <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
+      <h1 className="text-2xl font-semibold">Quản lý tài khoản</h1>
       <div>
-        <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
+        <SearchInput placeholder="Tìm kiếm email" query="email" />
       </div>
+
       <div>
         <UserTable query={query} currentPage={currentPage} />
       </div>
