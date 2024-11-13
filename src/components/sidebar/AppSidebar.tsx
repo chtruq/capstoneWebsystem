@@ -133,17 +133,43 @@ export function AppSidebar() {
                 items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a
+                      {item.title === "Tổng quan" ? (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary  text-white hover:bg-primary "
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary  text-white hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      )}
+
+                      {/* <a
                         href={item.url}
                         className={`flex items-center gap-2 p-5 rounded-xl ${
-                          pathname === item.url
+                          pathname.includes(item.url) 
                             ? "bg-primary  text-white hover:bg-primary "
                             : "text-gray-700 hover:bg-gray-400 hover:text-black"
                         }`}
                       >
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </a> */}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
