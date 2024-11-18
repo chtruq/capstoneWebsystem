@@ -28,3 +28,21 @@ export const getApartmentsTest = async ({
     console.log(error);
   }
 };
+
+export const getProjectApartmentCart = async ({
+  currentPage,
+  projectId,
+}: {
+  currentPage: number;
+  projectId: string;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/apartments/search?projectId=${projectId}&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching project apartments:", error);
+    throw error;
+  }
+};

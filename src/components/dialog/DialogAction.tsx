@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+"use client";
+import React, { FC, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -17,8 +18,6 @@ interface Props {
   description: string;
   btnActionTitle: string;
   action: () => void;
-  open: boolean;
-  setOpen: (open: boolean) => void;
 }
 
 const DialogAction: FC<Props> = ({
@@ -28,40 +27,51 @@ const DialogAction: FC<Props> = ({
   btnActionTitle,
   action,
 }) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">{btnTitle}</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <div className="flex items-center space-x-2">
-          <div className="grid flex-1 gap-2"></div>
-          {/* <Button type="submit" size="sm" className="px-3"></Button> */}
-        </div>
-        <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Đóng
-            </Button>
-          </DialogClose>
-          <DialogClose>
+    <div>
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline">{btnTitle}</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{title}</DialogTitle>
+            <DialogDescription>{description}</DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center space-x-2">
+            <div className="grid flex-1 gap-2"></div>
+            {/* <Button type="submit" size="sm" className="px-3"></Button> */}
+          </div>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Đóng
+              </Button>
+            </DialogClose>
             <Button
-              onClick={() => {
-                action();
+              disabled={isSubmitting}
+              onClick={async () => {
+                try {
+                  setIsSubmitting(true);
+                  await action();
+                } catch (error) {
+                  console.log(error);
+                } finally {
+                  setIsSubmitting(false);
+                }
               }}
               type="submit"
               variant="default"
             >
               {btnActionTitle}
             </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 };
 
