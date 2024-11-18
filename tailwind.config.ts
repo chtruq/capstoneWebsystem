@@ -22,7 +22,7 @@ const config: Config = {
         },
         primary: {
           DEFAULT: "#EECE80",
-          foreground: "hsl(var(--primary-foreground))",
+          foreground: "#faf4eb",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -39,6 +39,14 @@ const config: Config = {
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
+        },
+        success: {
+          DEFAULT: "#24A148",
+          foreground: "#f0f8f2",
+        },
+        blur: {
+          DEFAULT: "#4b4b4b",
+          foreground: "hsl(var(--blur-foreground))",
         },
         error: "FF3333",
         money: "#C48C37",

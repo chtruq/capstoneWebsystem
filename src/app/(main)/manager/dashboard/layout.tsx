@@ -5,7 +5,9 @@ const ManagerDashboardLayout = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <div className="p-4 relative w-full">{children}</div>;
+  return (
+    <div className="p-4 relative w-full bg-white rounded-lg">{children}</div>
+  );
 };
 
 export default ManagerDashboardLayout;

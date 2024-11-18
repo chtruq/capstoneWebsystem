@@ -138,8 +138,8 @@ export function AppSidebar() {
                           href={item.url}
                           className={`flex items-center gap-2 p-5 rounded-xl ${
                             pathname === item.url
-                              ? "bg-primary  text-white hover:bg-primary "
-                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
                           }`}
                         >
                           <item.icon />
@@ -150,26 +150,14 @@ export function AppSidebar() {
                           href={item.url}
                           className={`flex items-center gap-2 p-5 rounded-xl ${
                             pathname.includes(item.url)
-                              ? "bg-primary  text-white hover:bg-primary"
-                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
                           }`}
                         >
                           <item.icon />
                           <span>{item.title}</span>
                         </a>
                       )}
-
-                      {/* <a
-                        href={item.url}
-                        className={`flex items-center gap-2 p-5 rounded-xl ${
-                          pathname.includes(item.url) 
-                            ? "bg-primary  text-white hover:bg-primary "
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                        }`}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a> */}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -178,17 +166,40 @@ export function AppSidebar() {
                 ManagerItem.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a
-                        href={item.url}
-                        className={`flex items-center gap-2 p-5 rounded-xl ${
-                          pathname === item.url
-                            ? "bg-primary  text-white hover:bg-primary "
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                        }`}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
+                      {item.title === "Tổng quan" ? (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl`}
+                          >
+                            {item.title}
+                          </span>
+                        </a>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl
+                              `}
+                          >
+                            {item.title}
+                          </span>
+                        </a>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
@@ -196,17 +207,31 @@ export function AppSidebar() {
                 StaffItem.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
-                      <a
-                        href={item.url}
-                        className={`flex items-center gap-2 p-5 rounded-xl ${
-                          pathname === item.url
-                            ? "bg-primary  text-white hover:bg-primary "
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                        }`}
-                      >
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
+                      {item.title === "Tổng quan" ? (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </a>
+                      )}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

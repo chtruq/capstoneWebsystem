@@ -17,3 +17,12 @@ export const getProviders = async ({
     console.log(error);
   }
 };
+
+export const getAllProviders = async () => {
+  try {
+    const res: any = apiClient.get(`/projectproviders/get-all`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
