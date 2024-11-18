@@ -46,3 +46,29 @@ export const getProjectApartmentCart = async ({
     throw error;
   }
 };
+
+export const getApartmentDetails = async ({ id }: { id: string }) => {
+  try {
+    const res = await apiClient.get(`/apartments/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching apartment details:", error);
+    throw error;
+  }
+};
+
+export const getPendingApartments = async ({
+  currentPage,
+}: {
+  currentPage: number;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/apartments/search?status=2&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching pending apartments:", error);
+    throw error;
+  }
+};

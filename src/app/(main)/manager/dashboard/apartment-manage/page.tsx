@@ -1,6 +1,8 @@
 import ApartmentTable from "@/components/apartment/ApartmentTable";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 async function ApartmentManage(props: {
@@ -16,8 +18,16 @@ async function ApartmentManage(props: {
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
-      <div>
-        <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
+      <div className="flex">
+        <div className="w-3/4">
+          <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
+        </div>
+        <Link
+          className="w-1/4 flex justify-end"
+          href={`/manager/dashboard/apartment-manage/pending`}
+        >
+          <Button>Danh sách chờ duyệt</Button>
+        </Link>
       </div>
       <div>
         <ApartmentTable query={query} currentPage={currentPage} />

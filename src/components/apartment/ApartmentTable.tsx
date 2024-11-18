@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { getApartmentsTest } from "@/app/actions/apartment";
+import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   query: string;
@@ -32,27 +34,44 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Code</TableHead>
-              <TableHead>Tên</TableHead>
-              <TableHead>Địa chỉ</TableHead>
-              <TableHead>Giá căn hộ</TableHead>
-              <TableHead>Loại căn hộ</TableHead>
+              <TableHead>Mã căn hộ</TableHead>
+              <TableHead>Hình ảnh</TableHead>
+              <TableHead>Giá</TableHead>
+              <TableHead>Diện tích</TableHead>
+              <TableHead>Phòng ngủ</TableHead>
+              <TableHead>Nhà tắm</TableHead>
               <TableHead>Thuộc dự án</TableHead>
-              <TableHead>Hành động</TableHead>
+              <TableHead>Trạng thái</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data?.data?.data?.apartments?.map((apartment: Apartment) => (
               <TableRow key={apartment.apartmentID}>
                 <TableCell>{apartment.apartmentCode}</TableCell>
-                <TableCell>{apartment.apartmentName}</TableCell>
-                <TableCell>{apartment.address}</TableCell>
+                <TableCell>
+                  <Image
+                    src={apartment?.images[0]?.imageUrl}
+                    width={50}
+                    height={50}
+                    alt={apartment.apartmentName}
+                    className="rounded-lg w-16 h-16"
+                  />
+                </TableCell>
                 <TableCell>{apartment.price}</TableCell>
-                <TableCell>{apartment.apartmentType}</TableCell>
+                <TableCell>{apartment.area}</TableCell>
+                <TableCell>{apartment.numberOfRooms}</TableCell>
+                <TableCell>{apartment.numberOfBathrooms}</TableCell>
                 <TableCell>{apartment.projectApartmentName}</TableCell>
-                <TableCell className="gap-1 flex">
-                  <Button variant="outline">Sửa</Button>
-                  <Button variant="outline">Xóa</Button>
+                <TableCell>{apartment.apartmentStatus}</TableCell>
+                <TableCell className="flex justify-center items-center">
+                  <Link
+                    href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}`}
+                  >
+                    <Button className="items-center" variant="outline">
+                      Xem chi tiết
+                    </Button>
+                  </Link>
                 </TableCell>
               </TableRow>
             ))}
