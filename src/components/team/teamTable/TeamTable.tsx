@@ -43,8 +43,12 @@ const TeamTable: FC<Props> = async ({
                   <TableCell>{team.teamID}</TableCell>
                   <TableCell>{team.teamName}</TableCell>
                   <TableCell>{team.teamDescription}</TableCell>
-                  <TableCell>{team.teamType}</TableCell>
-                  <TableCell>{team.teamType}</TableCell>
+                  <TableCell>{team.managerName}</TableCell>
+                  <TableCell>
+                    {team.teamType === "ProjectManagement"
+                      ? "Theo dự án"
+                      : "Ký gửi"}
+                  </TableCell>
                   <TableCell className="gap-1 flex">
                     <Link
                       href={`/manager/dashboard/team-manage/${team.teamID}`}

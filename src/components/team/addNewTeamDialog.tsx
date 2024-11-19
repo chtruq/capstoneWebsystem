@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { FC } from "react";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -22,20 +21,43 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-const NewTeamDialog = () => {
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { createTeam } from "@/app/actions/team";
+import { revalidateProjectPath } from "@/app/actions/revalidate";
+
+interface Props {
+  leaders: Leader[];
+}
+
+const NewTeamDialog: FC<Props> = ({ leaders }) => {
   const form = useForm<z.infer<typeof CreateTeamSchema>>({
     resolver: zodResolver(CreateTeamSchema),
     defaultValues: {
       teamName: "",
-      leader: "",
-      unit: "",
-      description: "",
+      managerAccountID: "",
+      teamType: "",
+      teamDescription: "",
     },
   });
-  function onSubmit(values: z.infer<typeof CreateTeamSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+
+  console.log("leaders", leaders);
+
+  async function onSubmit(values: z.infer<typeof CreateTeamSchema>) {
+    try {
+      const res = await createTeam(values);
+      console.log("res", res);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      form.reset();
+      revalidateProjectPath("/manager/dashboard/team-manage");
+    }
   }
 
   return (
@@ -51,7 +73,7 @@ const NewTeamDialog = () => {
             <div>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
-                  <div className="grid grid-cols-1 grid-rows-4 gap-1">
+                  <div className="grid grid-cols-1 grid-rows-4 gap-1 pb-4">
                     <FormField
                       control={form.control}
                       name="teamName"
@@ -69,14 +91,33 @@ const NewTeamDialog = () => {
                     />
                     <FormField
                       control={form.control}
-                      name="leader"
+                      name="managerAccountID"
                       render={({ field }) => (
                         <FormItem>
                           <span className="text-sm text-blur">
                             Chọn nhóm trưởng
                           </span>
                           <FormControl>
-                            <Input placeholder="Chọn trưởng nhóm" {...field} />
+                            {/* <Input placeholder="Chọn trưởng nhóm" {...field} /> */}
+                            <Select onValueChange={field.onChange}>
+                              <SelectTrigger className="">
+                                <SelectValue placeholder="Chọn trưởng nhóm" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {leaders?.map((leader) => (
+                                  <SelectItem
+                                    key={leader.staffId}
+                                    value={leader.staffId}
+                                    disabled={leader.isAssignedToTeam}
+                                  >
+                                    {leader.name}{" "}
+                                    {leader.isAssignedToTeam
+                                      ? "(Đã được phân công)"
+                                      : ""}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -85,12 +126,20 @@ const NewTeamDialog = () => {
 
                     <FormField
                       control={form.control}
-                      name="unit"
+                      name="teamType"
                       render={({ field }) => (
                         <FormItem>
                           <span className="text-sm text-blur">Chọn đơn vị</span>
                           <FormControl>
-                            <Input placeholder="Chọn trưởng nhóm" {...field} />
+                            <Select onValueChange={field.onChange}>
+                              <SelectTrigger className="">
+                                <SelectValue placeholder="Đơn vị" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="1">Theo dự án</SelectItem>
+                                <SelectItem value="2">Ký gửi</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -98,7 +147,7 @@ const NewTeamDialog = () => {
                     />
                     <FormField
                       control={form.control}
-                      name="description"
+                      name="teamDescription"
                       render={({ field }) => (
                         <FormItem>
                           <span className="text-sm text-blur">
@@ -116,11 +165,6 @@ const NewTeamDialog = () => {
                     />
                   </div>
 
-                  <DialogClose asChild>
-                    <Button type="button" variant="secondary">
-                      Đóng
-                    </Button>
-                  </DialogClose>
                   <Button type="submit">Xác nhận</Button>
                 </form>
               </Form>
