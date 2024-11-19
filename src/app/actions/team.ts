@@ -18,7 +18,7 @@ export const getTeamsByPage = async ({
 }) => {
   try {
     const res = await apiClient.get(
-      `/teams/search?teamName=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/teams/search?keyWord=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data;
   } catch (error) {
@@ -46,6 +46,24 @@ export const getTeamMember = async ({
     const res = await apiClient.get(
       `/teammembers/search?pageIndex=${currentPage}&pageSize=10`
     );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getLeader = async () => {
+  try {
+    const res = await apiClient.get("/teams/staff/available");
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createTeam = async (data: any) => {
+  try {
+    const res = await apiClient.post("/teams/create", data);
     return res.data;
   } catch (error) {
     throw error;
