@@ -1,7 +1,8 @@
-import { getTeamById, getTeamMember } from "@/app/actions/team";
+import { getMemberInTeamDetails, getTeamById } from "@/app/actions/team";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
 import TeamMemberTable from "@/components/team/teamMemberTable/TeamMemberTable";
+import { tableText } from "@/lib/utils/project";
 import React from "react";
 
 const TeamDetails = async ({
@@ -17,13 +18,11 @@ const TeamDetails = async ({
   const data = await getTeamById(params.id);
   const teamData: Team = data?.data;
   const resolvedSearchParams = searchParams ? await searchParams : {};
-  const query = resolvedSearchParams.teamMemberName || "";
+  // const query = resolvedSearchParams.teamMemberName || "";
   const currentPage = Number(resolvedSearchParams.page) || 1;
-  console.log("query", query);
-  console.log("curr", currentPage);
-  const teamMemberData = await getTeamMember({ currentPage, query });
-  const totalPages = teamMemberData?.data.totalItems;
-  console.log(teamMemberData);
+  const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
+  const totalPages = teamMemberData?.data.totalPage;
+
   return (
     <div>
       <h1 className="text-2xl font-semibold">Chi tiết nhóm quản lý</h1>
@@ -32,7 +31,9 @@ const TeamDetails = async ({
         <div className="my-2 w-full">
           <div className="flex justify-between">
             <div className="text-blur text-sm w-1/3">Mã</div>
-            <div className="justify-start w-2/3">{teamData?.teamID}</div>
+            <div className="justify-start w-2/3">
+              {tableText(teamData?.teamCode)}
+            </div>
           </div>
           <div className="flex justify-between">
             <div className="text-blur text-sm w-1/3">Trưởng nhóm</div>
@@ -41,7 +42,11 @@ const TeamDetails = async ({
 
           <div className="flex justify-between">
             <div className="text-blur text-sm w-1/3">Nhóm quản lý</div>
-            <div className="justify-start w-2/3">{teamData?.teamType}</div>
+            <div className="justify-start w-2/3">
+              {teamData?.teamType === "ProjectManagement"
+                ? "Theo dự án"
+                : "Ký gửi"}
+            </div>
           </div>
         </div>
         <div className="flex ">
@@ -59,10 +64,14 @@ const TeamDetails = async ({
           />
         </div>
 
-        <TeamMemberTable data={teamMemberData} />
+        <TeamMemberTable data={teamMemberData?.data?.teamDetails} />
 
         <div>
-          {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
+          {totalPages !== 1 ? (
+            <PaginationComponent totalPages={totalPages} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

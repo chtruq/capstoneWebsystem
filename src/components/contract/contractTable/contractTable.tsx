@@ -20,6 +20,7 @@ const ContractTable: FC<Props> = ({ data }) => {
           <TableRow>
             <TableHead>Mã hợp đồng</TableHead>
             <TableHead>Mã căn hộ</TableHead>
+
             <TableHead>Đối tác</TableHead>
             <TableHead>Ngày bắt đầu</TableHead>
             <TableHead>Ngày hết hạn</TableHead>
@@ -39,6 +40,7 @@ const ContractTable: FC<Props> = ({ data }) => {
               <TableCell>{contract.legalDocumentsURL}</TableCell>
             </TableRow>
           ))}
+
         </TableBody>
       </Table>
     </div>

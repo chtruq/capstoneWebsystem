@@ -15,6 +15,7 @@ async function ContractManage(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getContract(query, currentPage);
   const totalPages = data?.totalPage || 1;
+
   return (
     <div>
       <h1 className="font-semibold text-2xl">Hợp đồng</h1>
@@ -26,6 +27,7 @@ async function ContractManage(props: {
       <div>
         {totalPages > 1 && <PaginationComponent totalPages={totalPages} />}
       </div>
+      
     </div>
   );
 }
