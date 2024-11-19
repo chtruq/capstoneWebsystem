@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import {
   Table,
   TableBody,
@@ -7,14 +7,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-const ContractTable = () => {
+
+interface Props {
+  data: Contract[];
+}
+
+const ContractTable: FC<Props> = ({ data }) => {
   return (
     <div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead>Mã hợp đồng</TableHead>
-            <TableHead>Mã Căn hộ</TableHead>
+            <TableHead>Mã căn hộ</TableHead>
+
             <TableHead>Đối tác</TableHead>
             <TableHead>Ngày bắt đầu</TableHead>
             <TableHead>Ngày hết hạn</TableHead>
@@ -23,12 +29,18 @@ const ContractTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableCell>INV001</TableCell>
-            <TableCell>Paid</TableCell>
-            <TableCell>Credit Card</TableCell>
-            <TableCell></TableCell>
-          </TableRow>
+          {data?.map((contract: Contract) => (
+            <TableRow key={contract.contractCode}>
+              <TableCell>{contract.contractCode}</TableCell>
+              <TableCell>{contract.apartmentCode}</TableCell>
+              <TableCell>{contract.ownerName}</TableCell>
+              <TableCell>{contract.effectiveDate}</TableCell>
+              <TableCell>{contract.expiryDate}</TableCell>
+              <TableCell>{contract.verificationStatus}</TableCell>
+              <TableCell>{contract.legalDocumentsURL}</TableCell>
+            </TableRow>
+          ))}
+
         </TableBody>
       </Table>
     </div>
