@@ -19,6 +19,7 @@ import {
   ListCheck,
   Settings,
   User,
+  Users,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
@@ -89,6 +90,11 @@ export function AppSidebar() {
       title: "Quản lý dự án",
       url: "/manager/dashboard/project-manage",
       icon: FolderKanban,
+    },
+    {
+      title: "Quản lý nhóm",
+      url: "/manager/dashboard/team-manage",
+      icon: Users,
     },
     {
       title: "Quản lý nhà cung cấp",
