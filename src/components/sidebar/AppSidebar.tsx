@@ -17,6 +17,7 @@ import {
   FolderKanban,
   LayoutDashboard,
   ListCheck,
+  ReceiptText,
   Settings,
   User,
   Users,
@@ -95,6 +96,11 @@ export function AppSidebar() {
       title: "Quản lý nhóm",
       url: "/manager/dashboard/team-manage",
       icon: Users,
+    },
+    {
+      title: "Hợp đồng",
+      url: "/manager/dashboard/contract-manage",
+      icon: ReceiptText,
     },
     {
       title: "Quản lý nhà cung cấp",
