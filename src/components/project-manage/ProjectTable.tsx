@@ -16,8 +16,6 @@ const ProjectTable: FC<Props> = async ({ query, currentPage }: Props) => {
       query,
       currentPage,
     });
-
-    console.log("data", data);
   } catch (error) {
     console.log(error);
   }

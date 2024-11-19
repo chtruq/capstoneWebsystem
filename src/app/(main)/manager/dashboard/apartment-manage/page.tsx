@@ -1,3 +1,4 @@
+import { getApartmentsTest } from "@/app/actions/apartment";
 import ApartmentTable from "@/components/apartment/ApartmentTable";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
@@ -14,7 +15,8 @@ async function ApartmentManage(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.apartmentName || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = 3;
+  const data = await getApartmentsTest({ query, currentPage });
+  const totalPages = data?.data?.data?.totalPage;
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
@@ -32,8 +34,13 @@ async function ApartmentManage(props: {
       <div>
         <ApartmentTable query={query} currentPage={currentPage} />
       </div>
+
       <div className="absolute bottom-0 right-0">
-        {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
+        {totalPages !== 1 ? (
+          <PaginationComponent totalPages={totalPages} />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

@@ -36,7 +36,11 @@ async function TeamManagePage(props: {
           />
         </div>
         <div className="absolute bottom-0 right-0">
-          {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
+          {totalPages !== 1 ? (
+            <PaginationComponent totalPages={totalPages} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

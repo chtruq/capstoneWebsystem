@@ -21,7 +21,6 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
   let data;
   try {
     data = await getApartmentsTest({ query, currentPage });
-    console.log(data?.data?.data);
   } catch (error) {
     console.log(error);
   }
