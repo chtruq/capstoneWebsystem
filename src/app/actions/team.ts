@@ -69,3 +69,17 @@ export const createTeam = async (data: any) => {
     throw error;
   }
 };
+
+export const getMemberInTeamDetails = async (
+  id: string,
+  currentPage: number
+) => {
+  try {
+    const res = await apiClient.get(
+      `/teams/${id}/details?pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
