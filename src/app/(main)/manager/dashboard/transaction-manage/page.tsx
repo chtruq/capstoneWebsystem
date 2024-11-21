@@ -1,3 +1,4 @@
+import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 
 async function TransactionPage(props: {
@@ -12,7 +13,10 @@ async function TransactionPage(props: {
   const totalPages = 3;
   return (
     <div>
-      <></>
+      <h1 className="text-2xl font-semibold">Giao dịch</h1>
+      <div>
+        <SearchInput placeholder="Tìm kiếm mã giao dịch" query={query} />
+      </div>
     </div>
   );
 }
