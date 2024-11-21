@@ -14,6 +14,7 @@ import {
 import {
   BriefcaseBusiness,
   Building2,
+  CreditCard,
   FolderKanban,
   LayoutDashboard,
   ListCheck,
@@ -101,6 +102,11 @@ export function AppSidebar() {
       title: "Hợp đồng",
       url: "/manager/dashboard/contract-manage",
       icon: ReceiptText,
+    },
+    {
+      title: "Giao dịch",
+      url: "/manager/dashboard/transaction-manage",
+      icon: CreditCard,
     },
     {
       title: "Quản lý nhà cung cấp",
