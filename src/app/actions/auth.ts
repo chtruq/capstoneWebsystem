@@ -46,5 +46,5 @@ export const handleLogin = async (email: string, password: string) => {
 
 export const handleLogout = async () => {
   (await cookies()).delete("token");
-  redirect("/auth/signin");
+  redirect("/");
 };
