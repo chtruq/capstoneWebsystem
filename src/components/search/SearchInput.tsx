@@ -25,7 +25,7 @@ function SearchInput({
     replace(`${pathname}?${params.toString()}`);
   }
   return (
-    <div className="relative flex flex-1 flex-shrink-0 w-[20%]">
+    <div className="relative flex flex-1 flex-shrink-0 w-full">
       <label htmlFor="search" className="sr-only">
         Search
       </label>
