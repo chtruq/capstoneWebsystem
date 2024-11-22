@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+
 export const handleLogin = async (email: string, password: string) => {
   try {
     const response = await apiClient.post("/auth/login", {
@@ -24,11 +25,29 @@ export const handleLogin = async (email: string, password: string) => {
         sub: string;
         [key: string]: any;
       }>(token);
-
+      
+      console.log("Decoded token:", decoded);
+      
+      
       // Access role with bracket notation
+      const userId = decoded.id;
       const role =
         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        
+      console.log("User ID:", userId);
       console.log(role); // Outputs: Admin (or the relevant role)
+
+      // Lưu userId và role vào cookie dưới dạng JSON string
+      const userInfo = JSON.stringify({ id: userId, role });
+      cookieStore.set("userInfo", userInfo, {
+        secure: true,
+        sameSite: "strict",
+        path: "/",
+      });
+
+      console.log("User Info Cookie:", cookieStore.get("userInfo"));
+
+
       if (role === "Admin") {
         redirect("/admin/dashboard");
       } else if (role === "Management") {
@@ -47,4 +66,37 @@ export const handleLogin = async (email: string, password: string) => {
 export const handleLogout = async () => {
   (await cookies()).delete("token");
   redirect("/");
+};
+
+export const getUserTokenFromCookies = () => {
+  const cookieStore = cookies();
+  const user = cookieStore.get("token");
+  
+  if (user) {
+    console.log("User from cookie:", user);
+    return user;
+  } else {
+    console.log("No User found in cookies.");
+    return null;
+  }
+};
+
+export const getUserInfoFromCookies = () => {
+  const cookieStore = cookies();
+  const userInfoCookie = cookieStore.get("userInfo");
+
+  if (userInfoCookie) {
+    try {
+      // Parse JSON string từ cookie để lấy thông tin user
+      const userInfo = JSON.parse(userInfoCookie.value);
+      console.log("Decoded User Info from Cookie:", userInfo);
+      return userInfo;
+    } catch (error) {
+      console.error("Error parsing user info cookie:", error);
+      return null;
+    }
+  } else {
+    console.log("No User Info found in cookies.");
+    return null;
+  }
 };

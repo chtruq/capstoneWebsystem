@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC } from "react";
 import {
   Table,
@@ -11,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { getApartmentsTest } from "@/app/actions/apartment";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+
 
 interface Props {
   query: string;
@@ -18,6 +22,8 @@ interface Props {
 }
 
 const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
+  const router = useRouter();
+  const pathname = usePathname();
   let data;
   try {
     data = await getApartmentsTest({ query, currentPage });
@@ -64,13 +70,23 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
                 <TableCell>{apartment.projectApartmentName}</TableCell>
                 <TableCell>{apartment.apartmentStatus}</TableCell>
                 <TableCell className="flex justify-center items-center">
-                  <Link
+                  <Button
+                    onClick={() => {
+                      router.push(
+                        `${pathname}/${apartment.apartmentID}/detail`
+                      );
+                    }}
+                    variant="outline"
+                  >
+                    Chi tiết
+                  </Button>
+                  {/* <Link
                     href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}`}
                   >
                     <Button className="items-center" variant="outline">
                       Xem chi tiết
                     </Button>
-                  </Link>
+                  </Link> */}
                 </TableCell>
               </TableRow>
             ))}

@@ -53,3 +53,5 @@ interface Project {
   totalApartments: number;
   apartmentStatusCount: ApartmentStatusCount;
 }
+
+export default Project;
