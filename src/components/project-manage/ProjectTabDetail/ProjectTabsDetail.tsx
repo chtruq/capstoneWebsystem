@@ -2,13 +2,14 @@ import React, { FC } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tableText } from "@/lib/utils/project";
 import Image from "next/image";
-
 import ProjectCartTable from "./ProjectCart/ProjectCartTable";
-
 import ProjectContract from "./ProjectFinancialContract/ProjectContract";
 import ProjectFile from "./ProjectFile/ProjectFile";
 import { getProjectApartmentCart } from "@/app/actions/apartment";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
+import ImageGallery from "@/components/ui/image";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -117,9 +118,9 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <h1 className="font-semibold">Tiện ích nội khu</h1>
                 <div>
                   <ul>
-                    {data?.facilities.map((facility) => (
-                      <li key={facility?.facilityID}>
-                        {facility?.facilityName}
+                    {data?.facilities.map((facility: { facilitiesID: string; facilitiesName: string }) => (
+                      <li key={facility?.facilitiesID}>
+                        {facility?.facilitiesName}
                       </li>
                     ))}
                   </ul>
@@ -134,12 +135,12 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               Hình ảnh({data.projectImages?.length})
             </h1>
             <div>
-              {data?.projectImages.map((image) => (
+              {data?.projectImages.map((image: { projectImageID: string; url: string }) => (
                 <div
-                  key={image?.imageID}
-                  className="flex justify-center items-center"
+                  key={image?.projectImageID}
+                  className="flex justify-start items-center space-x-3"
                 >
-                  <Image src={image?.imageUrl} className="w-1/4" alt="image" />
+                  <ImageGallery images={data?.projectImages} />
                 </div>
               ))}
             </div>
@@ -147,10 +148,17 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
         </TabsContent>
         <TabsContent value="cart">
           <div>
-            <div>
+            <div className="flex justify-between">
               <p className="text-blur text-sm">
                 Hiển thị {count} trên {totalItem} căn hộ
               </p>
+              <div className="w-3/4 flex justify-end mr-20">
+                <Button variant="default">
+                  <Link href="/manager/dashboard/project-manage/create">
+                    Tạo căn hộ
+                  </Link>
+                </Button>
+              </div>
             </div>
             <div>
               <ProjectCartTable data={projectCart.apartments} />

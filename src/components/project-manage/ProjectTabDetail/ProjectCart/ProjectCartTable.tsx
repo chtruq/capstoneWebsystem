@@ -1,4 +1,8 @@
-import React, { FC } from "react";
+"use client";
+
+import React, { FC, useEffect, useState } from "react";
+import { getUserInfoFromCookies } from "@/app/actions/auth";
+
 import {
   Table,
   TableBody,
@@ -10,12 +14,25 @@ import {
 import { Button } from "@/components/ui/button";
 import { tableText, TextArea, TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Props {
   data: Apartment[];
 }
 
 const ProjectCartTable: FC<Props> = ({ data }) => {
+  const [userToken, setUserToken] = useState<{ role?: string } | null>(null);
+
+  // Lấy thông tin user token
+  useEffect(() => {
+    const fetchUserToken = async () => {
+      const token = await getUserInfoFromCookies();
+      setUserToken(token);
+    };
+
+    fetchUserToken();
+  }, []);
+
   const tableType = (type: string) => {
     switch (type) {
       case "0":
@@ -30,13 +47,10 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
             <span className="text-success">Đang mở bán</span>
           </div>
         );
-
       default:
         return type;
     }
   };
-
-  console.log("dataabc", data);
 
   return (
     <div>
@@ -59,7 +73,7 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
               <TableCell>{tableText(apartment.apartmentCode)}</TableCell>
               <TableCell>
                 <Image
-                  src={apartment?.images?.[0]?.imageUrl}
+                  src={apartment?.images?.[0]?.imageUrl || "/placeholder.png"}
                   width={70}
                   height={70}
                   alt="Ảnh"
@@ -73,7 +87,23 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
               <TableCell>{tableText(apartment.projectApartmentName)}</TableCell>
               <TableCell>{tableType(apartment.apartmentStatus)}</TableCell>
               <TableCell className="gap-1 flex">
-                <Button variant="outline">Chi tiết</Button>
+                {userToken?.role === "Manager" ? (
+                  <Link
+                    href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
+                  >
+                    <Button className="items-center" variant="outline">
+                      Xem chi tiết
+                    </Button>
+                  </Link>
+                ) : userToken?.role === "Staff" ? (
+                  <Link
+                    href={`/staff/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
+                  >
+                    <Button className="items-center" variant="outline">
+                      Xem chi tiết
+                    </Button>
+                  </Link>
+                ) : null}
                 <Button variant="outline">Sửa</Button>
               </TableCell>
             </TableRow>
