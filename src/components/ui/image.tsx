@@ -38,8 +38,8 @@ const ImageGallery = ({ images }: { images: { projectImageID: string; url: strin
               src={selectedImage}
               alt="Selected"
               className="rounded-lg w-[32rem] h-[32rem] object-contain"
-              width={800}
-              height={600}
+              width={400}
+              height={400}
             />
           )}
           <button
