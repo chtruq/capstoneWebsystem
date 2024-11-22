@@ -16,6 +16,15 @@ interface Props {
   }>;
 }
 
+const formatDate = (isoDateString: string): string => {
+  if (!isoDateString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
+  const date = new Date(isoDateString);
+  const day = date.getUTCDate().toString().padStart(2, "0"); // Lấy ngày và thêm 0 nếu cần
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Lấy tháng và thêm 0
+  const year = date.getUTCFullYear().toString(); // Lấy năm
+  return `${day}/${month}/${year}`;
+};
+
 const ProjectTabsDetail: FC<Props> = async (props) => {
   const { data, searchParam } = props;
   const searchParams = await searchParam;
@@ -49,7 +58,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{data?.projectApartmentName}</div>
 
                     <div className="text-sm text-blur">Mã dự án</div>
-                    <div>{data?.projectApartmentID}</div>
+                    <div>{data?.projectCode}</div>
 
                     <div className="text-sm text-blur ">Trạng thái</div>
                     <div>{data?.projectType}</div>
@@ -58,7 +67,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.apartmentProjectProviderName)}</div>
 
                     <div className="text-sm text-blur ">Nhóm quản lý</div>
-                    <div>{tableText(data?.teamID)}</div>
+                    <div>{tableText(data?.teamName)}</div>
 
                     <div className="text-sm text-blur ">Diện tích dự án</div>
                     <div>{tableText(data?.apartmentArea)}</div>
@@ -81,10 +90,10 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.apartmentArea)}</div>
 
                     <div className="text-sm text-blur ">Năm khởi công</div>
-                    <div>{tableText(data?.constructionStartYear)}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
 
                     <div className="text-sm text-blur ">Năm bàn giao</div>
-                    <div>{tableText(data?.constructionEndYear)}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
                   </div>
                 </div>
               </div>

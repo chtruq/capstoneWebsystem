@@ -17,6 +17,25 @@ export const getProjectApartment = async ({
     throw error;
   }
 };
+export const getProjectApartmentByStaff = async ({
+  userId,
+  query,
+  currentPage,
+}: {
+  userId: string;
+  query: string;
+  currentPage: number;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/projects/search-or-manager?staffId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching project apartments:", error);
+    throw error;
+  }
+};
 
 export const getProject = async (id: string) => {
   try {
