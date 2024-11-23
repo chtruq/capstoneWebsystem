@@ -37,7 +37,7 @@ const ImageGallery = ({ images }: { images: { projectImageID: string; url: strin
             <Image
               src={selectedImage}
               alt="Selected"
-              className="rounded-lg w-[32rem] h-[32rem] object-contain"
+              className="rounded-lg  w-[60rem] h-[40rem] object-contain"
               width={800}
               height={600}
             />

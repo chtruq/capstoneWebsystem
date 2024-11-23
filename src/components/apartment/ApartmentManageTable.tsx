@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Button } from "../ui/button";
 import ApartmentTable from "./ApartmentTable";
 import {
@@ -14,24 +14,67 @@ import Link from "next/link";
 import Image from "next/image";
 import { getUserInfoFromCookies } from "@/app/actions/auth";
 import { approveApartment, rejectApartment } from "@/app/actions/apartment";
-import { usePathname, useRouter } from "next/navigation";
-
+import { getApartmentsTest, getApartmentsPendingRequest } from "@/app/actions/apartment";
 
 interface Props {
   data: Apartment[];
-  state: string;
+  state: {
+    state: string;
+    currentPage: number;
+  };
   role: string;
 }
 
 
 const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
+
   role = role.toString().toLowerCase();
+  const [dataReload, setDataReload] = useState(data);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Fetch lại dữ liệu mỗi khi refreshKey thay đổi
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const updatedData = await getApartmentsPendingRequest({
+          query: "",
+          currentPage: state.currentPage, // Cập nhật theo logic của bạn
+        });
+        setDataReload(updatedData?.data?.data?.apartments);
+      } catch (error) {
+        console.error("Error refreshing data:", error);
+      }
+    };
+
+    fetchData();
+  }, [refreshKey]);
+
+  const handleApprove = async (id: string) => {
+    try {
+      await approveApartment({ id });
+      setRefreshKey((prev) => prev + 1); // Làm mới dữ liệu
+    } catch (error) {
+      console.error("Error approving apartment:", error);
+    }
+  };
+
+  const handleReject = async (id: string) => {
+    try {
+      await rejectApartment({ id });
+      setRefreshKey((prev) => prev + 1); // Làm mới dữ liệu
+    } catch (error) {
+      console.error("Error rejecting apartment:", error);
+    }
+  };
+
   console.log("state ahuhu", state);
   console.log("User role from manage", role);
   if (role === "management") {
     role = "manager";
   }
   console.log("User role from manage after", role);
+  console.log(" Current page", state.currentPage);
+
 
   return (
     <div>
@@ -76,12 +119,12 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                     Xem chi tiết
                   </Button>
                 </Link>
-                {state === "pending-request" ? (
+                {state.state === "pending-request" ? (
                   <>
-                    <Button className="items-center" variant="outline" onClick={() => approveApartment({ id: apartment.apartmentID })}>
+                    <Button className="items-center" variant="outline" onClick={() => handleApprove(apartment.apartmentID)}>
                       Duyệt
                     </Button>
-                    <Button className="items-center" variant="outline" onClick={() => rejectApartment({ id: apartment.apartmentID })}>
+                    <Button className="items-center" variant="outline" onClick={() => handleReject(apartment.apartmentID)}>
                       Từ chối
                     </Button>
                   </>

@@ -37,7 +37,7 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
         <div className="flex justify-center items-center">Không có kết quả</div>
       ) : (
         <>
-          <ApartmentManageTable data={data?.data?.data?.apartments} state={state} role={userToken.role} />
+          <ApartmentManageTable data={data?.data?.data?.apartments} state={{ state, currentPage }} role={userToken.role} />
         </>
       )}
     </div>
