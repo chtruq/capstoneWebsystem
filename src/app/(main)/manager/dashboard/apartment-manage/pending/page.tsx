@@ -1,4 +1,5 @@
 import { getApartmentsTest } from "@/app/actions/apartment";
+import ApartmentTable from "@/components/apartment/ApartmentTable";
 import { get } from "http";
 import React from "react";
 
@@ -15,7 +16,8 @@ async function PendingRequestPage(props: {
 
   return (
     <div>
-      <h1>Danh sách chờ duyệt</h1>
+      <h1 className="text-2xl font-semibold">Danh sách chờ duyệt</h1>
+      <ApartmentTable query={query} currentPage={currentPage} />
     </div>
   );
 }

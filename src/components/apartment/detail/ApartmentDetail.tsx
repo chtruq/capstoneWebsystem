@@ -8,6 +8,7 @@ interface Props {
 }
 
 const ApartmentDetail: FC<Props> = ({ data }) => {
+  console.log("Images list:", JSON.stringify(data.images, null, 2));
   return (
     <div>
       <Tabs defaultValue="account" className="">

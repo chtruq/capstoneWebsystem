@@ -54,4 +54,4 @@ interface Project {
   apartmentStatusCount: ApartmentStatusCount;
 }
 
-export default Project;
+
