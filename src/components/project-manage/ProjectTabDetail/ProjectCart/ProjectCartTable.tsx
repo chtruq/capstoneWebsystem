@@ -87,7 +87,7 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
               <TableCell>{tableText(apartment.projectApartmentName)}</TableCell>
               <TableCell>{tableType(apartment.apartmentStatus)}</TableCell>
               <TableCell className="gap-1 flex">
-                {userToken?.role === "Manager" ? (
+                {userToken?.role === "Management" ? (
                   <Link
                     href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
                   >

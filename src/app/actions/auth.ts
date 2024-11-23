@@ -43,6 +43,7 @@ export const handleLogin = async (email: string, password: string) => {
         secure: true,
         sameSite: "strict",
         path: "/",
+        httpOnly: false,
       });
 
       console.log("User Info Cookie:", cookieStore.get("userInfo"));

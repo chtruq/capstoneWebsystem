@@ -21,7 +21,24 @@ export const getApartmentsTest = async ({
 }) => {
   try {
     const res = apiClient.get(
-      `/apartments/search?apartmentName=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/apartments/search?apartmentName=${query}&pageIndex=${currentPage}&pageSize=8`
+    );
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getApartmentsPendingRequest = async ({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) => {
+  try {
+    const res = apiClient.get(
+      `/apartments/search?apartmentStatuses=0&pageIndex=${currentPage}&pageSize=10`
     );
     return res;
   } catch (error) {
@@ -53,6 +70,28 @@ export const getApartmentDetails = async ({ id }: { id: string }) => {
     return res.data.data;
   } catch (error) {
     console.error("Error fetching apartment details:", error);
+    throw error;
+  }
+};
+
+export const approveApartment = async ({ id }: { id: string }) => {
+  try {
+    console.log("Approve apartment id:", id);
+    
+    const res = await apiClient.put(`/apartments/approve/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error approve apartment:", error);
+    throw error;
+  }
+};
+
+export const rejectApartment = async ({ id }: { id: string }) => {
+  try {
+    const res = await apiClient.put(`/apartments/reject/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error approve apartment:", error);
     throw error;
   }
 };

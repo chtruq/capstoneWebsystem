@@ -7,6 +7,7 @@ async function PendingRequestPage(props: {
   searchParams?: Promise<{
     apartmentName?: string;
     page?: string;
+    state?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
@@ -17,7 +18,7 @@ async function PendingRequestPage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Danh sách chờ duyệt</h1>
-      <ApartmentTable query={query} currentPage={currentPage} />
+      <ApartmentTable query={query} currentPage={currentPage} state="pending-request"  />
     </div>
   );
 }

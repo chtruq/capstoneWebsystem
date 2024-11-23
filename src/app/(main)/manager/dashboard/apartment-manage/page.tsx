@@ -10,6 +10,7 @@ async function ApartmentManage(props: {
   searchParams?: Promise<{
     apartmentName?: string;
     page?: string;
+    state?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
@@ -32,7 +33,7 @@ async function ApartmentManage(props: {
         </Link>
       </div>
       <div>
-        <ApartmentTable query={query} currentPage={currentPage} />
+        <ApartmentTable query={query} currentPage={currentPage} state="list-apt" />
       </div>
 
       <div className="absolute bottom-0 right-0">

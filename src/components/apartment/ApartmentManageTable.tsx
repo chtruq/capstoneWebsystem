@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+"use client";
+import React, { FC, useState } from "react";
 import { Button } from "../ui/button";
 import ApartmentTable from "./ApartmentTable";
 import {
@@ -10,27 +11,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { approveApartment, rejectApartment } from "@/app/actions/apartment";
+import { usePathname, useRouter } from "next/navigation";
+
 
 interface Props {
   data: Apartment[];
+  state: string;
+  role: string;
 }
 
 
-const ApartmentManageTable: FC<Props> = async ({ data }) => {
-  // const router = useRouter();
-  // const pathname = usePathname();
-  const userToken = await getUserInfoFromCookies();
-  let role = userToken.role.toString().toLowerCase();
+const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
+  role = role.toString().toLowerCase();
+  console.log("state ahuhu", state);
+  console.log("User role from manage", role);
   if (role === "management") {
     role = "manager";
-  } else {
-    role = role;
   }
-  console.log("User Tolken", userToken);
-  console.log("User role", role);
+  console.log("User role from manage after", role);
 
   return (
     <div>
@@ -54,12 +55,12 @@ const ApartmentManageTable: FC<Props> = async ({ data }) => {
               <TableCell>{apartment.apartmentCode}</TableCell>
               <TableCell>
                 <Image
-                    src={apartment?.images[0]?.imageUrl}
-                    width={50}
-                    height={50}
-                    alt={apartment.apartmentName}
-                    className="rounded-lg w-16 h-16"
-                  />
+                  src={apartment?.images[0]?.imageUrl}
+                  width={50}
+                  height={50}
+                  alt={apartment.apartmentName}
+                  className="rounded-lg w-16 h-16"
+                />
               </TableCell>
               <TableCell>{apartment.price}</TableCell>
               <TableCell>{apartment.area}</TableCell>
@@ -68,29 +69,31 @@ const ApartmentManageTable: FC<Props> = async ({ data }) => {
               <TableCell>{apartment.projectApartmentName}</TableCell>
               <TableCell>{apartment.apartmentStatus}</TableCell>
               <TableCell className="flex justify-center items-center">
-                {/* <Button
-                  onClick={() => {
-                    router.push(
-                      `${pathname}/${apartment.apartmentID}/detail`
-                    );
-                  }}
-                  variant="outline"
-                >
-                  Chi tiết
-                </Button> */}
                 <Link
                   href={`/${role}/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
                 >
-                  <Button className="items-center" variant="outline">
+                  <Button className="items-center" variant="outline" >
                     Xem chi tiết
                   </Button>
                 </Link>
+                {state === "pending-request" ? (
+                  <>
+                    <Button className="items-center" variant="outline" onClick={() => approveApartment({ id: apartment.apartmentID })}>
+                      Duyệt
+                    </Button>
+                    <Button className="items-center" variant="outline" onClick={() => rejectApartment({ id: apartment.apartmentID })}>
+                      Từ chối
+                    </Button>
+                  </>
+                ) : (
+                  <></>
+                )}
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </div>
+    </div >
   );
 };
 

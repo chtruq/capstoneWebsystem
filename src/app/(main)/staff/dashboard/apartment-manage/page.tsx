@@ -20,7 +20,7 @@ async function ApartmentManage(props: {
         <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
       </div>
       <div>
-        <ApartmentTable query={query} currentPage={currentPage} />
+        <ApartmentTable query={query} currentPage={currentPage} state="list-apt"/>
       </div>
       <div className="absolute bottom-0 right-0">
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
