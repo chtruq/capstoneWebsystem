@@ -53,6 +53,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
               className="rounded-lg  w-[60rem] h-[40rem] object-contain"
               width={800}
               height={600}
+
             />
           )}
           <button
