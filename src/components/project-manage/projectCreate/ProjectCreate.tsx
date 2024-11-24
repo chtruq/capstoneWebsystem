@@ -145,10 +145,13 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
         const res = await updateProject(data.projectApartmentID, payload);
         console.log("Update project successfully", res);
       } else {
+        console.log("Create project payload", payload);
+
         const res = await createProject(payload);
         console.log("Create project successfully", res);
+        revalidateProjectPath("/manager/dashboard/project-manage");
+        return res;
       }
-      revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
       console.error("Error creating project:", error);
     }
@@ -268,10 +271,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                  (provider) =>
-                                    provider.apartmentProjectProviderID ===
-                                    field.value
-                                )?.apartmentProjectProviderName
+                                (provider) =>
+                                  provider.apartmentProjectProviderID ===
+                                  field.value
+                              )?.apartmentProjectProviderName
                               : "Chọn chủ đầu tư"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -694,8 +697,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                  ? URL?.createObjectURL(image)
-                  : image.url; // If it's an object from the API
+                    ? URL?.createObjectURL(image)
+                    : image.url; // If it's an object from the API
 
               return (
                 <div key={index} className="relative">

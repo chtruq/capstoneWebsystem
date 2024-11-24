@@ -96,15 +96,17 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
                     </Button>
                   </Link>
                 ) : userToken?.role === "Staff" ? (
-                  <Link
-                    href={`/staff/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
-                  >
-                    <Button className="items-center" variant="outline">
-                      Xem chi tiết
-                    </Button>
-                  </Link>
+                  <>
+                    <Link
+                      href={`/staff/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
+                    >
+                      <Button className="items-center" variant="outline">
+                        Xem chi tiết
+                      </Button>
+                    </Link>
+                    <Button variant="outline">Sửa</Button>
+                  </>
                 ) : null}
-                <Button variant="outline">Sửa</Button>
               </TableCell>
             </TableRow>
           ))}
