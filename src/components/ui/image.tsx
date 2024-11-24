@@ -3,25 +3,38 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { CircleX } from "lucide-react";
-const ImageGallery = ({ images }: { images: { projectImageID: string; url: string }[] }) => {
+interface Image {
+  imageID: string;
+  url: string;
+}
+
+interface ImageGalleryProps {
+  images: Image[];
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  console.log("Images list in component:", JSON.stringify(images, null, 2));
+
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex flex-wrap justify-start items-center space-x-4 pb-4">
         {images.map((image) => (
           <div
-            key={image.projectImageID}
-            className="flex justify-center items-center cursor-pointer"
+            key={image.imageID}
+            className="cursor-pointer"
             onClick={() => setSelectedImage(image.url)} // Khi click, lưu URL ảnh vào state
           >
             <Image
+              className="rounded-lg object-cover w-[10rem] h-[10rem]"
               src={image.url}
               alt="image"
               width={200}
               height={200}
-              className="rounded-lg object-cover"
             />
+
           </div>
         ))}
       </div>
@@ -37,9 +50,10 @@ const ImageGallery = ({ images }: { images: { projectImageID: string; url: strin
             <Image
               src={selectedImage}
               alt="Selected"
-              className="rounded-lg w-[32rem] h-[32rem] object-contain"
-              width={400}
-              height={400}
+              className="rounded-lg  w-[60rem] h-[40rem] object-contain"
+              width={800}
+              height={600}
+
             />
           )}
           <button

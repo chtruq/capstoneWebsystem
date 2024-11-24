@@ -65,7 +65,26 @@ export const deleteFinancialContract = async (id: string) => {
   }
 };
 
-export const createProject = async (value) => {
+interface ProjectValue {
+  ProjectApartmentName: string;
+  ProjectApartmentDescription: string;
+  Price_range: string;
+  ApartmentArea: string;
+  ProjectSize: string;
+  ProjectArea: string;
+  ConstructionStartYear: string;
+  ConstructionEndYear: string;
+  Address: string;
+  AddressUrl: string;
+  TotalApartment: string;
+  ApartmentProjectProviderID: string;
+  ProjectType: number;
+  TeamID: string;
+  FacilityIDs: string[];
+  Images: File[];
+}
+
+export const createProject = async (value: ProjectValue) => {
   try {
     console.log("valueeeee", value);
     const formData = new FormData();

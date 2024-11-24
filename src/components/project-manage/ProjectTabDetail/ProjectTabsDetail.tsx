@@ -10,6 +10,7 @@ import PaginationComponent from "@/components/pagination/PaginationComponent";
 import ImageGallery from "@/components/ui/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getUserInfoFromCookies } from "@/app/actions/auth";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -35,12 +36,16 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
     currentPage,
   });
 
+  const userInfor = await getUserInfoFromCookies();
+
+
   const totalPages = projectCart.totalPage;
   const totalItem = projectCart.totalItem;
   const count = projectCart.apartments.length;
 
   return (
     <div className="w-full">
+      <h1>data {data?.projectApartmentID}</h1>
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid w-[400px] grid-cols-4">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
@@ -135,14 +140,16 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               Hình ảnh({data.projectImages?.length})
             </h1>
             <div>
-              {data?.projectImages.map((image: { projectImageID: string; url: string }) => (
+              {/* {data?.projectImages.map((image: { projectImageID: string }) => (
                 <div
-                  key={image?.projectImageID}
-                  className="flex justify-start items-center space-x-3"
+                  key={image.projectImageID}
+                  className="flex flex-wrap justify-start space-x-4 space-y-4"
                 >
-                  <ImageGallery images={data?.projectImages} />
+                  <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.id, url: img.imageUrl }))} />
                 </div>
-              ))}
+              ))} */}
+              <ImageGallery images={data?.projectImages} />
+              {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
             </div>
           </div>
         </TabsContent>
@@ -152,13 +159,18 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               <p className="text-blur text-sm">
                 Hiển thị {count} trên {totalItem} căn hộ
               </p>
-              <div className="w-3/4 flex justify-end mr-20">
-                <Button variant="default">
-                  <Link href="/manager/dashboard/project-manage/create">
-                    Tạo căn hộ
-                  </Link>
-                </Button>
-              </div>
+              {userInfor?.role === "Staff" ? (
+                <div className="w-3/4 flex justify-end mr-20">
+                  <Button variant="default">
+                    <Link href={`/staff/dashboard/project-manage/${data?.projectApartmentID}/apartment-create`}>
+                      Tạo căn hộ
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
+
             </div>
             <div>
               <ProjectCartTable data={projectCart.apartments} />

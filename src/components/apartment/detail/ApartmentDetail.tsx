@@ -1,3 +1,4 @@
+import ImageGallery from "@/components/ui/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
@@ -8,9 +9,10 @@ interface Props {
 }
 
 const ApartmentDetail: FC<Props> = ({ data }) => {
+  console.log("Images list:", JSON.stringify(data.images, null, 2));
   return (
     <div>
-      <Tabs defaultValue="account" className="">
+      <Tabs defaultValue="overview" className="">
         <TabsList>
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
@@ -79,8 +81,9 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         </TabsContent>
         <TabsContent value="media">
           <div>
-            <h1 className="font-semibold">Hình ảnh căn hộ</h1>
-            <div className="grid grid-cols-4 gap-4">
+            <h1 className="font-semibold">Hình ảnh ({data.images.length})</h1>
+            
+            {/* <div className="grid grid-cols-4 gap-4">
               {data.images.map((image) => (
                 <Image
                   key={image.apartmentImageID}
@@ -91,7 +94,8 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                   height={200}
                 />
               ))}
-            </div>
+            </div> */}
+            <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl }))} />
           </div>
         </TabsContent>
         <TabsContent value="contract">
