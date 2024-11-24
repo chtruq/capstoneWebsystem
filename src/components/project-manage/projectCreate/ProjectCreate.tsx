@@ -149,6 +149,7 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
 
         const res = await createProject(payload);
         console.log("Create project successfully", res);
+        console.log("Create project successfully", res);
         revalidateProjectPath("/manager/dashboard/project-manage");
         return res;
       }
