@@ -11,6 +11,7 @@ import ImageGallery from "@/components/ui/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUserInfoFromCookies } from "@/app/actions/auth";
+import DepositTable from "./Deposit/DepositTable";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -47,11 +48,12 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
     <div className="w-full">
       <h1>data {data?.projectApartmentID}</h1>
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-[400px] grid-cols-4">
+        <TabsList className="grid max-w-screen-sm grid-cols-5">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
           <TabsTrigger value="cart">Giỏ hàng</TabsTrigger>
           <TabsTrigger value="contract">Hợp đồng</TabsTrigger>
+          <TabsTrigger value="request-deposit">Yêu cầu đặt cọc</TabsTrigger>
         </TabsList>
         <TabsContent className="w-full" value="overview">
           <div>
@@ -216,6 +218,11 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <ProjectFile data={data} />
               </div>
             </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="request-deposit">
+          <div>
+            <DepositTable projectId={data?.projectApartmentID} />
           </div>
         </TabsContent>
       </Tabs>

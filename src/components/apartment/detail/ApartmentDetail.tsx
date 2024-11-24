@@ -22,6 +22,8 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         </TabsList>
         <TabsContent value="overview">
           <div>
+            <h1>{data?.apartmentID}</h1>
+            <h1>{data?.apartmentStatus}</h1>
             <h1 className="font-semibold">Thông tin căn hộ</h1>
             <div className="grid grid-cols-2 grid-rows-7 gap-4">
               <div className="w-full flex">

@@ -38,7 +38,7 @@ const ProjectTable: FC<Props> = async ({ query, currentPage }: Props) => {
   } catch (error) {
     console.log("Error fetching data:", error);
   }
-
+  
   return (
     <div>
       {!data ? (

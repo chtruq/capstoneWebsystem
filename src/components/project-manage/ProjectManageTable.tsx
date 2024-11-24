@@ -23,13 +23,13 @@ const ProjectManageTable: FC<Props> = ({ data }) => {
 
   const tableType = (type: string) => {
     switch (type) {
-      case "0":
+      case "UpcomingforSale":
         return (
           <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center">
-            <p className="text-money text-center">Đang mở bán</p>
+            <p className="text-money text-center">Đã bàn giao</p>
           </div>
         );
-      case "2":
+      case "OnSale":
         return (
           <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center">
             <span className="text-success">Đang mở bán</span>
@@ -61,9 +61,11 @@ const ProjectManageTable: FC<Props> = ({ data }) => {
               <TableCell>{project.projectCode}</TableCell>
               <TableCell>{project.projectApartmentName}</TableCell>
               <TableCell>{project.totalApartments} căn hộ</TableCell>
-              <TableCell>{tableText(project.teamID)}</TableCell>
+              <TableCell>{tableText(project.teamName)}</TableCell>
               <TableCell>{tableText(project.address)}</TableCell>
-              <TableCell>{tableType(project.projectType)}</TableCell>
+              <TableCell>
+                {tableType(project.projectType)}
+                </TableCell>
               <TableCell className="gap-1 flex">
                 <Button
                   onClick={() => {
