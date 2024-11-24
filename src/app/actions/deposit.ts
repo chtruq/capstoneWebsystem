@@ -8,3 +8,16 @@ export const getDeposit = async () => {
     console.log(error);
   }
 };
+
+export const getDepositByProjectId = async (id: string) => {
+  try {
+    const res = await apiClient.get(`/deposits/search?projectApartmentId=${id}&depositStatus=1`);
+    console.log("Data deposit 1", res);
+    console.log("Data deposit 2", res.data);
+    console.log("Data deposit 3", res.data.data);
+    
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
