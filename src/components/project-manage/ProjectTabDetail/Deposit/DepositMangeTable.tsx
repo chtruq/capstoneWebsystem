@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FC } from "react";
 import {
   Table,
@@ -9,11 +11,22 @@ import {
 } from "@/components/ui/table";
 import { tableText } from "@/lib/utils/project";
 import { Button } from "../../../../components/ui/button";
+import Link from "next/link";
+import { approveDepositRequest, rejectDepositRequest } from "@/app/actions/deposit";
+import { da } from "date-fns/locale";
+
+
 interface Props {
   data: Deposit[];
+  accountId: string;
 }
 
-const DepositMangeTable: FC<Props> = ({ data }) => {
+const DepositMangeTable: FC<Props> = ({ data, accountId }) => {
+
+  console.log("Data depositaâ", data);
+  console.log("Accountaaa ID", accountId);
+  
+  
   return (
     <div>
       <Table>
@@ -25,20 +38,27 @@ const DepositMangeTable: FC<Props> = ({ data }) => {
             <TableHead className="font-semibold">Số điện thoại</TableHead>
             <TableHead className="font-semibold">Số tiền đặc cọc</TableHead>
           </TableRow>
-          <TableBody>
-            {data?.map((data: Deposit) => (
-              <TableRow key={data.depositID}>
-                <TableCell>{data.depositID}</TableCell>
-                <TableCell>{data.apartmentID}</TableCell>
-                <TableCell>{data?.depositProfile[0]?.fullName}</TableCell>
-                <TableCell>{data?.depositProfile[0]?.phoneNumber}</TableCell>
-                <TableCell>{data.depositAmount}</TableCell>
-                
-              </TableRow>
-            ))}
-
-          </TableBody>
         </TableHeader>
+        <TableBody>
+          {data?.map((data: Deposit) => (
+            <TableRow key={data.depositID}>
+              <TableCell>{data.depositCode}</TableCell>
+              <TableCell>{data.apartmentCode}</TableCell>
+              <TableCell>{data?.depositProfile[0]?.fullName}</TableCell>
+              <TableCell>{data?.depositProfile[0]?.phoneNumber}</TableCell>
+              <TableCell>{data.depositAmount}</TableCell>
+              <TableCell className="flex justify-center items-center">
+                <Button className="items-center" variant="outline" onClick={() => approveDepositRequest({ depositRequestId: data.depositID, staffId: accountId })}>
+                  Duyệt
+                </Button>
+                <Button className="items-center" variant="outline" onClick={() => rejectDepositRequest({ depositRequestId: data.depositID })}>
+                  Từ chối
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+
+        </TableBody>
       </Table>
     </div>
   )

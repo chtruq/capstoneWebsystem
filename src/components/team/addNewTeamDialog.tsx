@@ -30,6 +30,7 @@ import {
 } from "../ui/select";
 import { createTeam } from "@/app/actions/team";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { Value } from "@radix-ui/react-select";
 
 interface Props {
   leaders: Leader[];
@@ -41,7 +42,7 @@ const NewTeamDialog: FC<Props> = ({ leaders }) => {
     defaultValues: {
       teamName: "",
       managerAccountID: "",
-      teamType: "",
+      teamType: 0,
       teamDescription: "",
     },
   });
@@ -131,7 +132,7 @@ const NewTeamDialog: FC<Props> = ({ leaders }) => {
                         <FormItem>
                           <span className="text-sm text-blur">Chọn đơn vị</span>
                           <FormControl>
-                            <Select onValueChange={field.onChange}>
+                            <Select onValueChange={(value) => field.onChange(Number(value))}>
                               <SelectTrigger className="">
                                 <SelectValue placeholder="Đơn vị" />
                               </SelectTrigger>

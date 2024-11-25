@@ -32,7 +32,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Toà</span>
-                <span className="w-2/3">{data.expiryDate}</span>
+                <span className="w-2/3">{data.building}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Mã căn hộ</span>
@@ -40,7 +40,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Tầng</span>
-                <span className="w-2/3">{data.expiryDate}</span>
+                <span className="w-2/3">{data.floor}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Dự án</span>
@@ -48,7 +48,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Số phòng</span>
-                <span className="w-2/3">{data.numberOfRooms}</span>
+                <span className="w-2/3">{data.roomNumber}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Mức giá</span>
