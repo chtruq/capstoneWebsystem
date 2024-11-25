@@ -194,22 +194,22 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <div className="text-sm text-blur">Chủ đầu tư</div>
                 <div>{tableText(data?.projectApartmentName)}</div>
 
-                <div className="text-sm text-blur">Số liên hệ</div>
+                {/* <div className="text-sm text-blur">Số liên hệ</div>
                 <div>{tableText(data?.projectApartmentID)}</div>
 
                 <div className="text-sm text-blur">Email</div>
-                <div>{tableText(data?.projectSize)}</div>
+                <div>{tableText(data?.projectSize)}</div> */}
 
                 <div className="text-sm text-blur">Người đại diện</div>
                 <div>{tableText(data?.apartmentProjectProviderName)}</div>
               </div>
-              <div className="w-32 h-32">
+              {/* <div className="w-32 h-32">
                 <Image src={data?.projectImages[0]?.imageUrl} alt="logo" />
-              </div>
+              </div> */}
             </div>
 
             <div className="w-full">
-              <ProjectContract data={data} />
+              <ProjectContract data={data} role={userInfor?.role}/>
             </div>
             <div>
               <h1 className="font-semibold">Hợp đồng</h1>

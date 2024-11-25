@@ -63,6 +63,8 @@ export const getLeader = async () => {
 
 export const createTeam = async (data: any) => {
   try {
+    console.log("data team create", data);
+    
     const res = await apiClient.post("/teams/create", data);
     return res.data;
   } catch (error) {
