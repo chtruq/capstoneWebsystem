@@ -36,13 +36,12 @@ import { MultiSelect } from "@/components/ui/multi-select";
 import Image from "next/image";
 import { Provider } from "../../../../model/provider";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { createProject } from "@/app/actions/project";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useForm } from "react-hook-form";
@@ -86,6 +85,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       Images: [],
       VRVideoFile: "none",
       AssignedAccountID: staffId,
+      Quantity: 0,
     },
   })
 
@@ -172,14 +172,19 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
         // const res = await updateProject(data.projectApartmentID, payload);
         // console.log("Update apartment successfully", res);
       } else {
-        console.log("Payload create apt:", payload);
-        
-        const res = await createApartment(payload);
-        console.log("Create apartment successfully", res);
+        if (value.Quantity > 0) {
+
+          await createApartment(payload);
+
+        } else {
+          console.log("Payload create apt:", payload);
+          const res = await createApartment(payload);
+        }
         // revalidateProjectPath(`/manager/dashboard/project-manage`);
       }
       // revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
+      console.log("Error creating apartment:", error);
       console.error("Error creating apartment:", error);
     }
   };
@@ -634,11 +639,54 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
             })}
           </div>
 
-          <Button variant="outline" type="submit" onClick={() => {
-            console.log("Form data:", form.getValues());
-          }}>
-            {!data ? "Tạo căn hộ" : "Cập nhật căn hộ"}
-          </Button>
+
+          {!data ? (
+            <>
+              <div className="flex space-x-4">
+                <Button variant="outline" type="submit" onClick={() => {
+                  console.log("Form data:", form.getValues());
+                }}>
+                  Tạo căn hộ
+                </Button>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="outline">Tạo nhiều bản sao</Button>
+                  </DialogTrigger>
+
+                  <DialogContent className="w-[24rem]">
+                    <DialogHeader>
+                      <DialogTitle>Nhập số lượng mà bạn muốn sao chép </DialogTitle>
+                      <FormField
+                        control={form.control}
+                        name="Quantity"
+                        render={({ field }) => (
+                          <FormItem>
+                            {/* <span className="text-sm text-blur">
+                        Số lượng sao chép
+                      </span> */}
+                            <FormControl>
+                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button type="submit">Xác nhận</Button>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </>
+          ) : (
+            <Button variant="outline" type="submit" onClick={() => {
+              console.log("Form data:", form.getValues());
+            }}>
+              Cập nhật căn hộ
+            </Button>
+          )}
+
+
         </form>
       </Form>
     </div>

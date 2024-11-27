@@ -38,6 +38,19 @@ export const projectSchema = z.object({
   Address: z.string().optional().nullable(),
   AddressUrl: z.string().optional().nullable(),
   TotalApartment: z.string().optional().nullable(),
+  LicensingAuthority: z
+  .string({
+    required_error: "Cơ quan cấp phép là bắt buộc.",
+  })
+  .nonempty("Cơ quan cấp phép không được để trống."),
+  LicensingDate: z
+    .string()
+    .optional()
+    .nullable()
+    .refine(
+      (val) => !val || !isNaN(Date.parse(val)),
+      "Năm cấp phép phải đúng định dạng ngày-tháng-năm."
+    ),
   ApartmentProjectProviderID: z
     .string({
       required_error: "Mã nhà cung cấp dự án là bắt buộc.",

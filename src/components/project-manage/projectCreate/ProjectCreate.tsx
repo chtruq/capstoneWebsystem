@@ -71,6 +71,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
       Address: "",
       AddressUrl: "",
       TotalApartment: "",
+      LicensingAuthority: "",
+      LicensingDate: "",
       ApartmentProjectProviderID: "",
       FacilityIDs: [],
       ProjectType: 1,
@@ -148,10 +150,7 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
         console.log("Create project payload", payload);
 
         const res = await createProject(payload);
-        console.log("Create project successfully", res);
-        console.log("Create project successfully", res);
-        revalidateProjectPath("/manager/dashboard/project-manage");
-        return res;
+
       }
     } catch (error) {
       console.error("Error creating project:", error);
@@ -600,6 +599,80 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                         value={field.value ?? ""}
                       />
                     </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+
+          <div className="flex justify-between  gap-4">
+            <div className="flex justify-start w-1/2 items-center gap-5">
+              <span className="text-blur text-sm w-1/5">
+                Cơ quan cấp phép
+              </span>
+              <FormField
+                control={form.control}
+                name="LicensingAuthority"
+                render={({ field }) => (
+                  <FormItem className="w-3/5">
+                    <FormControl>
+                      <Input
+                        placeholder="Cơ căn cấp phép"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex justify-start w-1/2 items-center gap-5">
+              <span className="text-blur text-sm w-1/5">Năm cấp phép</span>
+              <FormField
+                control={form.control}
+                name="LicensingDate"
+                render={({ field }) => (
+                  <FormItem className="w-3/5">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), "PPP", {
+                                locale: vi,
+                              })
+                            ) : (
+                              <span>Chọn năm cấp phép</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onSelect={(date) =>
+                            field.onChange(date?.toISOString())
+                          }
+                          initialFocus
+                          locale={vi}
+                        />
+                      </PopoverContent>
+                    </Popover>
 
                     <FormMessage />
                   </FormItem>

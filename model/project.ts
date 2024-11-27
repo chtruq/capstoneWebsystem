@@ -38,6 +38,8 @@ interface Project {
   address: string | null;
   addressUrl: string | null;
   totalApartment: number | null;
+  licensingAuthority: string | null;
+  licensingDate: Date | null;
   createDate: string;
   updateDate: string;
   projectApartmentStatus: string;

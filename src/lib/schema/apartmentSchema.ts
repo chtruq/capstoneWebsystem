@@ -96,5 +96,6 @@ export const apartmentSchema = z.object({
         message: "Mã người quản lý là UUID hợp lệ.",
       }
     ),
+    Quantity: z.number(),
 
 });
