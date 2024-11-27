@@ -136,6 +136,7 @@ interface ApartmentValue {
   Images: File[];
   VRVideoFile: string;
   AssignedAccountID: string;
+  Quantity: string;
 }
 
 export const createApartment = async (value: ApartmentValue) => {
@@ -172,9 +173,54 @@ export const createApartment = async (value: ApartmentValue) => {
       },
     });
 
+    console.log("res create apt", res);
     return res;
 
   } catch (error) {
     console.log(error);
   }
 }; 
+
+export const createMultipleApartment = async (value: ApartmentValue) => {
+  try {
+    console.log("value create mutiple apt", value);
+    const formData = new FormData();
+    formData.append("ProjectApartmentID ", value.ProjectApartmentID);
+    formData.append("ApartmentName", value.ApartmentName);
+    formData.append("Description", value.Description);
+    formData.append("Address", value.Address);
+    formData.append("Area", value.Area);
+    formData.append("District", value.District);
+    formData.append("Ward", value.Ward);
+    formData.append("NumberOfRooms", value.NumberOfRooms);
+    formData.append("NumberOfBathrooms", value.NumberOfBathrooms);
+    formData.append("Location", value.Location);
+    formData.append("Direction", value.Direction);
+    formData.append("Price", value.Price);
+    formData.append("EffectiveDate", value.EffectiveDate);
+    formData.append("ExpiryDate", value.ExpiryDate);
+    formData.append("ApartmentType", value.ApartmentType);
+    formData.append("BalconyDirection", value.BalconyDirection);
+    formData.append("Building", value.Building);
+    formData.append("Floor", value.Floor);
+    formData.append("RoomNumber", value.RoomNumber);
+    formData.append("ProjectApartmentID", value.ProjectApartmentID);
+    formData.append("VRVideoFile", value.VRVideoFile);
+    formData.append("AssignedAccountID", value.AssignedAccountID);
+    value.Images.forEach((image) => {
+      formData.append("Images", image);
+    });
+    formData.append("Quantity", value.Quantity);
+    const res = await apiClient.post("/apartments/create-multiple-apartments", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    console.log("res create apt", res);
+    return res;
+
+  } catch (error) {
+    console.log(error);
+  }
+}

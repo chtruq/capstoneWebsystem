@@ -30,9 +30,9 @@ export const getProjectApartmentByStaff = async ({
     const res = await apiClient.get(
       `/projects/search-or-manager?staffId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
-    
-    
-    
+
+
+
     return res.data.data;
   } catch (error) {
     console.error("Error fetching project apartments:", error);
@@ -80,6 +80,8 @@ interface ProjectValue {
   Address: string;
   AddressUrl: string;
   TotalApartment: string;
+  LicensingAuthority: string;
+  LicensingDate: string;
   ApartmentProjectProviderID: string;
   ProjectType: number;
   TeamID: string;
@@ -105,6 +107,8 @@ export const createProject = async (value: ProjectValue) => {
     formData.append("Address", value.Address);
     formData.append("AddressUrl", value.AddressUrl);
     formData.append("TotalApartment", value.TotalApartment);
+    formData.append("LicensingAuthority", value.LicensingAuthority);
+    formData.append("LicensingDate", value.LicensingDate);
     formData.append(
       "ApartmentProjectProviderID",
       value.ApartmentProjectProviderID
