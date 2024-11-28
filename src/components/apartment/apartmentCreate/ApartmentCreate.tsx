@@ -45,7 +45,8 @@ import {
 import { createProject } from "@/app/actions/project";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useForm } from "react-hook-form";
-import { createApartment } from "@/app/actions/apartment";
+import { createApartment, createMultipleApartment } from "@/app/actions/apartment";
+import { usePathname } from "next/navigation";
 
 
 interface Props {
@@ -67,11 +68,11 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       Description: "",
       Address: "",
       Area: "",
-      District: "2",
-      Ward: "2",
+      District: "",
+      Ward: "",
       NumberOfRooms: "",
       NumberOfBathrooms: "",
-      Location: "2",
+      Location: "",
       Direction: 1,
       Price: "",
       EffectiveDate: "",
@@ -83,9 +84,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       RoomNumber: "",
       ProjectApartmentID: projectId,
       Images: [],
-      VRVideoFile: "none",
+      VRVideoFile: "nossne",
       AssignedAccountID: staffId,
-      Quantity: 0,
+      Quantity: null,
     },
   })
 
@@ -101,6 +102,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       throw new Error("Chỉ chấp nhận file định dạng JPEG hoặc PNG.");
     }
   };
+
+  const pathname = usePathname();
+  console.log("pathname", pathname) 
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -168,19 +172,33 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   const onSubmit = async (value: z.infer<typeof apartmentSchema>) => {
     try {
       const payload = { ...value, Images: selectedImages };
+      console.log("quantity", value.Quantity);
+      console.log("Payload:", payload);
+      // Kiểm tra lỗi của form
+      const errors = form.formState.errors;
+      if (Object.keys(errors).length > 0) {
+        console.log("Form validation errors:", errors); // In ra lỗi từ zod
+        return; // Dừng lại nếu có lỗi
+      }
       if (data) {
         // const res = await updateProject(data.projectApartmentID, payload);
         // console.log("Update apartment successfully", res);
       } else {
-        if (value.Quantity > 0) {
-
-          await createApartment(payload);
+        if (value.Quantity) {
+          console.log("Payload create multi apt:", payload);
+          const res = await createMultipleApartment(payload);
+          if (res) {
+            revalidateProjectPath(pathname);
+          }
 
         } else {
-          console.log("Payload create apt:", payload);
+          console.log("Payload create single apt:", payload);
           const res = await createApartment(payload);
+          if (res) {
+            revalidateProjectPath(`/staff/dashboard/project-manage`);
+          }
         }
-        // revalidateProjectPath(`/manager/dashboard/project-manage`);
+        revalidateProjectPath(`/staff/dashboard/project-manage`);
       }
       // revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
@@ -666,13 +684,15 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                         Số lượng sao chép
                       </span> */}
                             <FormControl>
-                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number" />
+                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number"  />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Xác nhận</Button>
+                      <Button variant="outline" onClick={form.handleSubmit(onSubmit)}>
+                        Xác nhận
+                      </Button>
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>

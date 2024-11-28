@@ -141,7 +141,7 @@ interface ApartmentValue {
 
 export const createApartment = async (value: ApartmentValue) => {
   try {
-    console.log("value create apt", value);
+    console.log("value create single apt", value);
     const formData = new FormData();
     formData.append("ApartmentName", value.ApartmentName);
     formData.append("Description", value.Description);
@@ -173,7 +173,7 @@ export const createApartment = async (value: ApartmentValue) => {
       },
     });
 
-    console.log("res create apt", res);
+    console.log("res create apt oke", res);
     return res;
 
   } catch (error) {
@@ -185,30 +185,29 @@ export const createMultipleApartment = async (value: ApartmentValue) => {
   try {
     console.log("value create mutiple apt", value);
     const formData = new FormData();
-    formData.append("ProjectApartmentID ", value.ProjectApartmentID);
-    formData.append("ApartmentName", value.ApartmentName);
-    formData.append("Description", value.Description);
-    formData.append("Address", value.Address);
-    formData.append("Area", value.Area);
-    formData.append("District", value.District);
-    formData.append("Ward", value.Ward);
-    formData.append("NumberOfRooms", value.NumberOfRooms);
-    formData.append("NumberOfBathrooms", value.NumberOfBathrooms);
-    formData.append("Location", value.Location);
-    formData.append("Direction", value.Direction);
-    formData.append("Price", value.Price);
-    formData.append("EffectiveDate", value.EffectiveDate);
-    formData.append("ExpiryDate", value.ExpiryDate);
-    formData.append("ApartmentType", value.ApartmentType);
-    formData.append("BalconyDirection", value.BalconyDirection);
-    formData.append("Building", value.Building);
-    formData.append("Floor", value.Floor);
-    formData.append("RoomNumber", value.RoomNumber);
     formData.append("ProjectApartmentID", value.ProjectApartmentID);
-    formData.append("VRVideoFile", value.VRVideoFile);
-    formData.append("AssignedAccountID", value.AssignedAccountID);
+    formData.append("SampleApartment.ApartmentName", value.ApartmentName);
+    formData.append("SampleApartment.Description", value.Description);
+    formData.append("SampleApartment.Address", value.Address);
+    formData.append("SampleApartment.Area", value.Area);
+    formData.append("SampleApartment.District", value.District);
+    formData.append("SampleApartment.Ward", value.Ward);
+    formData.append("SampleApartment.NumberOfRooms", value.NumberOfRooms);
+    formData.append("SampleApartment.NumberOfBathrooms", value.NumberOfBathrooms);
+    formData.append("SampleApartment.Location", value.Location);
+    formData.append("SampleApartment.Direction", value.Direction);
+    formData.append("SampleApartment.Price", value.Price);
+    formData.append("SampleApartment.EffectiveDate", value.EffectiveDate);
+    formData.append("SampleApartment.ExpiryDate", value.ExpiryDate);
+    formData.append("SampleApartment.ApartmentType", value.ApartmentType);
+    formData.append("SampleApartment.BalconyDirection", value.BalconyDirection);
+    formData.append("SampleApartment.Building", value.Building);
+    formData.append("SampleApartment.Floor", value.Floor);
+    formData.append("SampleApartment.RoomNumber", value.RoomNumber);
+    formData.append("SampleApartment.VRVideoFile", value.VRVideoFile);
+    formData.append("SampleApartment.AssignedAccountID", value.AssignedAccountID);
     value.Images.forEach((image) => {
-      formData.append("Images", image);
+      formData.append("SampleApartment.Images", image);
     });
     formData.append("Quantity", value.Quantity);
     const res = await apiClient.post("/apartments/create-multiple-apartments", formData, {
@@ -217,8 +216,8 @@ export const createMultipleApartment = async (value: ApartmentValue) => {
       },
     });
 
-    console.log("res create apt", res);
-    return res;
+    console.log("res create multi apt oke", res.data);
+    return res.data;
 
   } catch (error) {
     console.log(error);
