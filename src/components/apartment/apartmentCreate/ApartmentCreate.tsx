@@ -32,9 +32,7 @@ import React, { FC, useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import { vi } from "date-fns/locale";
 import { Textarea } from "@/components/ui/textarea";
-import { MultiSelect } from "@/components/ui/multi-select";
 import Image from "next/image";
-import { Provider } from "../../../../model/provider";
 import {
   Dialog,
   DialogContent,
@@ -42,11 +40,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { createProject } from "@/app/actions/project";
-import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useForm } from "react-hook-form";
 import { createApartment, createMultipleApartment } from "@/app/actions/apartment";
 import { usePathname } from "next/navigation";
+import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { useRouter } from "next/navigation";
+
+
 
 
 interface Props {
@@ -91,6 +91,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   })
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const validateFile = (file: File) => {
     const maxFileSize = 5 * 1024 * 1024; // 5MB
@@ -104,7 +105,11 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   };
 
   const pathname = usePathname();
-  console.log("pathname", pathname) 
+  console.log("Original pathname:", pathname);
+
+  const newPathname = pathname.split('/').slice(0, -1).join('/') + "/detail";
+
+  console.log("Updated pathname:", newPathname);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -168,6 +173,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
     { label: "Officetel", value: 6 },
   ];
 
+  const router = useRouter();
 
   const onSubmit = async (value: z.infer<typeof apartmentSchema>) => {
     try {
@@ -186,19 +192,18 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       } else {
         if (value.Quantity) {
           console.log("Payload create multi apt:", payload);
+          setIsDialogOpen(false);
           const res = await createMultipleApartment(payload);
-          if (res) {
-            revalidateProjectPath(pathname);
-          }
+          revalidateProjectPath(newPathname);
 
         } else {
           console.log("Payload create single apt:", payload);
           const res = await createApartment(payload);
-          if (res) {
-            revalidateProjectPath(`/staff/dashboard/project-manage`);
-          }
+          revalidateProjectPath(newPathname);
+          router.push(newPathname);
+
         }
-        revalidateProjectPath(`/staff/dashboard/project-manage`);
+        revalidateProjectPath(newPathname);
       }
       // revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
@@ -667,7 +672,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                   Tạo căn hộ
                 </Button>
 
-                <Dialog>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline">Tạo nhiều bản sao</Button>
                   </DialogTrigger>
@@ -684,7 +689,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                         Số lượng sao chép
                       </span> */}
                             <FormControl>
-                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number"  />
+                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

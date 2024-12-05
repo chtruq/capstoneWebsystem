@@ -71,10 +71,11 @@ const AddFinancialContract: FC<Props> = ({
   async function onSubmit(
     values: z.infer<typeof projectFinancialContractSchema>
   ) {
-    console.log(values);
+    console.log("Finace form ",values);
     setIsSubmitting(true);
     try {
       await createFinancialContract(values);
+      form.reset();
       setIsDialogOpen(false);
       revalidateProjectPath(pathName);
     } catch (error) {

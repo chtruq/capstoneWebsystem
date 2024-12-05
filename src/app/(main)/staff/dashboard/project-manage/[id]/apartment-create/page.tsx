@@ -8,7 +8,6 @@ const CreateApartment = async ({params} : {params: {id: string}}) => {
  console.log("User Info:", userInfor);
  console.log("User ID", );
  
- 
   return (
     <div>
       <h1 className="font-semibold text-2xl">Tạo mới căn hộ</h1>

@@ -52,6 +52,8 @@ export const getProject = async (id: string) => {
 
 export const createFinancialContract = async (data: any) => {
   try {
+    console.log("data", data);
+    
     const res = await apiClient.post("/financial-contracts/create", data);
     return res;
   } catch (error) {
