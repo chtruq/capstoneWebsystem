@@ -127,7 +127,7 @@ export function AppSidebar() {
       icon: LayoutDashboard,
     },
     {
-      title: "Quản lý căn hộ",
+      title: "Danh sách căn hộ",
       url: "/staff/dashboard/apartment-manage",
       icon: Building2,
     },

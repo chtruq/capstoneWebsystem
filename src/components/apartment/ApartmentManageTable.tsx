@@ -45,8 +45,6 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
             <TableHead>Hình ảnh</TableHead>
             <TableHead>Giá</TableHead>
             <TableHead>Diện tích</TableHead>
-            <TableHead>Phòng ngủ</TableHead>
-            <TableHead>Nhà tắm</TableHead>
             <TableHead>Thuộc dự án</TableHead>
             <TableHead>Trạng thái</TableHead>
             <TableHead></TableHead>
@@ -66,12 +64,10 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                 />
               </TableCell>
               <TableCell>{apartment.price}</TableCell>
-              <TableCell>{apartment.area}</TableCell>
-              <TableCell>{apartment.numberOfRooms}</TableCell>
-              <TableCell>{apartment.numberOfBathrooms}</TableCell>
+              <TableCell className="text-center">{apartment.area}</TableCell>
               <TableCell>{apartment.projectApartmentName}</TableCell>
               <TableCell>{apartment.apartmentStatus}</TableCell>
-              <TableCell className="flex justify-center items-center">
+              <TableCell className="items-center">
                 <Link
                   href={`/${role}/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
                 >

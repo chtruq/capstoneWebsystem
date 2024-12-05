@@ -32,9 +32,7 @@ import React, { FC, useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import { vi } from "date-fns/locale";
 import { Textarea } from "@/components/ui/textarea";
-import { MultiSelect } from "@/components/ui/multi-select";
 import Image from "next/image";
-import { Provider } from "../../../../model/provider";
 import {
   Dialog,
   DialogContent,
@@ -42,10 +40,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { createProject } from "@/app/actions/project";
-import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useForm } from "react-hook-form";
-import { createApartment } from "@/app/actions/apartment";
+import { createApartment, createMultipleApartment } from "@/app/actions/apartment";
+import { usePathname } from "next/navigation";
+import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { useRouter } from "next/navigation";
+
+
 
 
 interface Props {
@@ -67,11 +68,11 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       Description: "",
       Address: "",
       Area: "",
-      District: "2",
-      Ward: "2",
+      District: "",
+      Ward: "",
       NumberOfRooms: "",
       NumberOfBathrooms: "",
-      Location: "2",
+      Location: "",
       Direction: 1,
       Price: "",
       EffectiveDate: "",
@@ -83,13 +84,14 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       RoomNumber: "",
       ProjectApartmentID: projectId,
       Images: [],
-      VRVideoFile: "none",
+      VRVideoFile: "nossne",
       AssignedAccountID: staffId,
-      Quantity: 0,
+      Quantity: null,
     },
   })
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const validateFile = (file: File) => {
     const maxFileSize = 5 * 1024 * 1024; // 5MB
@@ -101,6 +103,13 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       throw new Error("Chỉ chấp nhận file định dạng JPEG hoặc PNG.");
     }
   };
+
+  const pathname = usePathname();
+  console.log("Original pathname:", pathname);
+
+  const newPathname = pathname.split('/').slice(0, -1).join('/') + "/detail";
+
+  console.log("Updated pathname:", newPathname);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -164,23 +173,37 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
     { label: "Officetel", value: 6 },
   ];
 
+  const router = useRouter();
 
   const onSubmit = async (value: z.infer<typeof apartmentSchema>) => {
     try {
       const payload = { ...value, Images: selectedImages };
+      console.log("quantity", value.Quantity);
+      console.log("Payload:", payload);
+      // Kiểm tra lỗi của form
+      const errors = form.formState.errors;
+      if (Object.keys(errors).length > 0) {
+        console.log("Form validation errors:", errors); // In ra lỗi từ zod
+        return; // Dừng lại nếu có lỗi
+      }
       if (data) {
         // const res = await updateProject(data.projectApartmentID, payload);
         // console.log("Update apartment successfully", res);
       } else {
-        if (value.Quantity > 0) {
-
-          await createApartment(payload);
+        if (value.Quantity) {
+          console.log("Payload create multi apt:", payload);
+          setIsDialogOpen(false);
+          const res = await createMultipleApartment(payload);
+          revalidateProjectPath(newPathname);
 
         } else {
-          console.log("Payload create apt:", payload);
+          console.log("Payload create single apt:", payload);
           const res = await createApartment(payload);
+          revalidateProjectPath(newPathname);
+          router.push(newPathname);
+
         }
-        // revalidateProjectPath(`/manager/dashboard/project-manage`);
+        revalidateProjectPath(newPathname);
       }
       // revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
@@ -649,7 +672,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                   Tạo căn hộ
                 </Button>
 
-                <Dialog>
+                <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button variant="outline">Tạo nhiều bản sao</Button>
                   </DialogTrigger>
@@ -672,7 +695,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Xác nhận</Button>
+                      <Button variant="outline" onClick={form.handleSubmit(onSubmit)}>
+                        Xác nhận
+                      </Button>
                     </DialogHeader>
                   </DialogContent>
                 </Dialog>
