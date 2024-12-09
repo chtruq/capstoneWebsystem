@@ -1,11 +1,22 @@
 import { getMemberInTeamDetails, getTeamById } from "@/app/actions/team";
+import { getMemberByTeam } from "@/app/actions/teammembers";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
 import TeamMemberTable from "@/components/team/teamMemberTable/TeamMemberTable";
 import { tableText } from "@/lib/utils/project";
 import React from "react";
 
-const TeamDetails = async ({
+// const TeamDetails = async ({
+//   params,
+//   searchParams,
+// }: {
+//   params: { id: string };
+//   searchParams?: Promise<{
+//     teamMemberName?: string;
+//     page?: string;
+//   }>;
+// }) => {
+async function TeamDetails({
   params,
   searchParams,
 }: {
@@ -14,15 +25,25 @@ const TeamDetails = async ({
     teamMemberName?: string;
     page?: string;
   }>;
-}) => {
+}) {
+
   const data = await getTeamById(params.id);
   const teamData: Team = data?.data;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams?.teamMemberName || "";
+  
   // const query = resolvedSearchParams.teamMemberName || "";
-  const currentPage = Number(resolvedSearchParams.page) || 1;
-  const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
-  const totalPages = teamMemberData?.data.totalPage;
+  const currentPage = Number(resolvedSearchParams?.page) || 1;
+  // const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
 
+  
+  
+  
+  const teamMemberData = await getMemberByTeam(params.id, currentPage, query);
+  const totalPages = teamMemberData?.data.totalPages;
+
+  // console.log("teamMemberData", teamMemberData?.data?.results);
+  
   return (
     <div>
       <h1 className="text-2xl font-semibold">Chi tiết nhóm quản lý</h1>
@@ -64,7 +85,7 @@ const TeamDetails = async ({
           />
         </div>
 
-        <TeamMemberTable data={teamMemberData?.data?.teamDetails} />
+        <TeamMemberTable data={teamMemberData?.data} />
 
         <div>
           {totalPages !== 1 ? (

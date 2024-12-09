@@ -1,4 +1,4 @@
-export interface Provider {
+ interface Provider {
   apartmentProjectProviderID: string;
   apartmentProjectProviderName: string;
   apartmentProjectDescription: string;

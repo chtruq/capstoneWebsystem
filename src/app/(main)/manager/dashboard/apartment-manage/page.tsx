@@ -17,7 +17,7 @@ async function ApartmentManage(props: {
   const query = searchParams?.apartmentName || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getApartmentsTest({ query, currentPage });
-  const totalPages = data?.data?.data?.totalPage;
+  const totalPages = data?.data?.data?.totalPages;
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>

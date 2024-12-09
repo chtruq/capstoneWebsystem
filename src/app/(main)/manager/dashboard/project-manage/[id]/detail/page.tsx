@@ -1,7 +1,6 @@
 import React from "react";
 import { getProject } from "@/app/actions/project";
 import ProjectTabsDetail from "@/components/project-manage/ProjectTabDetail/ProjectTabsDetail";
-import Project from "../../../../../../../../model/project";
 
 const ProjectUpdate = async ({ params }: { params: { id: string } }) => {
   // const data: User = await getUser(params.id);

@@ -27,12 +27,11 @@ export const getProjectApartmentByStaff = async ({
   currentPage: number;
 }) => {
   try {
+    console.log("get project by staff");
+    
     const res = await apiClient.get(
-      `/projects/search-or-manager?staffId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/projects/search-or-manager?accountId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
-
-
-
     return res.data.data;
   } catch (error) {
     console.error("Error fetching project apartments:", error);

@@ -106,7 +106,7 @@ const UserCreate = () => {
                 <FormItem>
                   <Label htmlFor="email">Mật khẩu</Label>
                   <FormControl>
-                    <Input id="email" {...field} type="password" />
+                    <Input id="email" {...field} type="password" placeholder="Nhập mật khẩu"/>
                   </FormControl>
 
                   <FormMessage className="text-error" />
@@ -120,7 +120,7 @@ const UserCreate = () => {
                 <FormItem>
                   <Label htmlFor="email">Nhập lại mật khẩu</Label>
                   <FormControl>
-                    <Input id="email" {...field} type="password" />
+                    <Input id="email" {...field} type="password" placeholder="Nhập lại mật khẩu"/>
                   </FormControl>
 
                   <FormMessage className="text-error" />
