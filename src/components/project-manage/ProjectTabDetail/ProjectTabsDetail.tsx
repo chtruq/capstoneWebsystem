@@ -98,10 +98,10 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.apartmentArea)}</div>
 
                     <div className="text-sm text-blur ">Năm khởi công</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
 
                     <div className="text-sm text-blur ">Năm bàn giao</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
                   </div>
                 </div>
               </div>
@@ -209,7 +209,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
             </div>
 
             <div className="w-full">
-              <ProjectContract data={data} role={userInfor?.role}/>
+              <ProjectContract data={data} role={userInfor?.role} />
             </div>
             <div>
               <h1 className="font-semibold">Hợp đồng</h1>

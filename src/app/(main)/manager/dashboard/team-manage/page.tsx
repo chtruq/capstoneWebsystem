@@ -15,7 +15,7 @@ async function TeamManagePage(props: {
   const query = searchParams?.keyWord || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getTeamsByPage({ query, currentPage });
-  const totalPages = data?.data.totalPage;
+  const totalPages = data?.data.totalPages;
   const leaders = await getLeader();
 
   return (

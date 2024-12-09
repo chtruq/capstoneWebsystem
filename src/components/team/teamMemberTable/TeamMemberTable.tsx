@@ -13,7 +13,7 @@ interface Props {
 }
 
 const TeamMemberTable: FC<Props> = ({ data }) => {
-  console.log("Data", data);
+  // console.log("Data", data);
 
   return (
     <div>
@@ -28,8 +28,8 @@ const TeamMemberTable: FC<Props> = ({ data }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.members.map((item: Member) => (
-            <TableRow key={item?.email}>
+          {data?.results.map((item: Member) => (
+            <TableRow key={item?.teamMemberID}>
               {/* <TableCell>{item?.}</TableCell> */}
               <TableCell>{tableText(item?.name)}</TableCell>
               <TableCell>{tableText(item?.phone)}</TableCell>

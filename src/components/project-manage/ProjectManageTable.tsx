@@ -65,7 +65,7 @@ const ProjectManageTable: FC<Props> = ({ data }) => {
               <TableCell>{tableText(project.address)}</TableCell>
               <TableCell>
                 {tableType(project.projectType)}
-                </TableCell>
+              </TableCell>
               <TableCell className="gap-1 flex">
                 <Button
                   onClick={() => {

@@ -31,8 +31,8 @@ const TeamTable: FC<Props> = async ({
               <TableRow>
                 <TableHead>Mã nhóm</TableHead>
                 <TableHead>Tên nhóm</TableHead>
-                <TableHead>Mô tả</TableHead>
                 <TableHead>Trưởng nhóm</TableHead>
+                <TableHead>Số nhân viên</TableHead>
                 <TableHead>Đơn vị</TableHead>
                 <TableHead>Hành động</TableHead>
               </TableRow>
@@ -40,10 +40,10 @@ const TeamTable: FC<Props> = async ({
             <TableBody>
               {data?.map((team: Team) => (
                 <TableRow key={team.teamID}>
-                  <TableCell>{team.teamID}</TableCell>
+                  <TableCell>{team.teamCode}</TableCell>
                   <TableCell>{team.teamName}</TableCell>
-                  <TableCell>{team.teamDescription}</TableCell>
                   <TableCell>{team.managerName}</TableCell>
+                  <TableCell>{team.teamDescription}</TableCell>
                   <TableCell>
                     {team.teamType === "ProjectManagement"
                       ? "Theo dự án"

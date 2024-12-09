@@ -28,7 +28,7 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
   let userToken = await getUserInfoFromCookies();
   console.log("User Token from apartment table", userToken);
   
-  console.log("Data apartment", data?.data?.data?.apartments);
+  // console.log("Data apartment", data?.data?.data?.apartments);
 
 
   return (

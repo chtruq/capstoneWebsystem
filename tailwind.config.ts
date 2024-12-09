@@ -1,3 +1,4 @@
+import { fail } from "assert";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -44,6 +45,10 @@ const config: Config = {
           DEFAULT: "#24A148",
           foreground: "#f0f8f2",
         },
+        failed: {
+          DEFAULT: "#FF4040",
+          foreground: "#FFD9D9",
+        },
         blur: {
           DEFAULT: "#4b4b4b",
           foreground: "hsl(var(--blur-foreground))",
@@ -83,6 +88,8 @@ const config: Config = {
         accent: "hsl(var(--accent-foreground))",
         destructive: "hsl(var(--destructive-foreground))",
         money: "#C48C37",
+        failed: "#FF4040",
+        success: "#24A148",
       },
     },
   },

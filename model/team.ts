@@ -1,4 +1,5 @@
 interface Member {
+  teamMemberID: string;
   name: string;
   phone: string;
   email: string;
@@ -12,6 +13,7 @@ interface Team {
   teamType: string;
   managerName: string;
   members: Member[];
+  results: Member[];
   teamCode: string;
 }
 
