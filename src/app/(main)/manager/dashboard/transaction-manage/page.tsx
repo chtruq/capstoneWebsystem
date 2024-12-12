@@ -17,7 +17,7 @@ async function TransactionPage(props: {
   console.log("trans data: ", data);
   const totalPages = data?.data.totalPages;
   console.log(totalPages);
-  
+
 
   return (
     <div>
@@ -29,10 +29,8 @@ async function TransactionPage(props: {
         <TransactionTable data={data?.data?.transactions} />
       </div>
       <div className="absolute bottom-0 right-0">
-        {totalPages !== 1 ? (
+        {totalPages  > 1 && (
           <PaginationComponent totalPages={totalPages} />
-        ) : (
-          <></>
         )}
       </div>
     </div>

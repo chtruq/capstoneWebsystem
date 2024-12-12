@@ -42,7 +42,7 @@ async function ProjectManage(props: {
     console.log("Error fetching data:", error);
   }
 
-  console.log(data?.totalPages);
+  console.log("aaaaaaaaaaaaa ",data?.totalPages);
 
 
   const totalPages = data?.totalPages;

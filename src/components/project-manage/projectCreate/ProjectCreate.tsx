@@ -411,6 +411,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
+                          fromYear={1990}
+                          toYear={new Date().getFullYear() + 4}
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -418,9 +421,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           onSelect={(date) =>
                             field.onChange(date?.toISOString())
                           }
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
+                          toDate={new Date(new Date().getFullYear() + 4, 11, 31)} // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />

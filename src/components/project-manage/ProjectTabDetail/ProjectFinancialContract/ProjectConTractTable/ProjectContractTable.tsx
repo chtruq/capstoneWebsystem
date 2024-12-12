@@ -20,7 +20,7 @@ interface Props {
 }
 const ProjectContractTable: FC<Props> = ({ data, role }) => {
   const pathName = usePathname();
-  console.log("role", role)
+  // console.log("role", role)
 
   return (
     <Table>

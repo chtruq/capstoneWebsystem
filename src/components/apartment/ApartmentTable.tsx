@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { getApartmentsTest, getApartmentsPendingRequest } from "@/app/actions/apartment";
 import ApartmentManageTable from "./ApartmentManageTable";
 import { getUserInfoFromCookies } from "@/app/actions/auth";
+import PaginationComponent from "@/components/pagination/PaginationComponent";
 
 
 interface Props {
@@ -27,9 +28,10 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
 
   let userToken = await getUserInfoFromCookies();
   console.log("User Token from apartment table", userToken);
-  
-  // console.log("Data apartment", data?.data?.data?.apartments);
 
+  console.log("Data apartment", data?.data?.data);
+  const totalPages = data?.data?.data?.totalPages;
+  console.log("Total pages", totalPages);
 
   return (
     <div>
@@ -38,6 +40,13 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
       ) : (
         <>
           <ApartmentManageTable data={data?.data?.data?.apartments} state={{ state, currentPage }} role={userToken.role} />
+          <div >
+            {totalPages > 1 ? (
+              <PaginationComponent totalPages={totalPages} />
+            ) : (
+              <></>
+            )}
+          </div>
         </>
       )}
     </div>

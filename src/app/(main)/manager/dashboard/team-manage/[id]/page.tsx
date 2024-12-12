@@ -31,19 +31,20 @@ async function TeamDetails({
   const teamData: Team = data?.data;
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams?.teamMemberName || "";
-  
+
   // const query = resolvedSearchParams.teamMemberName || "";
   const currentPage = Number(resolvedSearchParams?.page) || 1;
   // const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
 
-  
-  
-  
+
+
+
   const teamMemberData = await getMemberByTeam(params.id, currentPage, query);
   const totalPages = teamMemberData?.data.totalPages;
 
   // console.log("teamMemberData", teamMemberData?.data?.results);
-  
+  console.log("Total pages", totalPages);
+
   return (
     <div>
       <h1 className="text-2xl font-semibold">Chi tiết nhóm quản lý</h1>
@@ -88,10 +89,8 @@ async function TeamDetails({
         <TeamMemberTable data={teamMemberData?.data} />
 
         <div>
-          {totalPages !== 1 ? (
+          {totalPages > 1 && (
             <PaginationComponent totalPages={totalPages} />
-          ) : (
-            <></>
           )}
         </div>
       </div>
