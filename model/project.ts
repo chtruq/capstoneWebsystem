@@ -1,7 +1,7 @@
 interface ProjectImage {
-  imageID: string;
-  imageUrl: string;
+  projectImageID: string;
   description: string;
+  url: string;
 }
 
 interface ApartmentStatusCount {

@@ -37,6 +37,9 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
   const totalItem = projectCart.totalItem;
   const count = projectCart.apartments.length;
 
+  console.log("imageeeeeeee", data?.projectImages);
+  
+
   return (
     <div className="w-full">
       <h1>data {data?.projectApartmentID}</h1>
@@ -144,8 +147,8 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 </div>
               ))} */}
               
-              {/* <ImageGallery images={data?.projectImages} /> */}
-              <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} />
+              <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.projectImageID, url: img.url, description: img.description }))} />
+              {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
             </div>
           </div>
         </TabsContent>

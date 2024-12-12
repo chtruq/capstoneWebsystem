@@ -97,7 +97,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                 />
               ))}
             </div> */}
-            <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl }))} />
+            <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
           </div>
         </TabsContent>
         <TabsContent value="contract">

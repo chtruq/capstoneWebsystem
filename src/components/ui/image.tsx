@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { CircleX } from "lucide-react";
-interface Image {
+
+interface ImageFile {
   imageID: string;
   url: string;
+  description: string;
 }
 
 interface ImageGalleryProps {
-  images: Image[];
+  images: ImageFile[];
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
