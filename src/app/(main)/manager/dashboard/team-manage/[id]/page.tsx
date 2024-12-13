@@ -1,4 +1,4 @@
-import { getMemberInTeamDetails, getTeamById } from "@/app/actions/team";
+import { getMemberInTeamDetails, getTeamByTeamId } from "@/app/actions/team";
 import { getMemberByTeam } from "@/app/actions/teammembers";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
@@ -27,7 +27,9 @@ async function TeamDetails({
   }>;
 }) {
 
-  const data = await getTeamById(params.id);
+  const data = await getTeamByTeamId(params.id);
+  console.log("Dataaaaaaaaa", data);
+  
   const teamData: Team = data?.data;
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams?.teamMemberName || "";
@@ -52,14 +54,18 @@ async function TeamDetails({
       <div className="w-1/2">
         <div className="my-2 w-full">
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Mã</div>
+            <div className="text-blur text-sm w-1/3">Mã nhóm</div>
             <div className="justify-start w-2/3">
               {tableText(teamData?.teamCode)}
             </div>
           </div>
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Trưởng nhóm</div>
+            <div className="text-blur text-sm w-1/3">Tên nhóm</div>
             <div className="justify-start w-2/3">{teamData?.teamName}</div>
+          </div>
+          <div className="flex justify-between">
+            <div className="text-blur text-sm w-1/3">Người quản lý</div>
+            <div className="justify-start w-2/3">{teamData?.managerName}</div>
           </div>
 
           <div className="flex justify-between">

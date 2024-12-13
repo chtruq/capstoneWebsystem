@@ -12,7 +12,7 @@ export const getTransactionByPage = async ({
     console.log("query", query);
 
     const res = await apiClient.get(
-      `/transactions/search?transactionId=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/transactions/search?keyword=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data;
   } catch (error) {

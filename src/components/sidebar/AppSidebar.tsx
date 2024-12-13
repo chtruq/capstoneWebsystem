@@ -142,6 +142,11 @@ export function AppSidebar() {
       icon: Users,
     },
     {
+      title: "Giao dịch",
+      url: "/staff/dashboard/transaction-manage",
+      icon: CreditCard,
+    },
+    {
       title: "Cài đặt",
       url: "/staff/dashboard/setting",
       icon: Settings,

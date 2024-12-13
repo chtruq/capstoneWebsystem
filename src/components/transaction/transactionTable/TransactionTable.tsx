@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Eye } from "lucide-react";
 import TransactionDetail from "../transactionDetail/TransactionDetail";
-import { formatDateTime } from "@/lib/utils/dataFormat";
+import { formatDateTime, formatMoney } from "@/lib/utils/dataFormat";
 
 interface Props {
   data: Transaction[];
@@ -58,7 +58,7 @@ const TransactionTable: FC<Props> = ({ data }) => {
               <TableCell>{transaction.apartmentCode}</TableCell>
               <TableCell>{transaction.customerName}</TableCell>
               <TableCell>{formatDateTime(transaction.transactionDate)}</TableCell>
-              <TableCell>{transaction.amountPaid}</TableCell>
+              <TableCell>{formatMoney(transaction.amountPaid)}</TableCell>
               <TableCell>{transaction.paymentMethods}</TableCell>
               <TableCell>{tableType(transaction.status)}</TableCell>
               <TableCell>

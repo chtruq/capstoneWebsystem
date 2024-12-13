@@ -34,6 +34,10 @@ const TransactionDetail: FC<Props> = ({ data }) => {
             <div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="...">Mã giao dịch:</div>
+                <div className="..."> {data.depositCode} </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="...">Mã ngân hàng:</div>
                 <div className="..."> {data.transactionNo} </div>
               </div>
               <div className="grid grid-cols-2 gap-2">
