@@ -35,7 +35,6 @@ import { vi } from "date-fns/locale";
 import { Textarea } from "@/components/ui/textarea";
 import { MultiSelect } from "@/components/ui/multi-select";
 import Image from "next/image";
-import { Provider } from "../../../../model/provider";
 import {
   Command,
   CommandEmpty,
@@ -55,7 +54,7 @@ interface Props {
 }
 
 const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
-  console.log("data", data);
+  console.log("data of projects", data);
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
@@ -201,7 +200,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
 
   useEffect(() => {
     if (data?.projectImages?.length) {
-      setSelectedImages(data?.projectImages); // Nếu có URL của hình ảnh, bạn có thể lưu trực tiếp URL hoặc xử lý khác.
+      const validImages = data.projectImages.filter(
+        (image) => image instanceof File
+      ) as File[];
+      setSelectedImages(validImages); // Nếu có URL của hình ảnh, bạn có thể lưu trực tiếp URL hoặc xử lý khác.
     }
   }, [data]);
 
@@ -411,6 +413,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
+                          fromYear={1990}
+                          toYear={new Date().getFullYear() + 4}
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -418,9 +423,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           onSelect={(date) =>
                             field.onChange(date?.toISOString())
                           }
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
+                          toDate={new Date(new Date().getFullYear() + 4, 11, 31)} // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />

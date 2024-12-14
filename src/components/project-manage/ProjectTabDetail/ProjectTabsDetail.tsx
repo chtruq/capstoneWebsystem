@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { getUserInfoFromCookies } from "@/app/actions/auth";
 import DepositTable from "./Deposit/DepositTable";
+import { formatDate } from "@/lib/utils/dataFormat";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -19,14 +20,6 @@ interface Props {
   }>;
 }
 
-const formatDate = (isoDateString: string): string => {
-  if (!isoDateString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
-  const date = new Date(isoDateString);
-  const day = date.getUTCDate().toString().padStart(2, "0"); // Lấy ngày và thêm 0 nếu cần
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Lấy tháng và thêm 0
-  const year = date.getUTCFullYear().toString(); // Lấy năm
-  return `${day}/${month}/${year}`;
-};
 
 const ProjectTabsDetail: FC<Props> = async (props) => {
   const { data, searchParam } = props;
@@ -43,6 +36,9 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
   const totalPages = projectCart.totalPage;
   const totalItem = projectCart.totalItem;
   const count = projectCart.apartments.length;
+
+  console.log("imageeeeeeee", data?.projectImages);
+  
 
   return (
     <div className="w-full">
@@ -150,7 +146,8 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                   <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.id, url: img.imageUrl }))} />
                 </div>
               ))} */}
-              <ImageGallery images={data?.projectImages} />
+              
+              <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.projectImageID, url: img.url, description: img.description }))} />
               {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
             </div>
           </div>
@@ -175,7 +172,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
 
             </div>
             <div>
-              <ProjectCartTable data={projectCart.apartments} />
+              <ProjectCartTable data={projectCart.apartments} role={userInfor?.role}/>
             </div>
             <div>
               {totalPages ? (

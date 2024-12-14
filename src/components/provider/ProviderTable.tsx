@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ProviderTable: FC<Props> = async ({ data }: Props) => {
-  // console.log("Data in protab", data);
+  console.log("Data in protab", data);
 
   return (
     <div>

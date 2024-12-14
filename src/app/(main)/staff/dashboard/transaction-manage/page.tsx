@@ -23,13 +23,13 @@ async function TransactionPage(props: {
     <div>
       <h1 className="text-2xl font-semibold">Giao dịch</h1>
       <div>
-        <SearchInput placeholder="Tìm kiếm mã giao dịch" query="transactionId" />
+        <SearchInput placeholder="Tìm kiếm mã giao dịch, mã căn hộ" query="transactionId" />
       </div>
       <div>
         <TransactionTable data={data?.data?.transactions} />
       </div>
       <div className="absolute bottom-0 right-0">
-        {totalPages  > 1 && (
+        {totalPages > 1 && (
           <PaginationComponent totalPages={totalPages} />
         )}
       </div>

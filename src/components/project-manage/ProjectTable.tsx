@@ -38,7 +38,7 @@ const ProjectTable: FC<Props> = async ({ data }: Props) => {
   //   console.log("Error fetching data:", error);
   // }
   
-  console.log("Data in protab", data);
+  // console.log("Data in protab", data);
   
 
   return (

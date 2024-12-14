@@ -137,9 +137,19 @@ export function AppSidebar() {
       icon: FolderKanban,
     },
     {
+      title: "Quản lý yêu cầu",
+      url: "/staff/dashboard/request-manage",
+      icon: Users,
+    },
+    {
       title: "Quản lý nhóm",
       url: "/staff/dashboard/team-manage",
       icon: Users,
+    },
+    {
+      title: "Giao dịch",
+      url: "/staff/dashboard/transaction-manage",
+      icon: CreditCard,
     },
     {
       title: "Cài đặt",

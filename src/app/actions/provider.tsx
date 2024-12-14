@@ -24,3 +24,12 @@ export const getAllProviders = async () => {
     console.log(error);
   }
 };
+
+export const getProviderDetails = async ({ id }: { id: string }) => {
+  try {
+    const res = await apiClient.get(`/projectproviders/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

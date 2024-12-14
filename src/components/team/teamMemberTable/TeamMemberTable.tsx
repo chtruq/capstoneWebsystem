@@ -13,13 +13,13 @@ interface Props {
 }
 
 const TeamMemberTable: FC<Props> = ({ data }) => {
-  // console.log("Data", data);
+  console.log("Dataaaaa", data.results);
 
   return (
     <div>
       <Table>
         <TableHeader>
-          <TableRow>
+          <TableRow >
             {/* <TableHead>Mã nhân viên</TableHead> */}
             <TableHead>Tên nhân viên</TableHead>
             <TableHead>Số liên hệ</TableHead>
@@ -28,15 +28,24 @@ const TeamMemberTable: FC<Props> = ({ data }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.results.map((item: Member) => (
-            <TableRow key={item?.teamMemberID}>
-              {/* <TableCell>{item?.}</TableCell> */}
-              <TableCell>{tableText(item?.name)}</TableCell>
-              <TableCell>{tableText(item?.phone)}</TableCell>
-              <TableCell>{tableText(item?.email)}</TableCell>
-              <TableCell>{item?.status}</TableCell>
+          {data?.results && data?.results.length > 0 ? (
+            data.results.map((item: Member) => (
+              <TableRow key={item?.teamMemberID}>
+                <TableCell>{tableText(item?.name)}</TableCell>
+                <TableCell>{tableText(item?.phoneNumber)}</TableCell>
+                <TableCell>{tableText(item?.email)}</TableCell>
+                {item?.isManager ? (
+                  <TableCell>Quản lý</TableCell>
+                ) : (
+                  <TableCell>Thành viên</TableCell>
+                )}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell>Không có dữ liệu</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
     </div>

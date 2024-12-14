@@ -30,7 +30,7 @@ export const getProjectApartmentByStaff = async ({
     console.log("get project by staff");
     
     const res = await apiClient.get(
-      `/projects/search-or-manager?accountId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/projects/search-or-manager?accountIdofTeam=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data.data;
   } catch (error) {

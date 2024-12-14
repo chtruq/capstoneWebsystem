@@ -3,13 +3,15 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { CircleX } from "lucide-react";
-interface Image {
+
+interface ImageFile {
   imageID: string;
   url: string;
+  description: string;
 }
 
 interface ImageGalleryProps {
-  images: Image[];
+  images: ImageFile[];
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
@@ -45,7 +47,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
         onClose={() => setSelectedImage(null)} // Đóng modal khi click ngoài hoặc nút close
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       >
-        <div className="relative bg-white rounded-lg shadow-lg p-4">
+        {/* Lớp nền mờ phía sau */}
+        <div className="fixed inset-0 bg-black bg-opacity-50" aria-hidden="true" />
+
+        {/* <div className="relative bg-white rounded-lg shadow-lg p-4"> */}
+        <Dialog.Panel className="relative bg-white rounded-lg shadow-lg p-4">
           {selectedImage && (
             <Image
               src={selectedImage}
@@ -62,7 +68,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
           >
             <CircleX size={24} />
           </button>
-        </div>
+        </Dialog.Panel>
+        {/* </div> */}
       </Dialog>
     </div>
   );
