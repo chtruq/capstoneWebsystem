@@ -13,8 +13,6 @@ export const TextPrice = (price: number) => {
     return (price / 1000000000).toFixed(0) + " tỷ";
   } else if (price >= 1000000) {
     return (price / 1000000).toFixed(0) + " triệu";
-  } else if (price >= 100) {
-    return (price / 100).toFixed(0) + " trăm";
   } else {
     return price.toLocaleString("vi-VN", {
       style: "currency",
