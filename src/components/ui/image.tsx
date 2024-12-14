@@ -3,25 +3,40 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { CircleX } from "lucide-react";
-const ImageGallery = ({ images }: { images: { projectImageID: string; url: string }[] }) => {
+
+interface ImageFile {
+  imageID: string;
+  url: string;
+  description: string;
+}
+
+interface ImageGalleryProps {
+  images: ImageFile[];
+}
+
+const ImageGallery: React.FC<ImageGalleryProps> = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  console.log("Images list in component:", JSON.stringify(images, null, 2));
+
 
   return (
     <div>
-      <div className="grid grid-cols-4 gap-4">
+      <div className="flex flex-wrap justify-start items-center space-x-4 pb-4">
         {images.map((image) => (
           <div
-            key={image.projectImageID}
-            className="flex justify-center items-center cursor-pointer"
+            key={image.imageID}
+            className="cursor-pointer"
             onClick={() => setSelectedImage(image.url)} // Khi click, lưu URL ảnh vào state
           >
             <Image
+              className="rounded-lg object-cover w-[10rem] h-[10rem]"
               src={image.url}
               alt="image"
               width={200}
               height={200}
-              className="rounded-lg object-cover"
             />
+
           </div>
         ))}
       </div>
@@ -32,14 +47,19 @@ const ImageGallery = ({ images }: { images: { projectImageID: string; url: strin
         onClose={() => setSelectedImage(null)} // Đóng modal khi click ngoài hoặc nút close
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       >
-        <div className="relative bg-white rounded-lg shadow-lg p-4">
+        {/* Lớp nền mờ phía sau */}
+        <div className="fixed inset-0 bg-black bg-opacity-50" aria-hidden="true" />
+
+        {/* <div className="relative bg-white rounded-lg shadow-lg p-4"> */}
+        <Dialog.Panel className="relative bg-white rounded-lg shadow-lg p-4">
           {selectedImage && (
             <Image
               src={selectedImage}
               alt="Selected"
-              className="rounded-lg w-[32rem] h-[32rem] object-contain"
+              className="rounded-lg  w-[60rem] h-[40rem] object-contain"
               width={800}
               height={600}
+
             />
           )}
           <button
@@ -48,7 +68,8 @@ const ImageGallery = ({ images }: { images: { projectImageID: string; url: strin
           >
             <CircleX size={24} />
           </button>
-        </div>
+        </Dialog.Panel>
+        {/* </div> */}
       </Dialog>
     </div>
   );

@@ -1,8 +1,6 @@
 "use client";
 
-import React, { FC, useEffect, useState } from "react";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
-
+import React, { FC } from "react";
 import {
   Table,
   TableBody,
@@ -15,23 +13,24 @@ import { Button } from "@/components/ui/button";
 import { tableText, TextArea, TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
+
 
 interface Props {
   data: Apartment[];
+  role: string;
 }
 
-const ProjectCartTable: FC<Props> = ({ data }) => {
-  const [userToken, setUserToken] = useState<{ role?: string } | null>(null);
+const ProjectCartTable: FC<Props> = ({ data, role }) => {
 
-  // Lấy thông tin user token
-  useEffect(() => {
-    const fetchUserToken = async () => {
-      const token = await getUserInfoFromCookies();
-      setUserToken(token);
-    };
+  // console.log("aaaaaaaaaaaa");
+  const pathname = usePathname();
+  console.log("Original pathname:", pathname);
 
-    fetchUserToken();
-  }, []);
+  const newPathname = pathname.split('/').slice(0, -3).join('/');
+
+  console.log("Updated pathname:", newPathname);
 
   const tableType = (type: string) => {
     switch (type) {
@@ -87,24 +86,26 @@ const ProjectCartTable: FC<Props> = ({ data }) => {
               <TableCell>{tableText(apartment.projectApartmentName)}</TableCell>
               <TableCell>{tableType(apartment.apartmentStatus)}</TableCell>
               <TableCell className="gap-1 flex">
-                {userToken?.role === "Manager" ? (
+                {role === "Management" ? (
                   <Link
-                    href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
+                    href={`${newPathname}/apartment-manage/${apartment.apartmentID}/detail`}
                   >
                     <Button className="items-center" variant="outline">
                       Xem chi tiết
                     </Button>
                   </Link>
-                ) : userToken?.role === "Staff" ? (
-                  <Link
-                    href={`/staff/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
-                  >
-                    <Button className="items-center" variant="outline">
-                      Xem chi tiết
-                    </Button>
-                  </Link>
-                ) : null}
-                <Button variant="outline">Sửa</Button>
+                ) : (
+                  <>
+                    <Link
+                      href={`${newPathname}/apartment-manage/${apartment.apartmentID}/detail`}
+                    >
+                      <Button className="items-center" variant="outline">
+                        Xem chi tiết
+                      </Button>
+                    </Link>
+                    <Button variant="outline">Sửa</Button>
+                  </>
+                )}
               </TableCell>
             </TableRow>
           ))}

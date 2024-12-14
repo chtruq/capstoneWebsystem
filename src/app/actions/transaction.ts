@@ -1,16 +1,21 @@
 import apiClient from "./apiClient";
 
-export const getTransactions = async ({
+
+export const getTransactionByPage = async ({
+  query,
   currentPage,
 }: {
+  query: string;
   currentPage: number;
 }) => {
   try {
-    const res: any = await apiClient.get(
-      `/transactions/search?pageIndex=${currentPage}&pageSize=10`
+    console.log("query", query);
+
+    const res = await apiClient.get(
+      `/transactions/search?keyword=${query}&pageIndex=${currentPage}&pageSize=10`
     );
-    return res?.data;
+    return res.data;
   } catch (error) {
-    console.log(error);
+    throw error;
   }
 };

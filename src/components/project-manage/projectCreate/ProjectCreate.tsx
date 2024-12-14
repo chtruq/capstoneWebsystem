@@ -35,7 +35,6 @@ import { vi } from "date-fns/locale";
 import { Textarea } from "@/components/ui/textarea";
 import { MultiSelect } from "@/components/ui/multi-select";
 import Image from "next/image";
-import { Provider } from "../../../../model/provider";
 import {
   Command,
   CommandEmpty,
@@ -55,7 +54,7 @@ interface Props {
 }
 
 const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
-  console.log("data", data);
+  console.log("data of projects", data);
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
@@ -71,6 +70,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
       Address: "",
       AddressUrl: "",
       TotalApartment: "",
+      LicensingAuthority: "",
+      LicensingDate: "",
       ApartmentProjectProviderID: "",
       FacilityIDs: [],
       ProjectType: 1,
@@ -145,10 +146,11 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
         const res = await updateProject(data.projectApartmentID, payload);
         console.log("Update project successfully", res);
       } else {
+        console.log("Create project payload", payload);
+
         const res = await createProject(payload);
-        console.log("Create project successfully", res);
+
       }
-      revalidateProjectPath("/manager/dashboard/project-manage");
     } catch (error) {
       console.error("Error creating project:", error);
     }
@@ -198,7 +200,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
 
   useEffect(() => {
     if (data?.projectImages?.length) {
-      setSelectedImages(data?.projectImages); // Nếu có URL của hình ảnh, bạn có thể lưu trực tiếp URL hoặc xử lý khác.
+      const validImages = data.projectImages.filter(
+        (image) => image instanceof File
+      ) as File[];
+      setSelectedImages(validImages); // Nếu có URL của hình ảnh, bạn có thể lưu trực tiếp URL hoặc xử lý khác.
     }
   }, [data]);
 
@@ -268,10 +273,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                  (provider) =>
-                                    provider.apartmentProjectProviderID ===
-                                    field.value
-                                )?.apartmentProjectProviderName
+                                (provider) =>
+                                  provider.apartmentProjectProviderID ===
+                                  field.value
+                              )?.apartmentProjectProviderName
                               : "Chọn chủ đầu tư"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -408,6 +413,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
+                          fromYear={1990}
+                          toYear={new Date().getFullYear() + 4}
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -415,9 +423,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           onSelect={(date) =>
                             field.onChange(date?.toISOString())
                           }
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
+                          toDate={new Date(new Date().getFullYear() + 4, 11, 31)} // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />
@@ -604,6 +612,80 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
             </div>
           </div>
 
+
+          <div className="flex justify-between  gap-4">
+            <div className="flex justify-start w-1/2 items-center gap-5">
+              <span className="text-blur text-sm w-1/5">
+                Cơ quan cấp phép
+              </span>
+              <FormField
+                control={form.control}
+                name="LicensingAuthority"
+                render={({ field }) => (
+                  <FormItem className="w-3/5">
+                    <FormControl>
+                      <Input
+                        placeholder="Cơ căn cấp phép"
+                        {...field}
+                        value={field.value ?? ""}
+                      />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex justify-start w-1/2 items-center gap-5">
+              <span className="text-blur text-sm w-1/5">Năm cấp phép</span>
+              <FormField
+                control={form.control}
+                name="LicensingDate"
+                render={({ field }) => (
+                  <FormItem className="w-3/5">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-full pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(new Date(field.value), "PPP", {
+                                locale: vi,
+                              })
+                            ) : (
+                              <span>Chọn năm cấp phép</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={
+                            field.value ? new Date(field.value) : undefined
+                          }
+                          onSelect={(date) =>
+                            field.onChange(date?.toISOString())
+                          }
+                          initialFocus
+                          locale={vi}
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
           <div className="flex justify-center gap-4 ">
             <div className="w-1/2">
               <h1 className="font-semibold">Thông tin mô tả</h1>
@@ -694,8 +776,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                  ? URL?.createObjectURL(image)
-                  : image.url; // If it's an object from the API
+                    ? URL?.createObjectURL(image)
+                    : image.url; // If it's an object from the API
 
               return (
                 <div key={index} className="relative">

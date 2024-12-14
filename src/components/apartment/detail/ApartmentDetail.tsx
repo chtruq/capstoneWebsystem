@@ -1,3 +1,4 @@
+import ImageGallery from "@/components/ui/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
@@ -8,9 +9,10 @@ interface Props {
 }
 
 const ApartmentDetail: FC<Props> = ({ data }) => {
+  console.log("Images list:", JSON.stringify(data.images, null, 2));
   return (
     <div>
-      <Tabs defaultValue="account" className="">
+      <Tabs defaultValue="overview" className="">
         <TabsList>
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
@@ -20,6 +22,8 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         </TabsList>
         <TabsContent value="overview">
           <div>
+            <h1>{data?.apartmentID}</h1>
+            <h1>{data?.apartmentStatus}</h1>
             <h1 className="font-semibold">Thông tin căn hộ</h1>
             <div className="grid grid-cols-2 grid-rows-7 gap-4">
               <div className="w-full flex">
@@ -28,7 +32,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Toà</span>
-                <span className="w-2/3">{data.expiryDate}</span>
+                <span className="w-2/3">{data.building}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Mã căn hộ</span>
@@ -36,7 +40,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Tầng</span>
-                <span className="w-2/3">{data.expiryDate}</span>
+                <span className="w-2/3">{data.floor}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Dự án</span>
@@ -44,7 +48,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Số phòng</span>
-                <span className="w-2/3">{data.numberOfRooms}</span>
+                <span className="w-2/3">{data.roomNumber}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Mức giá</span>
@@ -79,8 +83,9 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         </TabsContent>
         <TabsContent value="media">
           <div>
-            <h1 className="font-semibold">Hình ảnh căn hộ</h1>
-            <div className="grid grid-cols-4 gap-4">
+            <h1 className="font-semibold">Hình ảnh ({data.images.length})</h1>
+            
+            {/* <div className="grid grid-cols-4 gap-4">
               {data.images.map((image) => (
                 <Image
                   key={image.apartmentImageID}
@@ -91,7 +96,8 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                   height={200}
                 />
               ))}
-            </div>
+            </div> */}
+            <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
           </div>
         </TabsContent>
         <TabsContent value="contract">

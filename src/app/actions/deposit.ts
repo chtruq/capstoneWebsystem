@@ -8,3 +8,46 @@ export const getDeposit = async () => {
     console.log(error);
   }
 };
+
+export const getDepositByProjectId = async (id: string) => {
+  try {
+    const res = await apiClient.get(`/deposits/search?projectApartmentId=${id}&depositStatus=1`);
+    console.log("Data deposit 1", res);
+    console.log("Data deposit 2", res.data);
+    console.log("Data deposit 3", res.data.data);
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const approveDepositRequest = async ({
+  depositRequestId, 
+  staffId
+}: {
+  depositRequestId: string; 
+  staffId: String
+}) => {
+  try {
+    console.log("Approve apartment id:", depositRequestId);
+    console.log("Approve staff id:", staffId);
+
+    const res = await apiClient.post(`/deposits/accept/${depositRequestId}?TeamMemberID=${staffId}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error approve apartment:", error);
+    throw error;
+  }
+};
+
+export const rejectDepositRequest = async ({ depositRequestId }: { depositRequestId: string }) => {
+  try {
+    const res = await apiClient.post(`/deposits/reject/${depositRequestId}`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error approve apartment:", error);
+    throw error;
+  }
+};

@@ -10,13 +10,14 @@ async function ApartmentManage(props: {
   searchParams?: Promise<{
     apartmentName?: string;
     page?: string;
+    state?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.apartmentName || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getApartmentsTest({ query, currentPage });
-  const totalPages = data?.data?.data?.totalPage;
+  const totalPages = data?.data?.data?.totalPages;
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
@@ -32,7 +33,7 @@ async function ApartmentManage(props: {
         </Link>
       </div>
       <div>
-        <ApartmentTable query={query} currentPage={currentPage} />
+        <ApartmentTable query={query} currentPage={currentPage} state="list-apt" />
       </div>
 
       <div className="absolute bottom-0 right-0">

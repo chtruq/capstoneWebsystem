@@ -2,6 +2,8 @@ import PaginationComponent from "@/components/pagination/PaginationComponent";
 import ProviderTable from "@/components/provider/ProviderTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
+import { getProviders } from "@/app/actions/provider";
+
 
 async function ProviderManage(props: {
   searchParams?: Promise<{
@@ -13,6 +15,13 @@ async function ProviderManage(props: {
   const query = searchParams?.providerName || "";
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = 3;
+  let data;
+  try {
+    data = await getProviders({ query, currentPage });
+    console.log("abcaaa",data?.providers);
+  } catch (error) {
+    console.log(error);
+  }
   return (
     <div>
       <h1 className="text-2xl font-semibold">Quản lý nhà cung cấp</h1>
@@ -20,7 +29,7 @@ async function ProviderManage(props: {
         <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
       </div>
       <div>
-        <ProviderTable query={query} currentPage={currentPage} />
+        <ProviderTable data={data.providers} />
       </div>
       <div>
         {!totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}

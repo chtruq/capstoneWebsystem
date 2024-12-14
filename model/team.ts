@@ -1,8 +1,10 @@
 interface Member {
+  teamMemberID: string;
   name: string;
-  phone: string;
+  phoneNumber: string;
   email: string;
   status: string;
+  isManager: boolean;
 }
 
 interface Team {
@@ -12,6 +14,7 @@ interface Team {
   teamType: string;
   managerName: string;
   members: Member[];
+  results: Member[];
   teamCode: string;
 }
 

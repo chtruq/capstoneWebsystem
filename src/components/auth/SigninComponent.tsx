@@ -5,7 +5,12 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { handleLogin } from "@/app/actions/auth";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+
 function SigninComponent() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const [form, setForm] = React.useState({
     email: "",
     password: "",
@@ -58,16 +63,29 @@ function SigninComponent() {
                 <label htmlFor="password" className="text-sm font-medium">
                   Mật khẩu
                 </label>
-                <Input
-                  id="password"
-                  className="mb-4"
-                  type="password"
-                  placeholder="Nhập mật khẩu"
-                  value={form.password}
-                  onChange={(e) =>
-                    setForm({ ...form, password: e.target.value })
-                  }
-                />
+                <div className="relative">
+                  <Input
+                    id="password"
+                    className="mb-4 pr-10" // Thêm padding phải để icon không chèn lên text
+                    type={showPassword ? "text" : "password"} // Thay đổi type
+                    placeholder="Nhập mật khẩu"
+                    value={form.password}
+                    onChange={(e) =>
+                      setForm({ ...form, password: e.target.value })
+                    }
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)} // Thay đổi trạng thái hiển thị mật khẩu
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5 text-gray-500" />
+                    ) : (
+                      <Eye className="w-5 h-5 text-gray-500" />
+                    )}
+                  </button>
+                </div>
               </div>
               <div className="flex justify-between">
                 <div className="mb-4">

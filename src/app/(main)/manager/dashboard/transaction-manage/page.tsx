@@ -1,53 +1,38 @@
 import SearchInput from "@/components/search/SearchInput";
-import OverViewTable from "@/components/transaction/OverViewTable";
-import PayedTable from "@/components/transaction/PayedTable";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import TransactionTable from "@/components/transaction/transactionTable/TransactionTable";
 import React from "react";
+import PaginationComponent from "@/components/pagination/PaginationComponent";
+import { getTransactionByPage } from "@/app/actions/transaction";
 
 async function TransactionPage(props: {
   searchParams?: Promise<{
-    apartmentName?: string;
+    transactionId?: string;
     page?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
-  const query = searchParams?.apartmentName || "";
+  const query = searchParams?.transactionId || "";
   const currentPage = Number(searchParams?.page) || 1;
+  const data = await getTransactionByPage({ query, currentPage });
+  // console.log("trans data: ", data);
+  const totalPages = data?.data.totalPages;
+  // console.log("Tolalpages",totalPages);
+
 
   return (
     <div>
       <h1 className="text-2xl font-semibold">Giao dịch</h1>
-
-      <Tabs defaultValue="overview">
-        <div className="flex w-full justify-between">
-          <div className="w-1/4">
-            <SearchInput placeholder="Tìm kiếm mã giao dịch" query={query} />
-          </div>
-          <div className="w-1/2">
-            <TabsList className="bg-white h-full">
-              <TabsTrigger className="h-full" value="overview">
-                Tổng hợp
-              </TabsTrigger>
-              <TabsTrigger className="h-full" value="payed">
-                Giải ngân
-              </TabsTrigger>
-            </TabsList>
-          </div>
-
-          <div className="w-1/4 flex justify-end">
-            <Button>Xuất file giao dịch</Button>
-          </div>
-        </div>
-        <TabsContent value="overview">
-          <div>
-            <OverViewTable currentPage={currentPage} />
-          </div>
-        </TabsContent>
-        <TabsContent value="payed">
-          <PayedTable />
-        </TabsContent>
-      </Tabs>
+      <div>
+        <SearchInput placeholder="Tìm kiếm mã giao dịch" query="transactionId" />
+      </div>
+      <div>
+        <TransactionTable data={data?.data?.transactions} />
+      </div>
+      <div className="absolute bottom-0 right-0">
+        {totalPages  > 1 && (
+          <PaginationComponent totalPages={totalPages} />
+        )}
+      </div>
     </div>
   );
 }

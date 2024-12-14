@@ -1,11 +1,22 @@
-import { getMemberInTeamDetails, getTeamById } from "@/app/actions/team";
+import { getMemberInTeamDetails, getTeamByTeamId } from "@/app/actions/team";
+import { getMemberByTeam } from "@/app/actions/teammembers";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
 import TeamMemberTable from "@/components/team/teamMemberTable/TeamMemberTable";
 import { tableText } from "@/lib/utils/project";
 import React from "react";
 
-const TeamDetails = async ({
+// const TeamDetails = async ({
+//   params,
+//   searchParams,
+// }: {
+//   params: { id: string };
+//   searchParams?: Promise<{
+//     teamMemberName?: string;
+//     page?: string;
+//   }>;
+// }) => {
+async function TeamDetails({
   params,
   searchParams,
 }: {
@@ -14,14 +25,27 @@ const TeamDetails = async ({
     teamMemberName?: string;
     page?: string;
   }>;
-}) => {
-  const data = await getTeamById(params.id);
+}) {
+
+  const data = await getTeamByTeamId(params.id);
+  console.log("Dataaaaaaaaa", data);
+  
   const teamData: Team = data?.data;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const resolvedSearchParams = await searchParams;
+  const query = resolvedSearchParams?.teamMemberName || "";
+
   // const query = resolvedSearchParams.teamMemberName || "";
-  const currentPage = Number(resolvedSearchParams.page) || 1;
-  const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
-  const totalPages = teamMemberData?.data.totalPage;
+  const currentPage = Number(resolvedSearchParams?.page) || 1;
+  // const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
+
+
+
+
+  const teamMemberData = await getMemberByTeam(params.id, currentPage, query);
+  const totalPages = teamMemberData?.data.totalPages;
+
+  // console.log("teamMemberData", teamMemberData?.data?.results);
+  console.log("Total pages", totalPages);
 
   return (
     <div>
@@ -30,14 +54,18 @@ const TeamDetails = async ({
       <div className="w-1/2">
         <div className="my-2 w-full">
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Mã</div>
+            <div className="text-blur text-sm w-1/3">Mã nhóm</div>
             <div className="justify-start w-2/3">
               {tableText(teamData?.teamCode)}
             </div>
           </div>
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Trưởng nhóm</div>
+            <div className="text-blur text-sm w-1/3">Tên nhóm</div>
             <div className="justify-start w-2/3">{teamData?.teamName}</div>
+          </div>
+          <div className="flex justify-between">
+            <div className="text-blur text-sm w-1/3">Người quản lý</div>
+            <div className="justify-start w-2/3">{teamData?.managerName}</div>
           </div>
 
           <div className="flex justify-between">
@@ -64,13 +92,11 @@ const TeamDetails = async ({
           />
         </div>
 
-        <TeamMemberTable data={teamMemberData?.data?.teamDetails} />
+        <TeamMemberTable data={teamMemberData?.data} />
 
         <div>
-          {totalPages !== 1 ? (
+          {totalPages > 1 && (
             <PaginationComponent totalPages={totalPages} />
-          ) : (
-            <></>
           )}
         </div>
       </div>

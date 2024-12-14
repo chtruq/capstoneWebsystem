@@ -26,10 +26,19 @@ export const getTeamsByPage = async ({
   }
 };
 
-export const getTeamById = async (id: string) => {
+export const getTeamByTeamId = async (id: string) => {
   try {
     const res = await apiClient.get(`/teams/${id}`);
     return res.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getTeamByAccountId = async (id: string) => {
+  try {
+    const res = await apiClient.get(`/teams/search?accountId=${id}`);
+    return res.data.data.teams[0];
   } catch (error) {
     throw error;
   }
@@ -63,6 +72,8 @@ export const getLeader = async () => {
 
 export const createTeam = async (data: any) => {
   try {
+    console.log("data team create", data);
+    
     const res = await apiClient.post("/teams/create", data);
     return res.data;
   } catch (error) {

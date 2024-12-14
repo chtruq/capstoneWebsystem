@@ -10,6 +10,9 @@ import PaginationComponent from "@/components/pagination/PaginationComponent";
 import ImageGallery from "@/components/ui/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { getUserInfoFromCookies } from "@/app/actions/auth";
+import DepositTable from "./Deposit/DepositTable";
+import { formatDate } from "@/lib/utils/dataFormat";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -17,14 +20,6 @@ interface Props {
   }>;
 }
 
-const formatDate = (isoDateString: string): string => {
-  if (!isoDateString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
-  const date = new Date(isoDateString);
-  const day = date.getUTCDate().toString().padStart(2, "0"); // Lấy ngày và thêm 0 nếu cần
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Lấy tháng và thêm 0
-  const year = date.getUTCFullYear().toString(); // Lấy năm
-  return `${day}/${month}/${year}`;
-};
 
 const ProjectTabsDetail: FC<Props> = async (props) => {
   const { data, searchParam } = props;
@@ -35,18 +30,26 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
     currentPage,
   });
 
+  const userInfor = await getUserInfoFromCookies();
+
+
   const totalPages = projectCart.totalPage;
   const totalItem = projectCart.totalItem;
   const count = projectCart.apartments.length;
 
+  console.log("imageeeeeeee", data?.projectImages);
+  
+
   return (
     <div className="w-full">
+      <h1>data {data?.projectApartmentID}</h1>
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-[400px] grid-cols-4">
+        <TabsList className="grid max-w-screen-sm grid-cols-5">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
           <TabsTrigger value="cart">Giỏ hàng</TabsTrigger>
           <TabsTrigger value="contract">Hợp đồng</TabsTrigger>
+          <TabsTrigger value="request-deposit">Yêu cầu đặt cọc</TabsTrigger>
         </TabsList>
         <TabsContent className="w-full" value="overview">
           <div>
@@ -91,10 +94,10 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.apartmentArea)}</div>
 
                     <div className="text-sm text-blur ">Năm khởi công</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
 
                     <div className="text-sm text-blur ">Năm bàn giao</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear))}</div>
+                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
                   </div>
                 </div>
               </div>
@@ -135,14 +138,17 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               Hình ảnh({data.projectImages?.length})
             </h1>
             <div>
-              {data?.projectImages.map((image: { projectImageID: string; url: string }) => (
+              {/* {data?.projectImages.map((image: { projectImageID: string }) => (
                 <div
-                  key={image?.projectImageID}
-                  className="flex justify-start items-center space-x-3"
+                  key={image.projectImageID}
+                  className="flex flex-wrap justify-start space-x-4 space-y-4"
                 >
-                  <ImageGallery images={data?.projectImages} />
+                  <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.id, url: img.imageUrl }))} />
                 </div>
-              ))}
+              ))} */}
+              
+              <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.projectImageID, url: img.url, description: img.description }))} />
+              {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
             </div>
           </div>
         </TabsContent>
@@ -152,16 +158,21 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               <p className="text-blur text-sm">
                 Hiển thị {count} trên {totalItem} căn hộ
               </p>
-              <div className="w-3/4 flex justify-end mr-20">
-                <Button variant="default">
-                  <Link href="/manager/dashboard/project-manage/create">
-                    Tạo căn hộ
-                  </Link>
-                </Button>
-              </div>
+              {userInfor?.role === "Staff" ? (
+                <div className="w-3/4 flex justify-end mr-20">
+                  <Button variant="default">
+                    <Link href={`/staff/dashboard/project-manage/${data?.projectApartmentID}/apartment-create`}>
+                      Tạo căn hộ
+                    </Link>
+                  </Button>
+                </div>
+              ) : (
+                <></>
+              )}
+
             </div>
             <div>
-              <ProjectCartTable data={projectCart.apartments} />
+              <ProjectCartTable data={projectCart.apartments} role={userInfor?.role}/>
             </div>
             <div>
               {totalPages ? (
@@ -180,22 +191,22 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <div className="text-sm text-blur">Chủ đầu tư</div>
                 <div>{tableText(data?.projectApartmentName)}</div>
 
-                <div className="text-sm text-blur">Số liên hệ</div>
+                {/* <div className="text-sm text-blur">Số liên hệ</div>
                 <div>{tableText(data?.projectApartmentID)}</div>
 
                 <div className="text-sm text-blur">Email</div>
-                <div>{tableText(data?.projectSize)}</div>
+                <div>{tableText(data?.projectSize)}</div> */}
 
                 <div className="text-sm text-blur">Người đại diện</div>
                 <div>{tableText(data?.apartmentProjectProviderName)}</div>
               </div>
-              <div className="w-32 h-32">
+              {/* <div className="w-32 h-32">
                 <Image src={data?.projectImages[0]?.imageUrl} alt="logo" />
-              </div>
+              </div> */}
             </div>
 
             <div className="w-full">
-              <ProjectContract data={data} />
+              <ProjectContract data={data} role={userInfor?.role} />
             </div>
             <div>
               <h1 className="font-semibold">Hợp đồng</h1>
@@ -204,6 +215,11 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <ProjectFile data={data} />
               </div>
             </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="request-deposit">
+          <div>
+            <DepositTable projectId={data?.projectApartmentID} />
           </div>
         </TabsContent>
       </Tabs>

@@ -1,97 +1,53 @@
-"use client";
-
 import React, { FC } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { getApartmentsTest } from "@/app/actions/apartment";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+
+import { getApartmentsTest, getApartmentsPendingRequest } from "@/app/actions/apartment";
+import ApartmentManageTable from "./ApartmentManageTable";
+import { getUserInfoFromCookies } from "@/app/actions/auth";
+import PaginationComponent from "@/components/pagination/PaginationComponent";
 
 
 interface Props {
   query: string;
   currentPage: number;
+  state: string;
 }
 
-const ApartmentTable: FC<Props> = async ({ query, currentPage }: Props) => {
-  const router = useRouter();
-  const pathname = usePathname();
+const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) => {
   let data;
   try {
-    data = await getApartmentsTest({ query, currentPage });
+    if (state === "pending-request") {
+      console.log("Fetching apartments in pending request state...");
+      data = await getApartmentsPendingRequest({ query, currentPage });
+    } else if (state === "list-apt") {
+      console.log("Fetching apartments in detail state...");
+      data = await getApartmentsTest({ query, currentPage });
+    }
   } catch (error) {
-    console.log(error);
+    console.log("Error fetching apartments:", error);
   }
+
+  let userToken = await getUserInfoFromCookies();
+  console.log("User Token from apartment table", userToken);
+
+  console.log("Data apartment", data?.data?.data);
+  const totalPages = data?.data?.data?.totalPages;
+  console.log("Total pages", totalPages);
 
   return (
     <div>
       {!data ? (
         <div className="flex justify-center items-center">Không có kết quả</div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Mã căn hộ</TableHead>
-              <TableHead>Hình ảnh</TableHead>
-              <TableHead>Giá</TableHead>
-              <TableHead>Diện tích</TableHead>
-              <TableHead>Phòng ngủ</TableHead>
-              <TableHead>Nhà tắm</TableHead>
-              <TableHead>Thuộc dự án</TableHead>
-              <TableHead>Trạng thái</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {data?.data?.data?.apartments?.map((apartment: Apartment) => (
-              <TableRow key={apartment.apartmentID}>
-                <TableCell>{apartment.apartmentCode}</TableCell>
-                <TableCell>
-                  <Image
-                    src={apartment?.images[0]?.imageUrl}
-                    width={50}
-                    height={50}
-                    alt={apartment.apartmentName}
-                    className="rounded-lg w-16 h-16"
-                  />
-                </TableCell>
-                <TableCell>{apartment.price}</TableCell>
-                <TableCell>{apartment.area}</TableCell>
-                <TableCell>{apartment.numberOfRooms}</TableCell>
-                <TableCell>{apartment.numberOfBathrooms}</TableCell>
-                <TableCell>{apartment.projectApartmentName}</TableCell>
-                <TableCell>{apartment.apartmentStatus}</TableCell>
-                <TableCell className="flex justify-center items-center">
-                  <Button
-                    onClick={() => {
-                      router.push(
-                        `${pathname}/${apartment.apartmentID}/detail`
-                      );
-                    }}
-                    variant="outline"
-                  >
-                    Chi tiết
-                  </Button>
-                  {/* <Link
-                    href={`/manager/dashboard/apartment-manage/${apartment.apartmentID}`}
-                  >
-                    <Button className="items-center" variant="outline">
-                      Xem chi tiết
-                    </Button>
-                  </Link> */}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <>
+          <ApartmentManageTable data={data?.data?.data?.apartments} state={{ state, currentPage }} role={userToken.role} />
+          <div >
+            {totalPages > 1 ? (
+              <PaginationComponent totalPages={totalPages} />
+            ) : (
+              <></>
+            )}
+          </div>
+        </>
       )}
     </div>
   );

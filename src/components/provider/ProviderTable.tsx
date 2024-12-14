@@ -1,5 +1,4 @@
-import { getProviders } from "@/app/actions/provider";
-import React from "react";
+import React, { FC } from "react";
 import {
   Table,
   TableBody,
@@ -8,48 +7,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Provider } from "../../../model/provider";
-interface ProviderTableProps {
-  query: string;
-  currentPage: number;
+import { formatDate } from "@/lib/utils/dataFormat";
+import { usePathname, useRouter } from "next/navigation";
+import { Button } from "../ui/button";
+import ProviderManage from "@/app/(main)/admin/dashboard/provider-manage/page";
+import ProviderManageTable from "./ProviderManageTable"
+
+interface Props {
+  data: any;
 }
 
-const ProviderTable = async ({ query, currentPage }: ProviderTableProps) => {
-  let providers;
-  try {
-    providers = await getProviders({ query, currentPage });
-    console.log("abc", providers?.data?.data);
-  } catch (error) {
-    console.log(error);
-  }
+const ProviderTable: FC<Props> = async ({ data }: Props) => {
+  console.log("Data in protab", data);
 
   return (
     <div>
-      {!providers ? (
+      {!data ? (
         <div className="flex justify-center items-center">Không có kết quả</div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Tên nhà cung cấp</TableHead>
-              <TableHead>Mô tả</TableHead>
-              <TableHead>Thông tin</TableHead>
-              <TableHead>Vị trí</TableHead>
-              <TableHead>Ngày tạo</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {providers?.data?.data?.providers?.map((provider: Provider) => (
-              <TableRow key={provider.apartmentProjectProviderID}>
-                <TableCell>{provider.apartmentProjectProviderName}</TableCell>
-                <TableCell>{provider.apartmentProjectDescription}</TableCell>
-                <TableCell>{provider.legallInfor}</TableCell>
-                <TableCell>{provider.location}</TableCell>
-                <TableCell>{provider.createDate}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <ProviderManageTable data={data} />
       )}
     </div>
   );

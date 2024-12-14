@@ -27,8 +27,10 @@ export const getProjectApartmentByStaff = async ({
   currentPage: number;
 }) => {
   try {
+    console.log("get project by staff");
+    
     const res = await apiClient.get(
-      `/projects/search-or-manager?staffId=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+      `/projects/search-or-manager?accountIdofTeam=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data.data;
   } catch (error) {
@@ -49,6 +51,8 @@ export const getProject = async (id: string) => {
 
 export const createFinancialContract = async (data: any) => {
   try {
+    console.log("data", data);
+    
     const res = await apiClient.post("/financial-contracts/create", data);
     return res;
   } catch (error) {
@@ -65,7 +69,28 @@ export const deleteFinancialContract = async (id: string) => {
   }
 };
 
-export const createProject = async (value) => {
+interface ProjectValue {
+  ProjectApartmentName: string;
+  ProjectApartmentDescription: string;
+  Price_range: string;
+  ApartmentArea: string;
+  ProjectSize: string;
+  ProjectArea: string;
+  ConstructionStartYear: string;
+  ConstructionEndYear: string;
+  Address: string;
+  AddressUrl: string;
+  TotalApartment: string;
+  LicensingAuthority: string;
+  LicensingDate: string;
+  ApartmentProjectProviderID: string;
+  ProjectType: number;
+  TeamID: string;
+  FacilityIDs: string[];
+  Images: File[];
+}
+
+export const createProject = async (value: ProjectValue) => {
   try {
     console.log("valueeeee", value);
     const formData = new FormData();
@@ -83,6 +108,8 @@ export const createProject = async (value) => {
     formData.append("Address", value.Address);
     formData.append("AddressUrl", value.AddressUrl);
     formData.append("TotalApartment", value.TotalApartment);
+    formData.append("LicensingAuthority", value.LicensingAuthority);
+    formData.append("LicensingDate", value.LicensingDate);
     formData.append(
       "ApartmentProjectProviderID",
       value.ApartmentProjectProviderID

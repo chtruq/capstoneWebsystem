@@ -21,8 +21,12 @@ interface Apartment {
   apartmentStatus: string;
   apartmentType: string;
   balconyDirection: string;
+  building: string;
+  floor: string;
+  roomNumber: string;
   projectApartmentName: string;
   images: ApartmentImage[];
   userLiked: boolean;
   vrVideoUrl: string;
+  assignedAccount: string;
 }

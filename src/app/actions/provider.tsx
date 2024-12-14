@@ -8,11 +8,9 @@ export const getProviders = async ({
   currentPage: number;
 }) => {
   try {
-    const res =
-      apiClient.get(`/projectproviders/search?providerName=${query}&pageIndex=${currentPage}&pageSize=10
-            `);
-    console.log(res);
-    return res;
+    const res = await apiClient.get(`/projectproviders/search?providerName=${query}&pageIndex=${currentPage}&pageSize=10`);
+    // console.log("res provide",res.data.data);
+    return res.data.data;
   } catch (error) {
     console.log(error);
   }
@@ -26,3 +24,12 @@ export const getAllProviders = async () => {
     console.log(error);
   }
 };
+
+export const getProviderDetails = async ({ id }: { id: string }) => {
+  try {
+    const res = await apiClient.get(`/projectproviders/${id}`);
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

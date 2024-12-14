@@ -1,7 +1,7 @@
 interface ProjectImage {
-  imageID: string;
-  imageUrl: string;
+  projectImageID: string;
   description: string;
+  url: string;
 }
 
 interface ApartmentStatusCount {
@@ -33,11 +33,13 @@ interface Project {
   apartmentArea: string | null;
   projectSize: string | null;
   projectArea: string | null;
-  constructionStartYear: Date | null;
-  constructionEndYear: Date | null;
+  constructionStartYear: string | null;
+  constructionEndYear: string | null;
   address: string | null;
   addressUrl: string | null;
   totalApartment: number | null;
+  licensingAuthority: string | null;
+  licensingDate: Date | null;
   createDate: string;
   updateDate: string;
   projectApartmentStatus: string;
@@ -54,4 +56,5 @@ interface Project {
   apartmentStatusCount: ApartmentStatusCount;
 }
 
-export default Project;
+
+

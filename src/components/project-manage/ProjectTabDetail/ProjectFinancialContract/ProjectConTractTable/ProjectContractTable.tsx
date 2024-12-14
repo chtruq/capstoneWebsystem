@@ -16,9 +16,11 @@ import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
 interface Props {
   data: Project;
+  role: string;
 }
-const ProjectContractTable: FC<Props> = ({ data }) => {
+const ProjectContractTable: FC<Props> = ({ data, role }) => {
   const pathName = usePathname();
+  // console.log("role", role)
 
   return (
     <Table>
@@ -28,7 +30,13 @@ const ProjectContractTable: FC<Props> = ({ data }) => {
           <TableHead>Giá trị đặt cọc </TableHead>
           <TableHead>Tiền môi giới</TableHead>
           <TableHead>Hoa hồng</TableHead>
-          <TableHead>Hành động</TableHead>
+
+          {
+            role === "Management" && (
+              <TableHead>Hành động</TableHead>
+
+            )
+          }
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -41,7 +49,28 @@ const ProjectContractTable: FC<Props> = ({ data }) => {
             <TableCell>{contract.brokerageFee}</TableCell>
             <TableCell>{contract.commissionFee}</TableCell>
             <TableCell>
-              <div className="flex gap-1">
+              {role === "Management" && (
+                <div className="flex gap-1">
+                  <AddFinancialContract
+                    projectApartmentId={data?.projectApartmentID}
+                    title="Sửa"
+                    dialogTitle="Sửa thông tin môi giới"
+                    data={contract}
+                  />
+                  <DialogAction
+                    title="Xóa thông tin"
+                    description="Bạn có chắc chắn muốn xóa thông tin này không?"
+                    action={async () => {
+                      await deleteFinancialContract(contract.financialContractID);
+                      revalidateProjectPath(pathName);
+                    }}
+                    btnTitle="Xóa"
+                    btnActionTitle="Xoá"
+                  />
+                </div>
+              ) 
+              }
+              {/* <div className="flex gap-1">
                 <AddFinancialContract
                   projectApartmentId={data?.projectApartmentID}
                   title="Sửa"
@@ -58,7 +87,7 @@ const ProjectContractTable: FC<Props> = ({ data }) => {
                   btnTitle="Xóa"
                   btnActionTitle="Xoá"
                 />
-              </div>
+              </div> */}
             </TableCell>
           </TableRow>
         ))}
