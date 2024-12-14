@@ -14,9 +14,9 @@ async function TransactionPage(props: {
   const query = searchParams?.transactionId || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getTransactionByPage({ query, currentPage });
-  console.log("trans data: ", data);
+  // console.log("trans data: ", data);
   const totalPages = data?.data.totalPages;
-  console.log(totalPages);
+  // console.log("Tolalpages",totalPages);
 
 
   return (
@@ -29,7 +29,7 @@ async function TransactionPage(props: {
         <TransactionTable data={data?.data?.transactions} />
       </div>
       <div className="absolute bottom-0 right-0">
-        {totalPages  > 1 && (
+        {totalPages > 1 && (
           <PaginationComponent totalPages={totalPages} />
         )}
       </div>

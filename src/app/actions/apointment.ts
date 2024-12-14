@@ -8,3 +8,22 @@ export const getRequestAppointment = async () => {
     console.log(error);
   }
 };
+
+export const getRequestAppointmentByTeam = async ({
+  query,
+  currentPage,
+  teamID,
+}: {
+  query: string;
+  currentPage: number;
+  teamID: string;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/appointmentrequests/search?teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

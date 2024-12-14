@@ -14,9 +14,9 @@ async function TransactionPage(props: {
   const query = searchParams?.transactionId || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getTransactionByPage({ query, currentPage });
-  console.log("trans data: ", data);
+  // console.log("trans data: ", data);
   const totalPages = data?.data.totalPages;
-  console.log(totalPages);
+  // console.log("Tolalpages",totalPages);
 
 
   return (
