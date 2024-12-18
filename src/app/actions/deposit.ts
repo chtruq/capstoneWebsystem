@@ -51,3 +51,22 @@ export const rejectDepositRequest = async ({ depositRequestId }: { depositReques
     throw error;
   }
 };
+
+export const getRequestDepositByTeam = async ({
+  query,
+  currentPage,
+  teamID,
+}: {
+  query: string;
+  currentPage: number;
+  teamID: string;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/deposits/search?teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

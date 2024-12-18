@@ -25,15 +25,15 @@ export const handleLogin = async (email: string, password: string) => {
         sub: string;
         [key: string]: any;
       }>(token);
-      
+
       console.log("Decoded token:", decoded);
-      
-      
+
+
       // Access role with bracket notation
       const userId = decoded.id;
       const role =
         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-        
+
       console.log("User ID:", userId);
       console.log(role); // Outputs: Admin (or the relevant role)
 
@@ -49,13 +49,28 @@ export const handleLogin = async (email: string, password: string) => {
       console.log("User Info Cookie:", cookieStore.get("userInfo"));
 
 
-      if (role === "Admin") {
-        redirect("/admin/dashboard");
-      } else if (role === "Management") {
-        redirect("/manager/dashboard");
-      } else if (role === "Staff") {
-        redirect("/staff/dashboard");
+      switch (role) {
+        case "Admin":
+          redirect("/admin/dashboard");
+          break;
+        case "Management":
+          redirect("/manager/dashboard");
+          break;
+        case "Staff":
+          redirect("/staff/dashboard");
+          break;
+        case "Seller":
+          redirect("/seller/dashboard");
+          break;
+        case "Project Provider":
+          redirect("/provider/dashboard");
+          break;
+        default:
+          // Xử lý nếu role không khớp với bất kỳ case nào
+          console.warn("Role không hợp lệ");
+          break;
       }
+
     }
 
     return data.data;
@@ -72,7 +87,7 @@ export const handleLogout = async () => {
 export const getUserTokenFromCookies = () => {
   const cookieStore = cookies();
   const user = cookieStore.get("token");
-  
+
   if (user) {
     console.log("User from cookie:", user);
     return user;
