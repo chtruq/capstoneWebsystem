@@ -1,5 +1,6 @@
 "use server";
 import apiClient from "@/app/actions/apiClient";
+import { de } from "date-fns/locale";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -29,24 +30,26 @@ export const handleLogin = async (email: string, password: string) => {
       console.log("Decoded token:", decoded);
 
 
-      // Access role with bracket notation
-      const userId = decoded.id;
+      // // Access role with bracket notation
+      // const userId = decoded.id;
       const role =
         decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+      // const name = decoded.name;
 
-      console.log("User ID:", userId);
-      console.log(role); // Outputs: Admin (or the relevant role)
+      // console.log("User ID:", userId);
+      // console.log(role); // Outputs: Admin (or the relevant role)
+      // console.log("User Name:", name);
 
-      // Lưu userId và role vào cookie dưới dạng JSON string
-      const userInfo = JSON.stringify({ id: userId, role });
-      cookieStore.set("userInfo", userInfo, {
-        secure: true,
-        sameSite: "strict",
-        path: "/",
-        httpOnly: false,
-      });
+      // // Lưu userId và role vào cookie dưới dạng JSON string
+      // const userInfo = JSON.stringify({ id: userId, role, name });
+      // cookieStore.set("userInfo", userInfo, {
+      //   secure: true,
+      //   sameSite: "strict",
+      //   path: "/",
+      //   httpOnly: false,
+      // });
 
-      console.log("User Info Cookie:", cookieStore.get("userInfo"));
+      // console.log("User Info Cookie:", cookieStore.get("userInfo"));
 
 
       switch (role) {
@@ -94,7 +97,7 @@ export const getUserTokenFromCookies = () => {
   } else {
     console.log("No User found in cookies.");
     return null;
-  }
+  } ``
 };
 
 export const getUserInfoFromCookies = () => {
@@ -113,6 +116,33 @@ export const getUserInfoFromCookies = () => {
     }
   } else {
     console.log("No User Info found in cookies.");
+    return null;
+  }
+};
+export const getUserInforFromCookie = () => {
+  const cookieStore = cookies();
+  const token = cookieStore.get("token");
+  console.log("Token from cookieeeee:", token);
+  if (token) {
+    const decoded = jwtDecode<{
+      sub: string;
+      [key: string]: any;
+    }>(token.value);
+    console.log("Decoded token:", decoded);
+    const userId = decoded.id;
+    const role =
+      decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const name = decoded.name;
+    console.log("User ID:", userId);
+    console.log(role); // Outputs: Admin (or the relevant role)
+    console.log("User Name:", name);
+
+    // Lưu userId và role vào cookie dưới dạng JSON string
+    const userInfor = { id: userId, role, name };
+    console.log("User Info Cookiaaaaae:", userInfor);
+    return userInfor;
+  } else {
+    console.log("No token found in cookies.");
     return null;
   }
 };

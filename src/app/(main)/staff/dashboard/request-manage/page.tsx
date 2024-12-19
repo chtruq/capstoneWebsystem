@@ -4,7 +4,7 @@ import SearchInput from "@/components/search/SearchInput";
 import RequestAppointmentTable from "@/components/request/appointment/RequestAppointmentTable";
 import RequestPropertyTable from "@/components/request/property/RequestPropertyTable";
 import RequestDepositTable from "@/components/request/deposit/RequestDepositTable";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { getUserInforFromCookie } from "@/app/actions/auth";
 import { getTeamByAccountId } from "@/app/actions/team";
 import Link from "next/link";
 
@@ -21,9 +21,9 @@ async function RequestManage(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const activeTab = searchParams?.tab || "appointment";
 
-  let userToken = await getUserInfoFromCookies();
+  let userToken = await getUserInforFromCookie();
   console.log("User Token from apartment table", userToken);
-  const dataTeam = await getTeamByAccountId(userToken.id);
+  const dataTeam = await getTeamByAccountId(userToken?.id);
   // console.log("Data team", dataTeam);
   // console.log("Data type", dataTeam.teamType);
   // console.log("Data team ID", dataTeam.teamID);

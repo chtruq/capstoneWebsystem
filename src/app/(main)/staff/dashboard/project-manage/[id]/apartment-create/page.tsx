@@ -1,10 +1,10 @@
 import React from 'react';
-import { getUserInfoFromCookies } from '@/app/actions/auth';
+import { getUserInforFromCookie } from '@/app/actions/auth';
 import ApartmentCreate from '@/components/apartment/apartmentCreate/ApartmentCreate';
 
 
 const CreateApartment = async ({params} : {params: {id: string}}) => {
- const userInfor = await getUserInfoFromCookies();
+ const userInfor = await getUserInforFromCookie();
  console.log("User Info:", userInfor);
  console.log("User ID", );
  
@@ -14,10 +14,10 @@ const CreateApartment = async ({params} : {params: {id: string}}) => {
 
       <div>
         <h1>params id {params.id}</h1>
-        <h1>User id: {userInfor.id }</h1>
-        <h1>User role: {userInfor.role }</h1>
+        <h1>User id: {userInfor?.id }</h1>
+        <h1>User role: {userInfor?.role }</h1>
       </div>
-      <ApartmentCreate projectId={params.id} staffId={userInfor.id} />
+      <ApartmentCreate projectId={params.id} staffId={userInfor?.id} />
     </div>
   );
 }

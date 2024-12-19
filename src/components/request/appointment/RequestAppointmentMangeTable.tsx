@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis } from 'lucide-react';
+import { useUserAccount } from '@/lib/context/UserAccountContext';
 
 import { Button } from "../../ui/button";
 import { formatDate } from '@/lib/utils/dataFormat';
@@ -54,9 +55,14 @@ const tableType = (type: string) => {
 };
 
 
+
 const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
   console.log("Data in Manage Appoint Table", data);
   const [selectedData, setSelectedData] = useState<Appointment | null>(null);
+
+  const { user } = useUserAccount();
+  console.log("User in Manage Tableaa", user);
+
 
   return (
     <div className='w-full'>

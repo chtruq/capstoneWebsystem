@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { getProjectApartment, getProjectApartmentByStaff } from "@/app/actions/project";
 import ProjectManageTable from "./ProjectManageTable";
 import { Button } from "../ui/button";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { getUserInforFromCookie } from "@/app/actions/auth";
 
 interface Props {
   data: any;
@@ -13,10 +13,10 @@ interface Props {
 
 const ProjectTable: FC<Props> = async ({ data }: Props) => {
   // let data;
-  // const userToken = await getUserInfoFromCookies();
+  // const userToken = await getUserInforFromCookie();
   // console.log("User Tolken", userToken);
-  // console.log("User role", userToken.role);
-  // console.log("User id", userToken.id);
+  // console.log("User role", userToken?.role);
+  // console.log("User id", userToken?.id);
   
   // try {
   //   // Kiểm tra role để quyết định gọi hàm nào
