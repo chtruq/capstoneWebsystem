@@ -26,7 +26,7 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
     console.log("Error fetching apartments:", error);
   }
 
-  let userToken = await getUserInforFromCookie();
+  const userToken = await getUserInforFromCookie();
   console.log("User Token from apartment table", userToken);
 
   console.log("Data apartment", data?.data?.data);

@@ -21,7 +21,7 @@ async function RequestManage(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const activeTab = searchParams?.tab || "appointment";
 
-  let userToken = await getUserInforFromCookie();
+  const userToken = await getUserInforFromCookie();
   console.log("User Token from apartment table", userToken);
   const dataTeam = await getTeamByAccountId(userToken?.id);
   // console.log("Data team", dataTeam);

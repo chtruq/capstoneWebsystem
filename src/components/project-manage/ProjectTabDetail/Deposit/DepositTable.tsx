@@ -9,7 +9,7 @@ interface Props {
 
 const DepositTable: FC<Props> = async ({ projectId }) => {
   let data;
-  let userToken = await getUserInforFromCookie();
+  const userToken = await getUserInforFromCookie();
 
   data = await getDepositByProjectId(projectId);
   console.log("Data edpossit", data?.deposits);
