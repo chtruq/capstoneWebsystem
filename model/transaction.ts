@@ -10,3 +10,4 @@ interface Transaction{
   status: string,
   paymentMethods: string,
 }
+
