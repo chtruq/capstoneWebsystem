@@ -1,5 +1,12 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "no-unused-vars": "off",
@@ -17,6 +24,5 @@
     "react/no-danger": "off",
     "react/no-danger-with-children": "off",
     "react/no-deprecated": "off"
-
   }
 }

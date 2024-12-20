@@ -8,7 +8,6 @@ import { getUserInfoFromCookies } from "@/app/actions/auth";
 import { getTeamByAccountId } from "@/app/actions/team";
 import Link from "next/link";
 
-
 async function RequestManage(props: {
   searchParams?: Promise<{
     keyword?: string;
@@ -21,13 +20,12 @@ async function RequestManage(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const activeTab = searchParams?.tab || "appointment";
 
-  let userToken = await getUserInfoFromCookies();
+  const userToken = await getUserInfoFromCookies();
   console.log("User Token from apartment table", userToken);
   const dataTeam = await getTeamByAccountId(userToken.id);
   // console.log("Data team", dataTeam);
   // console.log("Data type", dataTeam.teamType);
   // console.log("Data team ID", dataTeam.teamID);
-
 
   return (
     <>
@@ -51,20 +49,26 @@ async function RequestManage(props: {
         </TabsList>
         {/* <TabsTrigger value="property">Yêu cầu ký gửi</TabsTrigger> */}
         <TabsContent value="appointment">
-          <RequestAppointmentTable query={query} currentPage={currentPage} teamID={dataTeam.teamID} />
+          <RequestAppointmentTable
+            query={query}
+            currentPage={currentPage}
+            teamID={dataTeam.teamID}
+          />
         </TabsContent>
         <TabsContent value="deposit">
           <div>Đặt cọc</div>
-          <RequestDepositTable query={query} currentPage={currentPage} teamID={dataTeam.teamID}/>
+          <RequestDepositTable
+            query={query}
+            currentPage={currentPage}
+            teamID={dataTeam.teamID}
+          />
         </TabsContent>
-        {
-          dataTeam.teamType !== "ProjectManagement" ? (
-            <TabsContent value="property">
-              <div>Ký gửi</div>
-              <RequestPropertyTable />
-            </TabsContent>
-          ) : null
-        }
+        {dataTeam.teamType !== "ProjectManagement" ? (
+          <TabsContent value="property">
+            <div>Ký gửi</div>
+            <RequestPropertyTable />
+          </TabsContent>
+        ) : null}
         {/* <TabsContent value="property">
           <div>Ký gửi</div>
           <RequestPropertyTable />
@@ -72,6 +76,6 @@ async function RequestManage(props: {
       </Tabs>
     </>
   );
-};
+}
 
 export default RequestManage;

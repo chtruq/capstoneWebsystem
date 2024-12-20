@@ -8,10 +8,9 @@ interface Props {
 }
 
 const DepositTable: FC<Props> = async ({ projectId }) => {
-  let data;
-  let userToken = await getUserInfoFromCookies();
+  const userToken = await getUserInfoFromCookies();
 
-  data = await getDepositByProjectId(projectId);
+  const data = await getDepositByProjectId(projectId);
   console.log("Data edpossit", data?.deposits);
 
   return (
@@ -20,6 +19,6 @@ const DepositTable: FC<Props> = async ({ projectId }) => {
       <DepositMangeTable data={data?.deposits} accountId={userToken?.id} />
     </div>
   );
-}
+};
 
 export default DepositTable;
