@@ -3,7 +3,7 @@ name: Sync with Repo 2
 on:
   push:
     branches:
-      - main # Nhánh cần đồng bộ
+      - main # Nhánh cần đồng bộ, chỉnh lại nếu sử dụng nhánh khác
 
 jobs:
   sync:
@@ -12,6 +12,15 @@ jobs:
     steps:
       - name: Check out this repository
         uses: actions/checkout@v3
+
+      - name: Debug Remote Repository
+        run: |
+          echo "Testing remote connection..."
+          git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
+          git remote -v  # Hiển thị thông tin remote
+          echo "Fetching branches..."
+          git fetch sync  # Kiểm tra xem remote có hợp lệ không
+          git branch -r  # Hiển thị các nhánh remote (nếu kết nối thành công)
 
       - name: Sync with Repo 2
         env:
