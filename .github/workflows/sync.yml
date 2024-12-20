@@ -3,7 +3,7 @@ name: Sync with Repo 2
 on:
   push:
     branches:
-      - main # Nhánh mà bạn muốn theo dõi và đồng bộ
+      - main # Nhánh cần đồng bộ
 
 jobs:
   sync:
@@ -16,7 +16,6 @@ jobs:
       - name: Sync with Repo 2
         env:
           REPO2_URL: https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
-
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "github-action@users.noreply.github.com"
