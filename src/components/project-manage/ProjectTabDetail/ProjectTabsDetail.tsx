@@ -10,7 +10,7 @@ import PaginationComponent from "@/components/pagination/PaginationComponent";
 import ImageGallery from "@/components/ui/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { getUserInforFromCookie } from "@/app/actions/auth";
 import DepositTable from "./Deposit/DepositTable";
 import { formatDate } from "@/lib/utils/dataFormat";
 interface Props {
@@ -30,7 +30,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
     currentPage,
   });
 
-  const userInfor = await getUserInfoFromCookies();
+  const userInfor = await getUserInforFromCookie();
 
 
   const totalPages = projectCart.totalPage;

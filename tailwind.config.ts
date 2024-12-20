@@ -49,6 +49,11 @@ const config: Config = {
           DEFAULT: "#FF4040",
           foreground: "#FFD9D9",
         },
+        pending: {
+          DEFAULT: "#C48C37",
+          foreground: "#FFE9B8",
+        },
+
         blur: {
           DEFAULT: "#4b4b4b",
           foreground: "hsl(var(--blur-foreground))",

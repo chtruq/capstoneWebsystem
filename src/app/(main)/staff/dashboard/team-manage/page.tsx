@@ -1,7 +1,7 @@
 import React from "react";
 import SearchInput from "@/components/search/SearchInput";
 import { getTeamByAccountId } from "@/app/actions/team";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { getUserInforFromCookie } from "@/app/actions/auth";
 import { getMemberByTeam } from "@/app/actions/teammembers";
 import { tableText } from "@/lib/utils/project";
 import TeamMemberTable from "@/components/team/teamMemberTable/TeamMemberTable";
@@ -13,11 +13,11 @@ async function TeamManage(props: {
     page?: string;
   }>;
 }) {
-  const userToken = await getUserInfoFromCookies();
+  const userToken = await getUserInforFromCookie();
   console.log("User Tolken", userToken);
-  console.log("User role", userToken.role);
-  console.log("User id", userToken.id);
-  const data = await getTeamByAccountId(userToken.id);
+  console.log("User role", userToken?.role);
+  console.log("User id", userToken?.id);
+  const data = await getTeamByAccountId(userToken?.id);
   // console.log("Dataaaaaaa", data);
   
   const resolvedSearchParams = await props.searchParams;

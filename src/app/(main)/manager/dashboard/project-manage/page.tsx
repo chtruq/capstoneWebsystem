@@ -5,7 +5,7 @@ import SearchInput from "@/components/search/SearchInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
+import { getUserInforFromCookie } from "@/app/actions/auth";
 
 
 async function ProjectManage(props: {
@@ -14,17 +14,17 @@ async function ProjectManage(props: {
     page?: string;
   }>;
 }) {
-  const userToken = await getUserInfoFromCookies();
+  const userToken = await getUserInforFromCookie();
   console.log("User Tolken", userToken);
-  console.log("User role", userToken.role);
-  console.log("User id", userToken.id);
+  console.log("User role", userToken?.role);
+  console.log("User id", userToken?.id);
   const searchParams = await props.searchParams;
   const query = searchParams?.projectName || "";
   const currentPage = Number(searchParams?.page) || 1;
   let data;
   try {
     // Kiểm tra role để quyết định gọi hàm nào
-    if (userToken.role === "Management") {
+    if (userToken?.role === "Management") {
       console.log("Fetching data for manager...");
       data = await getProjectApartment({
         query,
@@ -33,7 +33,7 @@ async function ProjectManage(props: {
     } else {
       console.log("Fetching data for other roles...");
       data = await getProjectApartmentByStaff({
-        userId: userToken.id,
+        userId: userToken?.id,
         query,
         currentPage,
       });

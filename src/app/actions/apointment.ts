@@ -27,3 +27,14 @@ export const getRequestAppointmentByTeam = async ({
     console.log(error);
   }
 };
+
+export const rejectRequestAppointment = async (id: string) => {
+  try {
+    console.log("IDaaaaaaaaaaa", id);
+    
+    const res = await apiClient.put(`/appointmentrequests/reject/${id}`);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

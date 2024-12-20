@@ -22,6 +22,7 @@ import {
   Settings,
   User,
   Users,
+  ListTodo,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
@@ -122,41 +123,75 @@ export function AppSidebar() {
 
   const StaffItem = [
     {
-      title: "Tổng quan",
+      title: "Tổng quan", // Tổng quan có thể là dashboard chính, nhưng không phải là hoạt động chính của nhân viên
       url: "/staff/dashboard",
       icon: LayoutDashboard,
     },
     {
-      title: "Danh sách căn hộ",
-      url: "/staff/dashboard/apartment-manage",
-      icon: Building2,
-    },
-    {
-      title: "Quản lý dự án",
-      url: "/staff/dashboard/project-manage",
-      icon: FolderKanban,
-    },
-    {
-      title: "Quản lý yêu cầu",
+      title: "Quản lý yêu cầu", // Xử lý các yêu cầu tư vấn, đặt cọc, ký gửi - Hoạt động chính
       url: "/staff/dashboard/request-manage",
       icon: Users,
     },
     {
-      title: "Quản lý nhóm",
-      url: "/staff/dashboard/team-manage",
-      icon: Users,
+      title: "Danh sách lịch hẹn", // Lịch hẹn với khách hàng là một phần quan trọng của công việc nhân viên
+      url: "/staff/dashboard/appointment-manage",
+      icon: ListTodo,
     },
     {
-      title: "Giao dịch",
+      title: "Danh sách căn hộ", // Quản lý danh sách các căn hộ là công việc quan trọng của nhân viên
+      url: "/staff/dashboard/apartment-manage",
+      icon: Building2,
+    },
+    {
+      title: "Giao dịch", // Quản lý các giao dịch là một phần quan trọng trong quy trình của hệ thống
       url: "/staff/dashboard/transaction-manage",
       icon: CreditCard,
     },
     {
-      title: "Cài đặt",
+      title: "Quản lý dự án", // Quản lý các dự án là cần thiết nhưng ít quan trọng hơn so với các hoạt động ở trên
+      url: "/staff/dashboard/project-manage",
+      icon: FolderKanban,
+    },
+    {
+      title: "Quản lý nhóm", // Quản lý nhóm có thể không phải ưu tiên hàng đầu nhưng vẫn quan trọng để theo dõi thành viên
+      url: "/staff/dashboard/team-manage",
+      icon: ListTodo,
+    },
+    {
+      title: "Cài đặt", // Cài đặt thường là phần ít tương tác nhất
       url: "/staff/dashboard/setting",
       icon: Settings,
     },
   ];
+
+  const ProjectProviderItem = [
+    {
+      title: "Tổng quan",
+      url: "/projectprovider/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Quản lý dự án",
+      url: "/projectprovider/dashboard/project-manage",
+      icon: FolderKanban,
+    },
+    {
+      title: "Quản lý căn hộ",
+      url: "/projectprovider/dashboard/apartment-manage",
+      icon: Building2,
+    },
+    {
+      title: "Quản lý nhà cung cấp",
+      url: "/projectprovider/dashboard/provider-manage",
+      icon: BriefcaseBusiness,
+    },
+    {
+      title: "Cài đặt",
+      url: "/projectprovider/dashboard/setting",
+      icon: Settings,
+    },
+  ];
+
 
   return (
     <Sidebar>

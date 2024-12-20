@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import Image from "next/image";
-import { getUserInfoFromCookies } from "@/app/actions/auth";
 import { approveApartment, rejectApartment } from "@/app/actions/apartment";
 import { usePathname, useRouter } from "next/navigation";
 
