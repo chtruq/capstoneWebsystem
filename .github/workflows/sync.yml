@@ -1,0 +1,23 @@
+name: Sync with Repo 2
+
+on:
+  push:
+    branches:
+      - main # Nhánh mà bạn muốn theo dõi và đồng bộ
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out this repository
+        uses: actions/checkout@v3
+
+      - name: Sync with Repo 2
+        env:
+          REPO2_URL: https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
+        run: |
+          git config --global chtruq "GitHub Action"
+          git config --global trunghcw@gmaiil.com "github-action@users.noreply.github.com"
+          git remote add sync $REPO2_URL
+          git push sync main --force
