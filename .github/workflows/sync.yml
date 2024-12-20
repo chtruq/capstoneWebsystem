@@ -3,7 +3,7 @@ name: Sync with Repo 2
 on:
   push:
     branches:
-      - main # Nhánh cần đồng bộ, chỉnh lại nếu sử dụng nhánh khác
+      - main # Nhánh cần đồng bộ
 
 jobs:
   sync:
