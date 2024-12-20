@@ -8,7 +8,6 @@ import { getUserInforFromCookie } from "@/app/actions/auth";
 import { getTeamByAccountId } from "@/app/actions/team";
 import Link from "next/link";
 
-
 async function RequestManage(props: {
   searchParams?: Promise<{
     keyword?: string;
@@ -42,9 +41,7 @@ async function RequestManage(props: {
           <Link href={`?tab=appointment`} scroll={false}>
             <TabsTrigger value="appointment">
               <div className="flex items-center gap-2">
-                <h1 className="text-sm">
-                  Tư vấn căn hộ
-                </h1>
+                <h1 className="text-sm">Tư vấn căn hộ</h1>
                 <div className="text-xs text-white bg-yellow-500 rounded w-5 h-5 flex justify-center items-center">
                   {totalPendingRequestsForAppointment}
                 </div>
@@ -62,19 +59,25 @@ async function RequestManage(props: {
         </TabsList>
         {/* <TabsTrigger value="property">Yêu cầu ký gửi</TabsTrigger> */}
         <TabsContent value="appointment">
-          <RequestAppointmentTable query={query} currentPage={currentPage} teamID={dataTeam.teamID} />
+          <RequestAppointmentTable
+            query={query}
+            currentPage={currentPage}
+            teamID={dataTeam.teamID}
+          />
         </TabsContent>
         <TabsContent value="deposit">
-          <RequestDepositTable query={query} currentPage={currentPage} teamID={dataTeam.teamID} />
+          <RequestDepositTable
+            query={query}
+            currentPage={currentPage}
+            teamID={dataTeam.teamID}
+          />
         </TabsContent>
-        {
-          dataTeam.teamType !== "ProjectManagement" ? (
-            <TabsContent value="property">
-              <div>Ký gửi</div>
-              <RequestPropertyTable />
-            </TabsContent>
-          ) : null
-        }
+        {dataTeam.teamType !== "ProjectManagement" ? (
+          <TabsContent value="property">
+            <div>Ký gửi</div>
+            <RequestPropertyTable />
+          </TabsContent>
+        ) : null}
         {/* <TabsContent value="property">
           <div>Ký gửi</div>
           <RequestPropertyTable />
@@ -82,6 +85,6 @@ async function RequestManage(props: {
       </Tabs>
     </>
   );
-};
+}
 
 export default RequestManage;
