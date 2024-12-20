@@ -16,7 +16,7 @@ jobs:
       - name: Debug Remote Repository
         run: |
           echo "Testing remote connection..."
-          git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
+          git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET1 }}@github.com/chtruq/capstoneWebsystem.git
           git remote -v  # Hiển thị thông tin remote
           echo "Fetching branches..."
           git fetch sync  # Kiểm tra xem remote có hợp lệ không
@@ -24,7 +24,7 @@ jobs:
 
       - name: Sync with Repo 2
         env:
-          REPO2_URL: https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
+          REPO2_URL: https://x-access-token:${{ secrets.DEPLOY_SECRET1 }}@github.com/chtruq/capstoneWebsystem.git
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "github-action@users.noreply.github.com"
