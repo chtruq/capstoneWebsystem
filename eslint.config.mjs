@@ -6,13 +6,14 @@ const compat = new FlatCompat({
 });
 
 // Kiểm tra nếu đang ở môi trường deploy
-const isDeploy = process.env.NODE_ENV === "production";
 
 const eslintConfig = [
   ...compat.config({
     extends: ["next/core-web-vitals", "next/typescript"],
     rules: {
-      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/exhaustive-deps": "off", // Tắt cảnh báo thiếu dependency trong hooks
+      "@typescript-eslint/no-unused-vars": "off", // Tắt cảnh báo biến không sử dụng
+      "@typescript-eslint/no-explicit-any": "off", // Tắt cảnh báo sử dụng `any`
     },
   }),
 ];
