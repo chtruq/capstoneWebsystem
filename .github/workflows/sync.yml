@@ -31,19 +31,26 @@ on:
     branches:
       - main
     paths-ignore:
-      - ".github/workflows/**" # Ignore workflow changes
-      - "README.md" # Ignore documentation changes
-      - ".gitignore" # Ignore gitignore changes
+      - ".github/workflows/**"
+      - "README.md"
+      - ".gitignore"
 
 jobs:
   sync:
     runs-up: ubuntu-latest
     steps:
+      # First checkout your code with full history
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          persist-credentials: false
+          ref: main # Explicitly checkout main branch
 
+      # Ensure repo 1 is up to date first
+      - name: Update Repo 1
+        run: |
+          git pull origin main
+
+      # Then sync to deployment repo
       - name: Push to Deployment Repository
         env:
           DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
