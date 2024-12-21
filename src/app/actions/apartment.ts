@@ -1,15 +1,11 @@
 import apiClient from "./apiClient";
 
 export const getApartments = async (page: number, pageIndex: number) => {
-  try {
-    const response = await apiClient.get(
-      `/apartments/search?pageIndex=${page}&pageSize=${pageIndex}`
-    );
-    const data = await response.data;
-    return data.data;
-  } catch (e) {
-    throw e;
-  }
+  const response = await apiClient.get(
+    `/apartments/search?pageIndex=${page}&pageSize=${pageIndex}`
+  );
+  const data = await response.data;
+  return data.data;
 };
 
 export const getApartmentsTest = async ({
@@ -112,7 +108,6 @@ export const getPendingApartments = async ({
   }
 };
 
-
 interface ApartmentValue {
   ApartmentName: string;
   Description: string;
@@ -167,19 +162,22 @@ export const createApartment = async (value: ApartmentValue) => {
     value.Images.forEach((image) => {
       formData.append("Images", image);
     });
-    const res = await apiClient.post("/apartments/create-apartment-for-project", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await apiClient.post(
+      "/apartments/create-apartment-for-project",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log("res create apt oke", res);
     return res;
-
   } catch (error) {
     console.log(error);
   }
-}; 
+};
 
 export const createMultipleApartment = async (value: ApartmentValue) => {
   try {
@@ -193,7 +191,10 @@ export const createMultipleApartment = async (value: ApartmentValue) => {
     formData.append("SampleApartment.District", value.District);
     formData.append("SampleApartment.Ward", value.Ward);
     formData.append("SampleApartment.NumberOfRooms", value.NumberOfRooms);
-    formData.append("SampleApartment.NumberOfBathrooms", value.NumberOfBathrooms);
+    formData.append(
+      "SampleApartment.NumberOfBathrooms",
+      value.NumberOfBathrooms
+    );
     formData.append("SampleApartment.Location", value.Location);
     formData.append("SampleApartment.Direction", value.Direction);
     formData.append("SampleApartment.Price", value.Price);
@@ -205,21 +206,27 @@ export const createMultipleApartment = async (value: ApartmentValue) => {
     formData.append("SampleApartment.Floor", value.Floor);
     formData.append("SampleApartment.RoomNumber", value.RoomNumber);
     formData.append("SampleApartment.VRVideoFile", value.VRVideoFile);
-    formData.append("SampleApartment.AssignedAccountID", value.AssignedAccountID);
+    formData.append(
+      "SampleApartment.AssignedAccountID",
+      value.AssignedAccountID
+    );
     value.Images.forEach((image) => {
       formData.append("SampleApartment.Images", image);
     });
     formData.append("Quantity", value.Quantity);
-    const res = await apiClient.post("/apartments/create-multiple-apartments", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await apiClient.post(
+      "/apartments/create-multiple-apartments",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     console.log("res create multi apt oke", res.data);
     return res.data;
-
   } catch (error) {
     console.log(error);
   }
-}
+};

@@ -26,10 +26,9 @@ async function TeamDetails({
     page?: string;
   }>;
 }) {
-
   const data = await getTeamByTeamId(params.id);
   console.log("Dataaaaaaaaa", data);
-  
+
   const teamData: Team = data?.data;
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams?.teamMemberName || "";
@@ -37,9 +36,6 @@ async function TeamDetails({
   // const query = resolvedSearchParams.teamMemberName || "";
   const currentPage = Number(resolvedSearchParams?.page) || 1;
   // const teamMemberData = await getMemberInTeamDetails(params.id, currentPage);
-
-
-
 
   const teamMemberData = await getMemberByTeam(params.id, currentPage, query);
   const totalPages = teamMemberData?.data.totalPages;
@@ -95,13 +91,11 @@ async function TeamDetails({
         <TeamMemberTable data={teamMemberData?.data} />
 
         <div>
-          {totalPages > 1 && (
-            <PaginationComponent totalPages={totalPages} />
-          )}
+          {totalPages > 1 && <PaginationComponent totalPages={totalPages} />}
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default TeamDetails;
