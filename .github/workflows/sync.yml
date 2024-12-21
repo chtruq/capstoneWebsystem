@@ -17,7 +17,7 @@ jobs:
       # Step 2: Debug Remote Repository (Optional for troubleshooting)
       - name: Debug Remote Repository
         run: |
-          echo "Testing remote connection..."
+          echo "Testing remote connection.."
           git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
           git remote -v  # Display remotes
           echo "Fetching branches..."
