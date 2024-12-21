@@ -1,0 +1,25 @@
+name: Sync to Repo 2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-up: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Push to Repo 2
+        env:
+          DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "github-action@users.noreply.github.com"
+          git remote add sync "https://${DEPLOY_SECRET}@github.com/chtruq/capstoneWebsystem.git"
+          git fetch sync
+          git push sync main:main --force
