@@ -1,6 +1,6 @@
 import { getProjectApartment } from "@/app/actions/project";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
-import ProjectTable from "@/components/project-manage/ProjectTable";
+// import ProjectTable from "@/components/project-manage/ProjectTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 

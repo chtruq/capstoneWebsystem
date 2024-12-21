@@ -1,5 +1,5 @@
 import { getApartmentsTest } from "@/app/actions/apartment";
-import ApartmentTable from "@/components/apartment/ApartmentTable";
+// import ApartmentTable from "@/components/apartment/ApartmentTable";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";

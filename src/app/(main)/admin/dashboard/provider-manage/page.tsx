@@ -1,6 +1,6 @@
 import { getProviders } from "@/app/actions/provider";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
-import ProviderTable from "@/components/provider/ProviderTable";
+// import ProviderTable from "@/components/provider/ProviderTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 
