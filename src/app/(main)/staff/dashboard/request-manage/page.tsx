@@ -27,8 +27,8 @@ async function RequestManage(props: {
   // console.log("Data type", dataTeam.teamType);
   // console.log("Data team ID", dataTeam.teamID);
   const totalPendingRequestsForAppointment = 2;
-  const totalPendingRequestsForDeposit = 2;
-  const totalPendingRequestsForProperty = 2;
+  // const totalPendingRequestsForDeposit = 2;
+  // const totalPendingRequestsForProperty = 2;
 
   return (
     <>

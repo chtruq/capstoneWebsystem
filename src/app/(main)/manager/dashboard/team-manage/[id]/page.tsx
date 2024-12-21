@@ -1,4 +1,4 @@
-import { getMemberInTeamDetails, getTeamByTeamId } from "@/app/actions/team";
+import { getTeamByTeamId } from "@/app/actions/team";
 import { getMemberByTeam } from "@/app/actions/teammembers";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";

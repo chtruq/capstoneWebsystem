@@ -26,7 +26,6 @@ export const getApartmentsTest = async ({
 };
 
 export const getApartmentsPendingRequest = async ({
-  query,
   currentPage,
 }: {
   query: string;

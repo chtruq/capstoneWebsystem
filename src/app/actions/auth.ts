@@ -1,6 +1,5 @@
 "use server";
 import apiClient from "@/app/actions/apiClient";
-import { de } from "date-fns/locale";
 import { jwtDecode } from "jwt-decode";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
