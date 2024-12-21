@@ -1,25 +1,62 @@
-name: Sync with Repo 2
+# name: Sync with Repo 2
+
+# on:
+#   push:
+#     branches:
+#       - main
+
+# jobs:
+#   sync:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#         with:
+#           persist-credentials: false
+
+#       - name: Push to Target Repository
+#         env:
+#           DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
+#         run: |
+#           git config --global user.name "GitHub Action"
+#           git config --global user.email "github-action@users.noreply.github.com"
+
+#           # Use https URL with embedded token
+#           git remote add sync "https://${DEPLOY_SECRET}@github.com/chtruq/capstoneWebsystem.git"
+#           git push sync main --force
+
+name: Deploy to Production
 
 on:
   push:
     branches:
       - main
+    paths-ignore:
+      - ".github/workflows/**"
+      - "README.md"
+      - ".gitignore"
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-up: ubuntu-latest
     steps:
+      # First checkout your code with full history
       - uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          fetch-depth: 0
+          ref: main # Explicitly checkout main branch
 
-      - name: Push to Target Repository
+      # Ensure repo 1 is up to date first
+      - name: Update Repo 1
+        run: |
+          git pull origin main
+
+      # Then sync to deployment repo
+      - name: Push to Deployment Repository
         env:
           DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "github-action@users.noreply.github.com"
-
-          # Use https URL with embedded token
-          git remote add sync "https://${DEPLOY_SECRET}@github.com/chtruq/capstoneWebsystem.git"
-          git push sync main --force
+          git remote add deploy "https://${DEPLOY_SECRET}@github.com/chtruq/capstoneWebsystem.git"
+          git fetch deploy
+          git push deploy main:main --force
