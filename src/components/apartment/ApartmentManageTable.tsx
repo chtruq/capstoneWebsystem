@@ -1,7 +1,6 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { Button } from "../ui/button";
-import ApartmentTable from "./ApartmentTable";
 import {
   Table,
   TableBody,
@@ -13,7 +12,6 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { approveApartment, rejectApartment } from "@/app/actions/apartment";
-import { usePathname, useRouter } from "next/navigation";
 
 
 interface Props {
