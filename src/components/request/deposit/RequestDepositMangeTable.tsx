@@ -45,7 +45,7 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
           {data && data.length > 0 ? (
             data?.map((item: Deposit) => (
               <TableRow key={item?.depositID}>
-                <TableCell>{item?.depositID}</TableCell>
+                <TableCell>{item?.depositCode}</TableCell>
                 <TableCell>{item?.apartmentCode}</TableCell>
                 <TableCell>{item?.depositProfile[0]?.fullName}</TableCell>
                 <TableCell>{item?.depositProfile[0]?.phoneNumber}</TableCell>

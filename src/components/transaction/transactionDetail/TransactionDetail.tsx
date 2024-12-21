@@ -30,39 +30,39 @@ const TransactionDetail: FC<Props> = ({ data }) => {
           <DialogHeader>
             <DialogTitle>Chi tiết giao dịch</DialogTitle>
           </DialogHeader>
-          <DialogDescription>
+          <DialogDescription asChild>
             <div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Mã giao dịch:</div>
-                <div className="..."> {data.depositCode} </div>
+                <span className="...">Mã giao dịch:</span>
+                <span className="..."> {data.depositCode} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Mã ngân hàng:</div>
-                <div className="..."> {data.transactionNo} </div>
+                <span className="...">Mã ngân hàng:</span>
+                <span className="..."> {data.transactionNo} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Mã căn hộ:</div>
-                <div className="..."> {data.apartmentCode} </div>
+                <span className="...">Mã căn hộ:</span>
+                <span className="..."> {data.apartmentCode} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Khách hàng:</div>
-                <div className="..."> {data.customerName} </div>
+                <span className="...">Khách hàng:</span>
+                <span className="..."> {data.customerName} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Số tiền đặt cọc:</div>
-                <div className="..."> {formatMoney(data.amountPaid)} </div>
+                <span className="...">Số tiền đặt cọc:</span>
+                <span className="..."> {formatMoney(data.amountPaid)} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Ngày giao dịch:</div>
-                <div className="..."> {formatDateTime(data.transactionDate)} </div>
+                <span className="...">Ngày giao dịch:</span>
+                <span className="..."> {formatDateTime(data.transactionDate)} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Phương thức thanh toán:</div>
-                <div className="..."> {data.paymentMethods} </div>
+                <span className="...">Phương thức thanh toán:</span>
+                <span className="..."> {data.paymentMethods} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="...">Trạng thái:</div>
-                <div className="..."> {data.status} </div>
+                <span className="...">Trạng thái:</span>
+                <span className="..."> {data.status} </span>
               </div>
             </div>
           </DialogDescription>

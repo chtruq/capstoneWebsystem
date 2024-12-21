@@ -20,7 +20,7 @@ export const getRequestAppointmentByTeam = async ({
 }) => {
   try {
     const res = await apiClient.get(
-      `/appointmentrequests/search?teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
+      `/appointmentrequests/search?keyword=${query}&teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data.data;
   } catch (error) {
@@ -31,7 +31,7 @@ export const getRequestAppointmentByTeam = async ({
 export const rejectRequestAppointment = async (id: string) => {
   try {
     console.log("IDaaaaaaaaaaa", id);
-    
+
     const res = await apiClient.put(`/appointmentrequests/reject/${id}`);
     return res.data;
   } catch (error) {
