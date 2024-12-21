@@ -22,7 +22,7 @@
 
 #           # Use https URL with embedded token
 #           git remote add sync "https://${DEPLOY_SECRET}@github.com/chtruq/capstoneWebsystem.git"
-#           git push sync main --force
+#           git push sync main --forceaaa
 
 name: Sync to Deployment
 
