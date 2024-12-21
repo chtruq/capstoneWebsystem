@@ -188,11 +188,11 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
         if (value.Quantity) {
           console.log("Payload create multi apt:", payload);
           setIsDialogOpen(false);
-          const res = await createMultipleApartment(payload);
+          await createMultipleApartment(payload);
           revalidateProjectPath(newPathname);
         } else {
           console.log("Payload create single apt:", payload);
-          const res = await createApartment(payload);
+          await createApartment(payload);
           revalidateProjectPath(newPathname);
           router.push(newPathname);
         }
