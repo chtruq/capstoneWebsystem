@@ -3,29 +3,39 @@ name: Sync with Repo 2
 on:
   push:
     branches:
-      - main
+      - main # Trigger sync only on changes to the main branch
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Check out the current repository
       - name: Check out this repository
         uses: actions/checkout@v3
 
+      # Step 2: Debug Remote Repository (Optional for troubleshooting)
       - name: Debug Remote Repository
         run: |
           echo "Testing remote connection..."
           git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
           git remote -v  # Display remotes
           echo "Fetching branches..."
-          git fetch sync || echo "Fetch failed. Please check your URL and token."  # Avoid job failure for debugging
+          git fetch sync || echo "Fetch failed. Please check your URL and token."
           git branch -r  # Show remote branches if fetch succeeds
 
-      - name: Sync with Repo 2
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "github-action@users.noreply.github.com"
-          git push sync main --force
+      # Step 3: Sync with Target Repository
+      - name: Push to Target Repository
         env:
           DEPLOY_SECRET: ${{ secrets.DEPLOY_SECRET }}
+        run: |
+          # Configure Git user
+          git config --global user.name "GitHub Action"
+          git config --global user.email "github-action@users.noreply.github.com"
+
+          # Add the target repository remote
+          git remote remove sync || true  # Remove any existing 'sync' remote
+          git remote add sync https://x-access-token:${{ secrets.DEPLOY_SECRET }}@github.com/chtruq/capstoneWebsystem.git
+
+          # Push to the target repository
+          git push sync main --force
