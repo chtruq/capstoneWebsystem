@@ -24,7 +24,7 @@ const ProviderTable: FC<Props> = async ({ data }: Props) => {
     <div>
       {!data ? (
         <div className="flex justify-center items-center">
-          Không có kết quả!
+          Không có kết quả!!
         </div>
       ) : (
         <ProviderManageTable data={data} />
