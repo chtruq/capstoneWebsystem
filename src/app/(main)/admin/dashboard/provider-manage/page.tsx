@@ -23,7 +23,7 @@ async function ProviderManage(props: {
         <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
       </div>
       <div>
-        <ProviderTable query={query} currentPage={currentPage} />
+        {/* <ProviderTable query={query} currentPage={currentPage} /> */}
       </div>
       <div>
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}

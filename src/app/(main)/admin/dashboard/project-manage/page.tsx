@@ -27,7 +27,7 @@ async function ProjectManage(props: {
         <SearchInput placeholder="Tìm kiếm căn hộ" query="projectName" />
       </div>
       <div>
-        <ProjectTable query={query} currentPage={currentPage} />
+        {/* <ProjectTable query={query} currentPage={currentPage} /> */}
       </div>
       <div className="absolute bottom-0 right-0">
         {!totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
