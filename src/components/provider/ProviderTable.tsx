@@ -11,14 +11,14 @@ import { formatDate } from "@/lib/utils/dataFormat";
 import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import ProviderManage from "@/app/(main)/admin/dashboard/provider-manage/page";
-import ProviderManageTable from "./ProviderManageTable"
+import ProviderManageTable from "./ProviderManageTable";
 
 interface Props {
   data: any;
 }
 
 const ProviderTable: FC<Props> = async ({ data }: Props) => {
-  console.log("Data in protab", data);
+  console.log("Data in prota", data);
 
   return (
     <div>
