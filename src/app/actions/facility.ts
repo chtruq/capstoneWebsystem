@@ -5,7 +5,7 @@ export const getFacilities = async () => {
   return res.data;
 };
 
-export const createFacilities = async (data) => {
+export const createFacilities = async (data: object) => {
   const res = await apiClient.post("/facilities/create", data);
   return res.data;
 };
