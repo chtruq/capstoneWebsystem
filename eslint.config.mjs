@@ -12,8 +12,7 @@ const eslintConfig = [
   ...compat.config({
     extends: ["next/core-web-vitals", "next/typescript"],
     rules: {
-      // Các quy tắc chỉ được áp dụng nếu không phải deploy
-      "react-hooks/exhaustive-deps": "off", // Tắt cảnh báo hooks dependencies
+      "react-hooks/exhaustive-deps": "off",
     },
   }),
 ];
