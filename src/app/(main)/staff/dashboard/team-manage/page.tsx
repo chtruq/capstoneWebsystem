@@ -19,13 +19,13 @@ async function TeamManage(props: {
   console.log("User id", userToken?.id);
   const data = await getTeamByAccountId(userToken?.id);
   // console.log("Dataaaaaaa", data);
-  
+
   const resolvedSearchParams = await props.searchParams;
   const query = resolvedSearchParams?.teamMemberName || "";
   const currentPage = Number(resolvedSearchParams?.page) || 1;
   const teamMemberData = await getMemberByTeam(data.teamID, currentPage, query);
   // console.log("Team member data", teamMemberData);
-  
+
   const totalPages = teamMemberData?.data.totalPages;
 
   return (
@@ -57,10 +57,10 @@ async function TeamManage(props: {
                 : "Ký gửi"}
             </div>
           </div>
-        </div>
-        <div className="flex justify-between">
-          <div className="text-blur text-sm w-1/3">Mô tả</div>
-          <div className="justify-start w-2/3">{data?.teamDescription}</div>
+          <div className="flex justify-between">
+            <div className="text-blur text-sm w-1/3">Mô tả</div>
+            <div className="justify-start w-2/3">{data?.teamDescription}</div>
+          </div>
         </div>
       </div>
 

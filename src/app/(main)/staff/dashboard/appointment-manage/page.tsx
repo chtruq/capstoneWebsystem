@@ -1,6 +1,7 @@
 import React from 'react'
 import { getUserInfoFromCookies, getUserInforFromCookie } from "@/app/actions/auth";
 
+
 async function AppointmentManage() {
   const userToken = await getUserInfoFromCookies();
   console.log("User Tolken", userToken);
@@ -10,7 +11,9 @@ async function AppointmentManage() {
 
 
   return (
-    <div>AppointmentManage</div>
+    <>
+      <div>AppointmentManage</div>
+    </>
   )
 }
 

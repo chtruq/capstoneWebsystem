@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC } from "react";
 import {
   Table,
@@ -10,7 +12,6 @@ import {
 import { Eye } from "lucide-react";
 import TransactionDetail from "../transactionDetail/TransactionDetail";
 import { formatDateTime, formatMoney } from "@/lib/utils/dataFormat";
-
 interface Props {
   data: Transaction[];
 }
