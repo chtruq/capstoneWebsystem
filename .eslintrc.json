@@ -3,9 +3,9 @@
   "plugins": ["@typescript-eslint"],
   "extends": [
     "next/core-web-vitals",
-    "next/typescript",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "next/typescript"
+    // "eslint:recommended",
+    // "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
