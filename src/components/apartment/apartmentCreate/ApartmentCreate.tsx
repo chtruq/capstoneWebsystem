@@ -53,6 +53,10 @@ interface Props {
   data?: Apartment;
 }
 
+type ImageType = {
+  url?: string;
+};
+
 const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   console.log("Project id in createapt:", projectId);
   console.log("Staff id increate apt:", staffId);
@@ -654,13 +658,13 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                   ? image
                   : image instanceof File // If it's a File object
                   ? URL?.createObjectURL(image)
-                  : image.url; // If it's an object from the API
+                  : (image as ImageType).url; // If it's an object from the API
 
               return (
                 <div key={index} className="relative">
                   <Image
-                    src={imageUrl} // Use the resolved URL
-                    alt={image.description || `selected ${index}`} // Use description if available
+                    src={imageUrl || ""} // Use the resolved URL
+                    alt={`selected ${index}`}
                     className="w-32 h-32 object-cover"
                     width={128}
                     height={128}

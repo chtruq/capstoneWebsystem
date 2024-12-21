@@ -2,9 +2,8 @@
 import React, { FC, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import ProjectTable from "./ProjectTable";
-import Project from "../../../model/project";
 import { Input } from "../ui/input";
-import getProjectApartment from "@/app/actions/project";
+import { getProjectApartment } from "@/app/actions/project";
 // import PaginationComponent from "../pagination/paginationComponent";
 
 interface Props {
@@ -17,7 +16,8 @@ const ProjectManageComponent: FC<Props> = ({ data }) => {
   const handleSearch = async (e: any) => {
     try {
       const res = await getProjectApartment({
-        params: { projectName: e.target.value },
+        query: e.target.value,
+        currentPage: 1,
       });
       setSearchData(res);
     } catch (error) {

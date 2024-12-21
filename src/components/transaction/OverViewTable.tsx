@@ -1,4 +1,4 @@
-import { getTransactions } from "@/app/actions/transaction";
+import { getTransactionByPage } from "@/app/actions/transaction";
 import React from "react";
 import {
   Table,
@@ -11,7 +11,7 @@ import {
 import { TextPrice } from "@/lib/utils/project";
 import PaginationComponent from "../pagination/PaginationComponent";
 async function OverViewTable({ currentPage }: { currentPage: number }) {
-  const data = await getTransactions({ currentPage });
+  const data = await getTransactionByPage({ currentPage });
   console.log("data", data?.data);
   const totalPages = data?.data?.totalPages;
 

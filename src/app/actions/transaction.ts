@@ -4,7 +4,7 @@ export const getTransactionByPage = async ({
   query,
   currentPage,
 }: {
-  query: string;
+  query?: string;
   currentPage: number;
 }) => {
   console.log("query", query);

@@ -53,6 +53,11 @@ interface Props {
   data?: Project;
 }
 
+interface ImageType {
+  url: string;
+  description?: string;
+}
+
 const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   console.log("data of projects", data);
 
@@ -143,13 +148,11 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
     try {
       const payload = { ...value, Images: selectedImages };
       if (data) {
-        const res = await updateProject(data.projectApartmentID, payload);
-        console.log("Update project successfully", res);
+        // const res = await updateProject(data.projectApartmentID, payload);
+        // console.log("Update project successfully", res);
       } else {
         console.log("Create project payload", payload);
-
-        const res = await createProject(payload);
-
+        // const res = await createProject(payload);
       }
     } catch (error) {
       console.error("Error creating project:", error);
@@ -273,10 +276,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                (provider) =>
-                                  provider.apartmentProjectProviderID ===
-                                  field.value
-                              )?.apartmentProjectProviderName
+                                  (provider) =>
+                                    provider.apartmentProjectProviderID ===
+                                    field.value
+                                )?.apartmentProjectProviderName
                               : "Chọn chủ đầu tư"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -425,7 +428,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           }
                           disabled={(date) => date < new Date("1900-01-01")}
                           fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
-                          toDate={new Date(new Date().getFullYear() + 4, 11, 31)} // Đặt ngày kết thúc
+                          toDate={
+                            new Date(new Date().getFullYear() + 4, 11, 31)
+                          } // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />
@@ -612,12 +617,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
             </div>
           </div>
 
-
           <div className="flex justify-between  gap-4">
             <div className="flex justify-start w-1/2 items-center gap-5">
-              <span className="text-blur text-sm w-1/5">
-                Cơ quan cấp phép
-              </span>
+              <span className="text-blur text-sm w-1/5">Cơ quan cấp phép</span>
               <FormField
                 control={form.control}
                 name="LicensingAuthority"
@@ -776,14 +778,14 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                    ? URL?.createObjectURL(image)
-                    : image.url; // If it's an object from the API
+                  ? URL?.createObjectURL(image)
+                  : (image as ImageType).url;
 
               return (
                 <div key={index} className="relative">
                   <Image
                     src={imageUrl} // Use the resolved URL
-                    alt={image.description || `selected ${index}`} // Use description if available
+                    alt={`selected ${index}`}
                     className="w-32 h-32 object-cover"
                     width={128}
                     height={128}

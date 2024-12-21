@@ -1,7 +1,6 @@
 import { getUsers } from "@/app/actions/user";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
-import AccountManage from "@/components/user/AccountManage";
 import UserTable from "@/components/user/table/UserTable";
 import React from "react";
 

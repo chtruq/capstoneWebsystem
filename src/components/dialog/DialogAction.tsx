@@ -18,6 +18,8 @@ interface Props {
   description: string;
   btnActionTitle: string;
   action: () => void;
+  open?: boolean;
+  setOpen?: (open: boolean) => void;
 }
 
 const DialogAction: FC<Props> = ({
@@ -26,6 +28,8 @@ const DialogAction: FC<Props> = ({
   description,
   btnActionTitle,
   action,
+  open,
+  setOpen,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
