@@ -1,6 +1,6 @@
 import { getProviders } from "@/app/actions/provider";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
-import ProviderTable from "@/components/provider/ProviderTable";
+// import ProviderTable from "@/components/provider/ProviderTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 
@@ -23,7 +23,7 @@ async function ProviderManage(props: {
         <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
       </div>
       <div>
-        <ProviderTable query={query} currentPage={currentPage} />
+        {/* <ProviderTable query={query} currentPage={currentPage} /> */}
       </div>
       <div>
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}

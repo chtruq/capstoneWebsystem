@@ -1,12 +1,8 @@
 import apiClient from "./apiClient";
 
 export const getTeams = async () => {
-  try {
-    const res = await apiClient.get("/teams/get-all");
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get("/teams/get-all");
+  return res.data;
 };
 
 export const getTeamsByPage = async ({
@@ -16,32 +12,20 @@ export const getTeamsByPage = async ({
   query: string;
   currentPage: number;
 }) => {
-  try {
-    const res = await apiClient.get(
-      `/teams/search?keyWord=${query}&pageIndex=${currentPage}&pageSize=10`
-    );
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get(
+    `/teams/search?keyWord=${query}&pageIndex=${currentPage}&pageSize=10`
+  );
+  return res.data;
 };
 
 export const getTeamByTeamId = async (id: string) => {
-  try {
-    const res = await apiClient.get(`/teams/${id}`);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get(`/teams/${id}`);
+  return res.data;
 };
 
 export const getTeamByAccountId = async (id: string) => {
-  try {
-    const res = await apiClient.get(`/teams/search?accountId=${id}`);
-    return res.data.data.teams[0];
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get(`/teams/search?accountId=${id}`);
+  return res.data.data.teams[0];
 };
 
 export const getTeamMember = async ({
@@ -51,46 +35,30 @@ export const getTeamMember = async ({
   currentPage: number;
   query: string;
 }) => {
-  try {
-    const res = await apiClient.get(
-      `/teammembers/search?pageIndex=${currentPage}&pageSize=10`
-    );
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get(
+    `/teammembers/search?pageIndex=${currentPage}&pageSize=10`
+  );
+  return res.data;
 };
 
 export const getLeader = async () => {
-  try {
-    const res = await apiClient.get("/teams/staff/available");
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get("/teams/staff/available");
+  return res.data;
 };
 
 export const createTeam = async (data: any) => {
-  try {
-    console.log("data team create", data);
-    
-    const res = await apiClient.post("/teams/create", data);
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  console.log("data team create", data);
+
+  const res = await apiClient.post("/teams/create", data);
+  return res.data;
 };
 
 export const getMemberInTeamDetails = async (
   id: string,
   currentPage: number
 ) => {
-  try {
-    const res = await apiClient.get(
-      `/teams/${id}/details?pageIndex=${currentPage}&pageSize=10`
-    );
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  const res = await apiClient.get(
+    `/teams/${id}/details?pageIndex=${currentPage}&pageSize=10`
+  );
+  return res.data;
 };

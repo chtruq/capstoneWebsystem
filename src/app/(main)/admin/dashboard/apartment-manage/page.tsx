@@ -1,5 +1,5 @@
 import { getApartmentsTest } from "@/app/actions/apartment";
-import ApartmentTable from "@/components/apartment/ApartmentTable";
+// import ApartmentTable from "@/components/apartment/ApartmentTable";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
@@ -26,7 +26,7 @@ async function ApartmentManage(props: {
         <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
       </div>
       <div>
-        <ApartmentTable query={query} currentPage={currentPage} />
+        {/* <ApartmentTable query={query} currentPage={currentPage} /> */}
       </div>
       <div className="absolute bottom-0 right-0">
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}

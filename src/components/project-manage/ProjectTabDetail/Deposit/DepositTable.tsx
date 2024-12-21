@@ -19,6 +19,6 @@ const DepositTable: FC<Props> = async ({ projectId }) => {
       <DepositMangeTable data={data?.deposits} accountId={userToken?.id} />
     </div>
   );
-}
+};
 
 export default DepositTable;

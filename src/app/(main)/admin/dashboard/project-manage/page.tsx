@@ -1,6 +1,6 @@
 import { getProjectApartment } from "@/app/actions/project";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
-import ProjectTable from "@/components/project-manage/ProjectTable";
+// import ProjectTable from "@/components/project-manage/ProjectTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 
@@ -27,7 +27,7 @@ async function ProjectManage(props: {
         <SearchInput placeholder="Tìm kiếm căn hộ" query="projectName" />
       </div>
       <div>
-        <ProjectTable query={query} currentPage={currentPage} />
+        {/* <ProjectTable query={query} currentPage={currentPage} /> */}
       </div>
       <div className="absolute bottom-0 right-0">
         {!totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}

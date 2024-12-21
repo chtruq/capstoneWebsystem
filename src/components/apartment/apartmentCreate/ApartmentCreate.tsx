@@ -17,9 +17,7 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -27,7 +25,7 @@ import { apartmentSchema } from "@/lib/schema/apartmentSchema";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, Check, ChevronDown } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import React, { FC, useState, useEffect, useRef } from "react";
 import { z } from "zod";
 import { vi } from "date-fns/locale";
@@ -41,13 +39,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useForm } from "react-hook-form";
-import { createApartment, createMultipleApartment } from "@/app/actions/apartment";
+import {
+  createApartment,
+  createMultipleApartment,
+} from "@/app/actions/apartment";
 import { usePathname } from "next/navigation";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useRouter } from "next/navigation";
-
-
-
 
 interface Props {
   projectId: string;
@@ -56,7 +54,6 @@ interface Props {
 }
 
 const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
-
   console.log("Project id in createapt:", projectId);
   console.log("Staff id increate apt:", staffId);
   console.log("Data in create apt:", data);
@@ -88,7 +85,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       AssignedAccountID: staffId,
       Quantity: null,
     },
-  })
+  });
 
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -107,7 +104,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   const pathname = usePathname();
   console.log("Original pathname:", pathname);
 
-  const newPathname = pathname.split('/').slice(0, -1).join('/') + "/detail";
+  const newPathname = pathname.split("/").slice(0, -1).join("/") + "/detail";
 
   console.log("Updated pathname:", newPathname);
 
@@ -145,9 +142,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
 
   useEffect(() => {
     if (data?.images?.length) {
-      const validImages = data.images.filter(
-        (image) => image instanceof File
-      );
+      const validImages = data.images.filter((image) => image instanceof File);
       setSelectedImages(validImages);
     }
   }, [data]);
@@ -193,15 +188,13 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
         if (value.Quantity) {
           console.log("Payload create multi apt:", payload);
           setIsDialogOpen(false);
-          const res = await createMultipleApartment(payload);
+          await createMultipleApartment(payload);
           revalidateProjectPath(newPathname);
-
         } else {
           console.log("Payload create single apt:", payload);
-          const res = await createApartment(payload);
+          await createApartment(payload);
           revalidateProjectPath(newPathname);
           router.push(newPathname);
-
         }
         revalidateProjectPath(newPathname);
       }
@@ -211,7 +204,6 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
       console.error("Error creating apartment:", error);
     }
   };
-
 
   return (
     <div>
@@ -242,10 +234,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 render={({ field }) => (
                   <FormItem className="w-3/5">
                     <FormControl>
-                      <Input
-                        placeholder="Nhập tòa của căn hộ"
-                        {...field}
-                      />
+                      <Input placeholder="Nhập tòa của căn hộ" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -262,7 +251,12 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 render={({ field }) => (
                   <FormItem className="w-3/5">
                     <FormControl>
-                      <Input placeholder="Nhập giá trị căn hộ" {...field} type="number" inputMode="numeric" />
+                      <Input
+                        placeholder="Nhập giá trị căn hộ"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -279,7 +273,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                     <FormControl>
                       <Input
                         placeholder="Nhập số tầng của căn hộ"
-                        {...field} type="number" inputMode="numeric"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
                       />
                     </FormControl>
                     <FormMessage />
@@ -290,14 +286,21 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
           </div>
           <div className="flex justify-between gap-4">
             <div className="flex justify-start w-1/2 items-center gap-2">
-              <span className="text-blur text-sm w-1/5">Diện tích căn hộ (m²)</span>
+              <span className="text-blur text-sm w-1/5">
+                Diện tích căn hộ (m²)
+              </span>
               <FormField
                 control={form.control}
                 name="Area"
                 render={({ field }) => (
                   <FormItem className="w-3/5">
                     <FormControl>
-                      <Input placeholder="Nhập diện tích căn hộ" {...field} type="number" inputMode="numeric" />
+                      <Input
+                        placeholder="Nhập diện tích căn hộ"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -314,7 +317,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                     <FormControl>
                       <Input
                         placeholder="Nhập số phòng căn hộ"
-                        {...field} type="number" inputMode="numeric"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
                       />
                     </FormControl>
                     <FormMessage />
@@ -332,7 +337,12 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 render={({ field }) => (
                   <FormItem className="w-3/5">
                     <FormControl>
-                      <Input placeholder="Nhập số lượng phòng ngủ" {...field} type="number" inputMode="numeric" />
+                      <Input
+                        placeholder="Nhập số lượng phòng ngủ"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -382,7 +392,12 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 render={({ field }) => (
                   <FormItem className="w-3/5">
                     <FormControl>
-                      <Input placeholder="Nhập số lượng phòng nhà tắm" {...field} type="number" inputMode="numeric" />
+                      <Input
+                        placeholder="Nhập số lượng phòng nhà tắm"
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -638,8 +653,8 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                    ? URL?.createObjectURL(image)
-                    : image.url; // If it's an object from the API
+                  ? URL?.createObjectURL(image)
+                  : image.url; // If it's an object from the API
 
               return (
                 <div key={index} className="relative">
@@ -662,13 +677,16 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
             })}
           </div>
 
-
           {!data ? (
             <>
               <div className="flex space-x-4">
-                <Button variant="outline" type="submit" onClick={() => {
-                  console.log("Form data:", form.getValues());
-                }}>
+                <Button
+                  variant="outline"
+                  type="submit"
+                  onClick={() => {
+                    console.log("Form data:", form.getValues());
+                  }}
+                >
                   Tạo căn hộ
                 </Button>
 
@@ -679,7 +697,9 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
 
                   <DialogContent className="w-[24rem]">
                     <DialogHeader>
-                      <DialogTitle>Nhập số lượng mà bạn muốn sao chép </DialogTitle>
+                      <DialogTitle>
+                        Nhập số lượng mà bạn muốn sao chép{" "}
+                      </DialogTitle>
                       <FormField
                         control={form.control}
                         name="Quantity"
@@ -689,13 +709,20 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                         Số lượng sao chép
                       </span> */}
                             <FormControl>
-                              <Input placeholder="Nhập số lượng sao chép" {...field} type="number" />
+                              <Input
+                                placeholder="Nhập số lượng sao chép"
+                                {...field}
+                                type="number"
+                              />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
                         )}
                       />
-                      <Button variant="outline" onClick={form.handleSubmit(onSubmit)}>
+                      <Button
+                        variant="outline"
+                        onClick={form.handleSubmit(onSubmit)}
+                      >
                         Xác nhận
                       </Button>
                     </DialogHeader>
@@ -704,17 +731,19 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
               </div>
             </>
           ) : (
-            <Button variant="outline" type="submit" onClick={() => {
-              console.log("Form data:", form.getValues());
-            }}>
+            <Button
+              variant="outline"
+              type="submit"
+              onClick={() => {
+                console.log("Form data:", form.getValues());
+              }}
+            >
               Cập nhật căn hộ
             </Button>
           )}
-
-
         </form>
       </Form>
     </div>
   );
-}
-export default ApartmentCreate; 
+};
+export default ApartmentCreate;
