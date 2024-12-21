@@ -63,7 +63,7 @@ export const getRequestDepositByTeam = async ({
 }) => {
   try {
     const res = await apiClient.get(
-      `/deposits/search?teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
+      `/deposits/search?keyword=${query}&teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data.data;
   } catch (error) {

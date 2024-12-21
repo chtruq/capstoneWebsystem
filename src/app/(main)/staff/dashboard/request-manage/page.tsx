@@ -35,7 +35,7 @@ async function RequestManage(props: {
     <>
       <h1 className="text-2xl font-semibold">Quản lý yêu cầu</h1>
       <div>
-        <SearchInput placeholder="Tìm kiếm căn hộ" query="keyword" />
+        <SearchInput placeholder="Tìm kiếm mã yêu cầu, mã căn hộ" query="keyword" />
       </div>
       <Tabs defaultValue={activeTab}>
         <TabsList>

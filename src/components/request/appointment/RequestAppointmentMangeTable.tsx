@@ -23,6 +23,7 @@ import { useUserAccount } from '@/lib/context/UserAccountContext';
 import { Button } from "../../ui/button";
 import { formatDate } from '@/lib/utils/dataFormat';
 import DialogDetailAppointment from './DialogDetailAppointment';
+import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
 
 interface Props {
   data: Appointment[];
@@ -45,7 +46,7 @@ const tableType = (type: string) => {
     case "Rejected":
       return (
         <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-fit">
-          <p className="text-failed text-center">Từ chối</p>
+          <span className="text-failed text-center">Từ chối</span>
         </div>
       );
 
@@ -102,7 +103,13 @@ const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         {/* <Button variant='default' className='mr-2'>Chấp nhận</Button> */}
-                        Chấp nhận
+                        {/* Chấp nhận */}
+                        <AddNewAppointmentDialog
+                          ReferenceCode={item.appointmentRequestCode}
+                          CustomerID={item.customerID}
+                          ApartmentID={item.apartmentID}
+                          AssignedStaffAccountID=""
+                        />
                       </DropdownMenuItem>
                       <DropdownMenuItem>
                         Từ chối
