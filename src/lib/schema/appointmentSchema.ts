@@ -17,29 +17,54 @@ export const AppointmentSchema = z.object({
     .string()
     .min(1, "Ngày hẹn không được để trống")
     .refine((val) => !isNaN(Date.parse(val)), "Ngày hẹn không hợp lệ"),
-  startTime: z.object({
-    ticks: z
-      .string()
-  }),
+  startTime: z
+    .string({
+      required_error: "Thời gian là bắt buộc.",
+    }),
   assignedStaffAccountID: z
-    .string()
-    .uuid("ID tài khoản nhân viên không hợp lệ")
-    .optional()
-    .nullable(),
+    .string({
+      required_error: "Mã nhân là bắt buộc.",
+    })
+    .refine(
+      (val) =>
+        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+          val
+        ),
+      {
+        message: "Mã nhân viên phải là UUID hợp lệ.",
+      }
+    ),
   customerID: z
-    .string()
-    .uuid("ID khách hàng không hợp lệ")
-    .optional()
-    .nullable(),
+    .string({
+      required_error: "Mã khách hàng là bắt buộc.",
+    })
+    .refine(
+      (val) =>
+        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+          val
+        ),
+      {
+        message: "Mã khách hàng phải là UUID hợp lệ.",
+      }
+    ),
   apartmentID: z
-    .string()
-    .uuid("ID căn hộ không hợp lệ")
+    .string({
+      required_error: "Mã căn hộ là bắt buộc.",
+    })
+    .refine(
+      (val) =>
+        val === "" || // Cho phép chuỗi rỗng
+        /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+          val
+        ),
+      {
+        message: "Mã căn hộ phải là UUID hợp lệ hoặc để trống.",
+      }
+    )
     .optional()
     .nullable(),
   referenceCode: z
     .string()
     .min(1, "Mã tham chiếu không được để trống")
-    .max(50, "Mã tham chiếu không được dài hơn 50 ký tự")
-    .optional()
-    .nullable(),
+    .max(100, "Mã tham chiếu không được dài hơn 100 ký tự"),
 });

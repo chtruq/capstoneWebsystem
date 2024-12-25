@@ -66,7 +66,7 @@ async function TeamManage(props: {
 
       <div>
         <h1 className="font-semibold w-[20%] ">Danh sách thành viên</h1>
-        <div className="w-[20%] my-2">
+        <div className="w-[80%]">
           <SearchInput
             placeholder="Tìm kiếm thành viên"
             query="teamMemberName"

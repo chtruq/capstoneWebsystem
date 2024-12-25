@@ -33,7 +33,7 @@ async function RequestManage(props: {
   return (
     <>
       <h1 className="text-2xl font-semibold">Quản lý yêu cầu</h1>
-      <div className="my-2">
+      <div>
         <SearchInput placeholder="Tìm kiếm mã yêu cầu, mã căn hộ" query="keyword" />
       </div>
       <Tabs defaultValue={activeTab}>

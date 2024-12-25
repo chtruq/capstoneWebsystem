@@ -25,6 +25,9 @@ export async function middleware(req: NextRequest) {
     if (path.startsWith("/staff") && role !== "Staff") {
       return NextResponse.redirect(new URL("/unauthorized", req.url));
     }
+    if (path.startsWith("/seller") && role !== "Seller") {
+      return NextResponse.redirect(new URL("/unauthorized", req.url));
+    }
   } else {
     return NextResponse.redirect(new URL("/", req.url));
   }
@@ -33,5 +36,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/manager/:path*", "/staff/:path*"],
+  matcher: ["/admin/:path*", "/manager/:path*", "/staff/:path*", "/seller/:path*"],
 };

@@ -2,7 +2,7 @@ import { AppSidebar } from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import React from "react";
 
-function StaffLayout({ children }: { children: React.ReactNode }) {
+function SellerLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SidebarProvider>
@@ -13,7 +13,7 @@ function StaffLayout({ children }: { children: React.ReactNode }) {
         </main>
       </SidebarProvider>
     </>
-  );
+  )
 }
 
-export default StaffLayout;
+export default SellerLayout;

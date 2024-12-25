@@ -43,3 +43,12 @@ export const formatDateWithoutYear = (isoDateString: string): string => {
 }
 
 
+export const formatTime = (isoDateString: string): string => {
+  if (!isoDateString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
+  const date = new Date(isoDateString);
+  const hours = date.getHours().toString().padStart(2, "0");
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const seconds = date.getSeconds().toString().padStart(2, "0");
+  
+  return `${hours}:${minutes}:${seconds}`;
+}
