@@ -34,7 +34,7 @@ async function AppointmentManage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Lịch hẹn</h1>
-      <div className='my-2'>
+      <div>
         <SearchInput placeholder="Tìm kiếm mã giao dịch, mã căn hộ" query="keyword" />
       </div>
       <div>

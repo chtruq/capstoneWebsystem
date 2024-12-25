@@ -13,9 +13,9 @@ async function ProjectManage(props: {
   }>;
 }) {
   const userToken = await getUserInforFromCookie();
-  console.log("User Tolken", userToken);
-  console.log("User role", userToken?.role);
-  console.log("User id", userToken?.id);
+  // console.log("User Tolken", userToken);
+  // console.log("User role", userToken?.role);
+  // console.log("User id", userToken?.id);
   const searchParams = await props.searchParams;
   const query = searchParams?.projectName || "";
   const currentPage = Number(searchParams?.page) || 1;
@@ -49,7 +49,7 @@ async function ProjectManage(props: {
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý dự án</h1>
-      <div className="my-2">
+      <div>
         <SearchInput placeholder="Tìm kiếm tên dự án" query="projectName" />
       </div>
       <div>

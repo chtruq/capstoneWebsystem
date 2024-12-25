@@ -27,7 +27,7 @@ const tableType = (type: string) => {
     case "Completed":
       return (
         <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center">
-          <span className="text-success">Thành công</span>
+          <p className="text-success">Thành công</p>
         </div>
       );
 
@@ -42,13 +42,13 @@ const TransactionTable: FC<Props> = ({ data }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã giao dịch</TableHead>
-            <TableHead>Mã căn hộ</TableHead>
-            <TableHead>Khách hàng</TableHead>
-            <TableHead>Ngày giao dịch</TableHead>
-            <TableHead>Số tiền cọc</TableHead>
-            <TableHead>Phương thức thanh toán</TableHead>
-            <TableHead>Trạng thái</TableHead>
+            <TableHead className="font-semibold">Mã giao dịch</TableHead>
+            <TableHead className="font-semibold">Mã căn hộ</TableHead>
+            <TableHead className="font-semibold">Khách hàng</TableHead>
+            <TableHead className="font-semibold">Ngày giao dịch</TableHead>
+            <TableHead className="font-semibold">Số tiền cọc</TableHead>
+            <TableHead className="font-semibold">Phương thức thanh toán</TableHead>
+            <TableHead className="font-semibold">Trạng thái</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>

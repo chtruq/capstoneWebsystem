@@ -10,17 +10,49 @@ import { Eye, EyeOff } from "lucide-react";
 
 function SigninComponent() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const [form, setForm] = React.useState({
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const handleSubmit = async (email: string, password: string) => {
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+
+  const validateForm = () => {
+    const newErrors: { email: string; password: string } = { email: "", password: "" };
+
+    // Kiểm tra email
+    if (!form.email) {
+      newErrors.email = "Vui lòng nhập địa chỉ email.";
+    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
+      newErrors.email = "Địa chỉ email không hợp lệ.";
+    }
+
+    // Kiểm tra mật khẩu
+    if (!form.password) {
+      newErrors.password = "Vui lòng nhập mật khẩu.";
+    } else if (form.password.length < 6) {
+      newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+    }
+
+    setErrors(newErrors);
+    return !newErrors.email && !newErrors.password; // Form hợp lệ nếu không có lỗi
+  };
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return; // Dừng lại nếu form không hợp lệ
+
     try {
-      const res = await handleLogin(email, password);
+      setIsSubmitting(true);
+      const res = await handleLogin(form.email, form.password);
       console.log(res);
     } catch (e) {
-      console.log(e);
+      console.log("Đăng nhập thất bại:", e);
+      setErrors({ ...errors, email: "Đăng nhập thất bại. Vui lòng kiểm tra thông tin." });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -36,7 +68,7 @@ function SigninComponent() {
         />
         <p className="">Apartment trading floor</p>
       </div>
-      <div className="grid-cols-6 w-1/2 bg-primary flex items-center justify-center ">
+      <div className="grid-cols-6 w-1/2 bg-primary flex items-center justify-center">
         <div className="flex justify-center mt-8">
           <div className="w-full max-w-md mx-6">
             <div className="bg-card rounded-lg p-8">
@@ -48,17 +80,21 @@ function SigninComponent() {
               </h4>
 
               <div className="mb-4">
-                <label about="email" className="text-sm font-medium">
+                <label htmlFor="email" className="text-sm font-medium">
                   Địa chỉ email
                 </label>
                 <Input
                   id="email"
-                  className="mb-4"
+                  className={`mb-2 ${errors.email ? "border-red-500" : ""}`}
                   placeholder="Nhập địa chỉ email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
+                {errors.email && (
+                  <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
               </div>
+
               <div className="mb-4">
                 <label htmlFor="password" className="text-sm font-medium">
                   Mật khẩu
@@ -66,8 +102,8 @@ function SigninComponent() {
                 <div className="relative">
                   <Input
                     id="password"
-                    className="mb-4 pr-10" // Thêm padding phải để icon không chèn lên text
-                    type={showPassword ? "text" : "password"} // Thay đổi type
+                    className={`mb-2 pr-10 ${errors.password ? "border-red-500" : ""}`}
+                    type={showPassword ? "text" : "password"}
                     placeholder="Nhập mật khẩu"
                     value={form.password}
                     onChange={(e) =>
@@ -76,7 +112,7 @@ function SigninComponent() {
                   />
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)} // Thay đổi trạng thái hiển thị mật khẩu
+                    onClick={() => setShowPassword(!showPassword)}
                     className="absolute top-1/2 right-2 transform -translate-y-1/2"
                   >
                     {showPassword ? (
@@ -86,15 +122,18 @@ function SigninComponent() {
                     )}
                   </button>
                 </div>
+                {errors.password && (
+                  <p className="text-red-500 text-sm">{errors.password}</p>
+                )}
               </div>
-              <div className="flex justify-between">
-                <div className="mb-4">
+
+              <div className="flex justify-between mb-4">
+                <div>
                   <input type="checkbox" id="remember" />
-                  <label htmlFor="remember" className="text-sm font-medium">
+                  <label htmlFor="remember" className="text-sm font-medium ml-2">
                     Ghi nhớ đăng nhập
                   </label>
                 </div>
-
                 <div>
                   <Link className="underline" href="/auth/forgot-password">
                     Quên mật khẩu
@@ -103,13 +142,12 @@ function SigninComponent() {
               </div>
 
               <Button
-                onClick={() => {
-                  handleSubmit(form.email, form.password);
-                }}
+                onClick={handleSubmit}
                 className="bg-primary w-full"
                 variant={"default"}
+                disabled={isSubmitting}
               >
-                Đăng nhập
+                {isSubmitting ? "Đang đăng nhập..." : "Đăng nhập"}
               </Button>
             </div>
           </div>

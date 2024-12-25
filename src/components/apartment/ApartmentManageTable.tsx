@@ -39,14 +39,14 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Mã căn hộ</TableHead>
-            <TableHead>Hình ảnh</TableHead>
-            <TableHead>Giá</TableHead>
-            <TableHead className="text-center">Diện tích</TableHead>
-            <TableHead className="text-center">Phòng ngủ</TableHead>
-            <TableHead className="text-center">Nhà tắm</TableHead>
-            <TableHead>Thuộc dự án</TableHead>
-            <TableHead className="text-center">Trạng thái</TableHead>
+            <TableHead className='font-semibold'>Mã căn hộ</TableHead>
+            <TableHead className='font-semibold'>Hình ảnh</TableHead>
+            <TableHead className="text-center font-semibold">Giá</TableHead>
+            <TableHead className="text-center font-semibold">Diện tích</TableHead>
+            <TableHead className="text-center font-semibold">Phòng ngủ</TableHead>
+            <TableHead className="text-center font-semibold">Nhà tắm</TableHead>
+            <TableHead className='font-semibold'>Thuộc dự án</TableHead>
+            <TableHead className="text-center font-semibold">Trạng thái</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -65,7 +65,7 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                     className="rounded-lg w-16 h-16"
                   />
                 </TableCell>
-                <TableCell>{apartment.price}</TableCell>
+                <TableCell className="text-center">{apartment.price}</TableCell>
                 <TableCell className="text-center">{apartment.area}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfRooms}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfBathrooms}</TableCell>

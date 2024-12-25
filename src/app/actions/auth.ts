@@ -111,7 +111,7 @@ export const getUserInfoFromCookies = () => {
     return null;
   }
 };
-export const getUserInforFromCookie = () => {
+export const getUserInforFromCookie = async () => {
   const cookieStore = cookies();
   const token = cookieStore.get("token");
   console.log("Token from cookieeeee:", token);

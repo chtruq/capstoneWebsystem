@@ -22,11 +22,12 @@ import { useUserAccount } from '@/lib/context/UserAccountContext';
 
 import { Button } from "../../ui/button";
 import { formatDate } from '@/lib/utils/dataFormat';
-import DialogDetailAppointment from './DialogDetailAppointment';
+import DialogDetailAppointmentRequest from './DialogDetailAppointmentRequest';
 import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
+import RejectRequestDialog from '../RejectRequestDialog';
 
 interface Props {
-  data: Appointment[];
+  data: AppointmentRequest[];
 }
 
 const tableType = (type: string) => {
@@ -58,11 +59,15 @@ const tableType = (type: string) => {
 
 
 const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
-  console.log("Data in Manage Appoint Table", data);
-  const [selectedData, setSelectedData] = useState<Appointment | null>(null);
-
+  const [selectedData, setSelectedData] = useState<AppointmentRequest | null>(null);
+  const [rejectDialog, setRejectDialog] = useState<AppointmentRequest | null>(null);
+  const [addAppointmentDialog, setAddAppointmentDialog] = useState<AppointmentRequest | null>(null);
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false); // Quản lý trạng thái của dialog chi tiết
   const { user } = useUserAccount();
-  console.log("User in Manage Tableaa", user);
+  // console.log("User in Manage Tableaa", user);
+
+  // console.log("Data in Manage Appoint Table", data);
+  console.log("State isDetailDialogOpen in RequestManageTable", isDetailDialogOpen);
 
 
   return (
@@ -81,7 +86,7 @@ const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
         </TableHeader>
         <TableBody>
           {data && data.length > 0 ? (
-            data?.map((item: Appointment) => (
+            data?.map((item: AppointmentRequest) => (
               <TableRow key={item?.requestID}>
                 <TableCell>{item?.appointmentRequestCode}</TableCell>
                 <TableCell>{item?.apartmentCode}</TableCell>
@@ -97,25 +102,23 @@ const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
                     <DropdownMenuContent className='cursor-pointer align-middle'>
                       {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                       {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem onClick={() => setSelectedData(item)} // Gán dữ liệu của từng item vào selectedData
+                      <DropdownMenuItem onClick={() => {
+                        setSelectedData(item)
+                        setIsDetailDialogOpen(true)
+                      }} // Gán dữ liệu của từng item vào selectedData
                       >
                         Xem chi tiết
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        {/* <Button variant='default' className='mr-2'>Chấp nhận</Button> */}
-                        {/* Chấp nhận */}
-                        <AddNewAppointmentDialog
-                          ReferenceCode={item.appointmentRequestCode}
-                          CustomerID={item.customerID}
-                          ApartmentID={item.apartmentID}
-                          AssignedStaffAccountID=""
-                        />
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        Từ chối
-                      </DropdownMenuItem>
-                      {/* <DropdownMenuItem>Team</DropdownMenuItem>
-                      <DropdownMenuItem>Subscription</DropdownMenuItem> */}
+                      {item?.status === "Pending" && (
+                        <>
+                          <DropdownMenuItem onClick={() => setAddAppointmentDialog(item)}>
+                            Chấp nhận
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setRejectDialog(item)}>
+                            Từ chối
+                          </DropdownMenuItem>
+                        </>
+                      )}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -129,10 +132,53 @@ const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
         </TableBody>
       </Table>
       {/* Hiển thị PopupDetailAppointment */}
-      {selectedData && (
-        <DialogDetailAppointment
+      {isDetailDialogOpen && selectedData && (
+        <DialogDetailAppointmentRequest
+          accountID={user?.id || ""}
           data={selectedData}
-          onClose={() => setSelectedData(null)} // Đóng popup
+          isOpen={isDetailDialogOpen} // Trạng thái mở/đóng của dialog chi tiết
+          onClose={() => {
+            console.log("Closing dialogs...");
+            setSelectedData(null)
+            setIsDetailDialogOpen(false)
+          }} // Đóng popup
+        />
+      )}
+
+      {/* Hiển thị Popup từ chối */}
+      {rejectDialog && (
+        <RejectRequestDialog
+          requestId={rejectDialog?.requestID}
+          sellerId={user?.id || ""}
+          typeRequest="appointment"
+          onClose={() => {
+            console.log("Closing dialogs...");
+            setRejectDialog(null);
+            setIsDetailDialogOpen(false);
+          }} // Đóng popup
+          isSubmitted={() => {
+            setRejectDialog(null)
+            setIsDetailDialogOpen(false)
+          }}
+        />
+      )}
+
+      {/* Hiển thị Dialog AddNewAppointment */}
+      {addAppointmentDialog && (
+        <AddNewAppointmentDialog
+          ReferenceCode={addAppointmentDialog.appointmentRequestCode}
+          CustomerID={addAppointmentDialog.customerID}
+          ApartmentID={addAppointmentDialog.apartmentID}
+          AssignedStaffAccountID={user?.id || ""}
+          RequestID={addAppointmentDialog.requestID}
+          onClose={() => {
+            setAddAppointmentDialog(null)
+            setIsDetailDialogOpen(false)
+          }}
+          isSubmitted={() => {
+            setAddAppointmentDialog(null)
+            setIsDetailDialogOpen(false)
+          }}
         />
       )}
     </div>

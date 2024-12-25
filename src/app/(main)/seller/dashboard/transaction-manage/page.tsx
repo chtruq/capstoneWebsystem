@@ -22,7 +22,7 @@ async function TransactionPage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Giao dịch</h1>
-      <div className='my-2'>
+      <div>
         <SearchInput placeholder="Tìm kiếm mã giao dịch, mã căn hộ" query="transactionId" />
       </div>
       <div>

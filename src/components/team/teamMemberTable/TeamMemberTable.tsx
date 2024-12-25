@@ -21,10 +21,10 @@ const TeamMemberTable: FC<Props> = ({ data }) => {
         <TableHeader>
           <TableRow >
             {/* <TableHead>Mã nhân viên</TableHead> */}
-            <TableHead>Tên nhân viên</TableHead>
-            <TableHead>Số liên hệ</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Trạng thái</TableHead>
+            <TableHead className="font-semibold">Tên nhân viên</TableHead>
+            <TableHead className="font-semibold">Số liên hệ</TableHead>
+            <TableHead className="font-semibold">Email</TableHead>
+            <TableHead className="font-semibold">Trạng thái</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

@@ -23,6 +23,7 @@ import {
   User,
   Users,
   ListTodo,
+  FileCheck2,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
@@ -123,42 +124,42 @@ export function AppSidebar() {
 
   const StaffItem = [
     {
-      title: "Tổng quan", // Tổng quan có thể là dashboard chính, nhưng không phải là hoạt động chính của nhân viên
+      title: "Tổng quan",
       url: "/staff/dashboard",
       icon: LayoutDashboard,
     },
     {
-      title: "Quản lý yêu cầu", // Xử lý các yêu cầu tư vấn, đặt cọc, ký gửi - Hoạt động chính
+      title: "Quản lý yêu cầu",
       url: "/staff/dashboard/request-manage",
       icon: Users,
     },
     {
-      title: "Danh sách lịch hẹn", // Lịch hẹn với khách hàng là một phần quan trọng của công việc nhân viên
+      title: "Danh sách lịch hẹn",
       url: "/staff/dashboard/appointment-manage",
       icon: ListTodo,
     },
     {
-      title: "Danh sách căn hộ", // Quản lý danh sách các căn hộ là công việc quan trọng của nhân viên
+      title: "Danh sách căn hộ",
       url: "/staff/dashboard/apartment-manage",
       icon: Building2,
     },
     {
-      title: "Giao dịch", // Quản lý các giao dịch là một phần quan trọng trong quy trình của hệ thống
+      title: "Giao dịch",
       url: "/staff/dashboard/transaction-manage",
       icon: CreditCard,
     },
     {
-      title: "Quản lý dự án", // Quản lý các dự án là cần thiết nhưng ít quan trọng hơn so với các hoạt động ở trên
+      title: "Quản lý dự án",
       url: "/staff/dashboard/project-manage",
       icon: FolderKanban,
     },
     {
-      title: "Quản lý nhóm", // Quản lý nhóm có thể không phải ưu tiên hàng đầu nhưng vẫn quan trọng để theo dõi thành viên
+      title: "Quản lý nhóm",
       url: "/staff/dashboard/team-manage",
       icon: ListTodo,
     },
     {
-      title: "Cài đặt", // Cài đặt thường là phần ít tương tác nhất
+      title: "Cài đặt",
       url: "/staff/dashboard/setting",
       icon: Settings,
     },
@@ -189,6 +190,49 @@ export function AppSidebar() {
       title: "Cài đặt",
       url: "/projectprovider/dashboard/setting",
       icon: Settings,
+    },
+  ];
+
+  const SellerItem = [
+    {
+      title: "Tổng quan",
+      url: "/seller/dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      title: "Quản lý yêu cầu",
+      url: "/seller/dashboard/request-manage",
+      icon: Users,
+    },
+    {
+      title: "Danh sách lịch hẹn",
+      url: "/seller/dashboard/appointment-manage",
+      icon: ListTodo,
+    },
+    {
+      title: "Danh sách căn hộ",
+      url: "/seller/dashboard/apartment-manage",
+      icon: Building2,
+    },
+    {
+      title: "Ký gửi",
+      url: "/seller/dashboard/consignment-manage",
+      icon: FileCheck2,
+    },
+    {
+      title: "Giao dịch",
+      url: "/seller/dashboard/transaction-manage",
+      icon: CreditCard,
+    },
+    {
+      title: "Quản lý dự án",
+      url: "/seller/dashboard/project-manage",
+      icon: FolderKanban,
+    },
+    {
+      title: "Quản lý nhóm",
+      url: "/seller/dashboard/team-manage",
+      icon: ListTodo,
     },
   ];
 
@@ -303,6 +347,45 @@ export function AppSidebar() {
                             className={`flex items-center gap-2 p-5 rounded-xl`}
                           >
                             {item.title}</span>
+                        </a>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+
+              {pathname.includes("/seller/dashboard") &&
+                SellerItem.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      {item.title === "Tổng quan" ? (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
+                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                            }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl`}
+                          >
+                            {item.title}
+                          </span>
+                        </a>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
+                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                            : "text-gray-700 hover:bg-gray-400"
+                            }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl`}
+                          >
+                            {item.title}
+                          </span>
                         </a>
                       )}
                     </SidebarMenuButton>

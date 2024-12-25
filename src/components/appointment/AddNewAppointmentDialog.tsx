@@ -23,12 +23,18 @@ import { Textarea } from "../ui/textarea";
 import { useForm } from "react-hook-form";
 import { AppointmentSchema } from "@/lib/schema/appointmentSchema";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { formatTime } from "@/lib/utils/dataFormat";
+import { accepttRequestAppointment, createAppointment } from "@/app/actions/apointment";
+import { usePathname } from "next/navigation";
 
 interface Props {
   ReferenceCode: string;
   CustomerID: string;
   ApartmentID: string;
   AssignedStaffAccountID: string;
+  RequestID: string;
+  onClose: () => void;
+  isSubmitted: () => void;
 }
 
 const AddNewAppointmentDialog: FC<Props> = ({
@@ -36,6 +42,9 @@ const AddNewAppointmentDialog: FC<Props> = ({
   CustomerID,
   ApartmentID,
   AssignedStaffAccountID,
+  RequestID,
+  onClose,
+  isSubmitted,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -46,7 +55,7 @@ const AddNewAppointmentDialog: FC<Props> = ({
       description: "",
       location: "",
       appointmentDate: "",
-      startTime: { ticks: "10:00:00" },
+      startTime: "",
       assignedStaffAccountID: AssignedStaffAccountID,
       customerID: CustomerID,
       apartmentID: ApartmentID,
@@ -54,28 +63,46 @@ const AddNewAppointmentDialog: FC<Props> = ({
     },
   });
 
+  const pathName = usePathname();
+
+  // useEffect(() => {
+  //   console.log("Dữ liệu trong form:", form.watch());
+  // }, [form.watch()]);
+
+
   async function onSubmit(values: z.infer<typeof AppointmentSchema>) {
 
     try {
       setIsSubmitting(true);
       console.log("Đang gửi form với giá trị:", values); // Thêm log kiểm tra
+
+      // Gọi API tạo lịch hẹn
+      const appointmentResponse = await createAppointment(values);
+      console.log("Tạo lịch hẹn thành công:", appointmentResponse);
+
+      // Gọi API chấp nhận yêu cầu
+      const acceptResponse = await accepttRequestAppointment(RequestID, AssignedStaffAccountID);
+      console.log("Chấp nhận yêu cầu thành công:", acceptResponse);
+
+      // Đóng dialog và revalidate
+      isSubmitted();
+      form.reset();
+      revalidateProjectPath(pathName);
     } catch (error) {
       console.log("Đã xảy ra lỗi:", error); // Log nếu xảy ra lỗi
     } finally {
-      form.reset();
       setIsSubmitting(false);
-      // revalidateProjectPath("/manager/dashboard/appointment-manage");
     }
   }
 
   return (
     <div>
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog open={!!ReferenceCode} onOpenChange={onClose}>
         <DialogTrigger>
           <p>Chấp nhận</p>
         </DialogTrigger>
-        {/* <DialogContent showOverlay={false}> */}
-        <DialogContent>
+        <DialogContent showOverlay={true}>
+          {/* <DialogContent> */}
           <DialogHeader>
             <DialogTitle>Thêm lịch hẹn</DialogTitle>
             <DialogDescription asChild>
@@ -132,7 +159,15 @@ const AddNewAppointmentDialog: FC<Props> = ({
                         <FormItem>
                           <div>Ngay hen</div>
                           <FormControl>
-                            <Input type="date" {...field} />
+                            <Input type="datetime-local"
+                              {...field}
+                              onChange={(e) => {
+                                field.onChange(e); // Cập nhật giá trị của appointmentDate
+                                const date = new Date(e.target.value);
+                                const timeString = formatTime(date.toISOString());
+                                form.setValue("startTime", timeString); // Cập nhật startTime
+                              }}
+                            />
                           </FormControl>
                           <FormMessage className="text-error" />
                         </FormItem>
