@@ -33,3 +33,17 @@ export const getProviderDetails = async ({ id }: { id: string }) => {
     console.log(error);
   }
 }
+
+
+export const getProviderByAccountId = async ({ accountId }: { accountId: string }) => {
+  try {
+    console.log("get provider by account id", accountId);
+
+    const res = await apiClient.get(`/projectproviders/search?accountId=${accountId}`);
+    // console.log("res provide", res.data.data.providers);
+
+    return res.data.data.providers;
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -28,9 +28,30 @@ export const getProjectApartmentByStaff = async ({
 }) => {
   try {
     console.log("get project by staff");
-    
     const res = await apiClient.get(
       `/projects/search-or-manager?accountIdofTeam=${userId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching project apartments:", error);
+    throw error;
+  }
+};
+
+
+export const getProjectApartmentByProvider = async ({
+  providerId,
+  query,
+  currentPage,
+}: {
+  providerId: string;
+  query: string;
+  currentPage: number;
+}) => {
+  try {
+    console.log("get project by provider");
+    const res = await apiClient.get(
+      `/projects/search-or-manager?ApartmentProjectProviderID=${providerId}&projectName=${query}&pageIndex=${currentPage}&pageSize=10`
     );
     return res.data.data;
   } catch (error) {
@@ -52,7 +73,7 @@ export const getProject = async (id: string) => {
 export const createFinancialContract = async (data: any) => {
   try {
     console.log("data", data);
-    
+
     const res = await apiClient.post("/financial-contracts/create", data);
     return res;
   } catch (error) {
@@ -73,14 +94,14 @@ interface ProjectValue {
   ProjectApartmentName: string;
   ProjectApartmentDescription: string;
   Price_range: string;
-  ApartmentArea: string;
-  ProjectSize: string;
-  ProjectArea: string;
-  ConstructionStartYear: string;
-  ConstructionEndYear: string;
-  Address: string;
-  AddressUrl: string;
-  TotalApartment: string;
+  ApartmentArea?: string;
+  ProjectSize?: string;
+  ProjectArea?: string;
+  ConstructionStartYear?: string;
+  ConstructionEndYear?: string;
+  Address?: string;
+  AddressUrl?: string;
+  TotalApartment?: string;
   LicensingAuthority: string;
   LicensingDate: string;
   ApartmentProjectProviderID: string;
@@ -100,14 +121,30 @@ export const createProject = async (value: ProjectValue) => {
       value.ProjectApartmentDescription
     );
     formData.append("Price_range", value.Price_range);
-    formData.append("ApartmentArea", value.ApartmentArea);
-    formData.append("ProjectSize", value.ProjectSize);
-    formData.append("ProjectArea", value.ProjectArea);
-    formData.append("ConstructionStartYear", value.ConstructionStartYear);
-    formData.append("ConstructionEndYear", value.ConstructionEndYear);
-    formData.append("Address", value.Address);
-    formData.append("AddressUrl", value.AddressUrl);
-    formData.append("TotalApartment", value.TotalApartment);
+    if (value.ApartmentArea) {
+      formData.append("ApartmentArea", value.ApartmentArea);
+    }
+    if (value.ProjectSize) {
+      formData.append("ProjectSize", value.ProjectSize);
+    }
+    if (value.ProjectArea) {
+      formData.append("ProjectArea", value.ProjectArea);
+    }
+    if (value.ConstructionStartYear) {
+      formData.append("ConstructionStartYear", value.ConstructionStartYear);
+    }
+    if (value.ConstructionEndYear) {
+      formData.append("ConstructionEndYear", value.ConstructionEndYear);
+    }
+    if (value.Address) {
+      formData.append("Address", value.Address);
+    }
+    if (value.AddressUrl) {
+      formData.append("AddressUrl", value.AddressUrl);
+    }
+    if (value.TotalApartment) {
+      formData.append("TotalApartment", value.TotalApartment);
+    }
     formData.append("LicensingAuthority", value.LicensingAuthority);
     formData.append("LicensingDate", value.LicensingDate);
     formData.append(

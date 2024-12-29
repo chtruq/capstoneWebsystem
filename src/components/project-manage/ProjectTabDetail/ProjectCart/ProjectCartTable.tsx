@@ -11,11 +11,20 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { tableText, TextArea, TextPrice } from "@/lib/utils/project";
+import { formatMoneyShortcut, formatTextArea } from "@/lib/utils/dataFormat";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
-
+import { Ellipsis } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Props {
   data: Apartment[];
@@ -58,12 +67,13 @@ const ProjectCartTable: FC<Props> = ({ data, role }) => {
           <TableRow>
             <TableHead className="font-semibold">Mã căn hộ</TableHead>
             <TableHead className="font-semibold">Hình ảnh</TableHead>
-            <TableHead className="font-semibold">Giá</TableHead>
-            <TableHead className="font-semibold">Diện tích</TableHead>
-            <TableHead className="font-semibold">Phòng ngủ</TableHead>
-            <TableHead className="font-semibold">Nhà tắm</TableHead>
-            <TableHead className="font-semibold">Dự án</TableHead>
-            <TableHead className="font-semibold">Trạng thái</TableHead>
+            <TableHead className="font-semibold">Thuộc dự án</TableHead>
+            <TableHead className="font-semibold text-center">Giá trị căn hộ</TableHead>
+            <TableHead className="font-semibold text-center">Diện tích</TableHead>
+            <TableHead className="font-semibold text-center">Phòng ngủ</TableHead>
+            <TableHead className="font-semibold text-center">Nhà tắm</TableHead>
+            <TableHead className="font-semibold text-center">Trạng thái</TableHead>
+            <TableHead className="font-semibold text-center">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -76,16 +86,40 @@ const ProjectCartTable: FC<Props> = ({ data, role }) => {
                   width={70}
                   height={70}
                   alt="Ảnh"
-                  className="rounded-md w-12 h-12"
+                  className="rounded-md w-16 h-16"
                 />
               </TableCell>
-              <TableCell>{TextPrice(apartment.price)}</TableCell>
-              <TableCell>{TextArea(apartment.area)}</TableCell>
-              <TableCell>{tableText(apartment.numberOfRooms)}</TableCell>
-              <TableCell>{tableText(apartment.numberOfBathrooms)}</TableCell>
               <TableCell>{tableText(apartment.projectApartmentName)}</TableCell>
-              <TableCell>{tableType(apartment.apartmentStatus)}</TableCell>
-              <TableCell className="gap-1 flex">
+              <TableCell className="text-center">{formatMoneyShortcut(apartment.price)}</TableCell>
+              <TableCell className="text-center">{formatTextArea(apartment.area)}</TableCell>
+              <TableCell className="text-center">{tableText(apartment.numberOfRooms)}</TableCell>
+              <TableCell className="text-center">{tableText(apartment.numberOfBathrooms)}</TableCell>
+              <TableCell className="text-center">{tableType(apartment.apartmentStatus)}</TableCell>
+              <TableCell className="text-center">
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                      <Ellipsis size={24}/>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem>
+                      <Link
+                        href={`${newPathname}/apartment-manage/${apartment.apartmentID}/detail`}
+                      >
+                        Xem chi tiết
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        href={`${newPathname}/apartment-manage/${apartment.apartmentID}/detail`}
+                      >
+                        Sửa
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </TableCell>
+
+              {/* <TableCell className="gap-1 flex">
                 {role === "Management" ? (
                   <Link
                     href={`${newPathname}/apartment-manage/${apartment.apartmentID}/detail`}
@@ -106,7 +140,7 @@ const ProjectCartTable: FC<Props> = ({ data, role }) => {
                     <Button variant="outline">Sửa</Button>
                   </>
                 )}
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           ))}
         </TableBody>

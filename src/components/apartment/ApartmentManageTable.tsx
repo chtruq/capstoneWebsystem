@@ -12,7 +12,18 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { approveApartment, rejectApartment } from "@/app/actions/apartment";
-
+import { Ellipsis } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { formatMoneyShortcut, formatTextArea } from "@/lib/utils/dataFormat";
+import { usePathname } from "next/navigation";
+import { revalidateProjectPath } from "@/app/actions/revalidate";
 
 interface Props {
   data: Apartment[];
@@ -23,6 +34,31 @@ interface Props {
   role: string;
 }
 
+const statusType = (type: string) => {
+  switch (type) {
+    case "Confirmed":
+      return (
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+          <p className="text-pending">Đang tiến hành</p>
+        </div>
+      );
+    case "Done":
+      return (
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+          <p className="text-success">Thành công</p>
+        </div>
+      );
+    case "Canceled":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+          <p className="text-failed text-center">Đã được hủy</p>
+        </div>
+      );
+
+    default:
+      return type;
+  }
+};
 
 const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
   role = role.toString().toLowerCase();
@@ -33,6 +69,7 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
   }
   // console.log("User role from manage after", role);
   console.log("Data from manage table", data);
+  const pathName = usePathname();
 
   return (
     <div>
@@ -41,13 +78,13 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
           <TableRow>
             <TableHead className='font-semibold'>Mã căn hộ</TableHead>
             <TableHead className='font-semibold'>Hình ảnh</TableHead>
-            <TableHead className="text-center font-semibold">Giá</TableHead>
+            <TableHead className='font-semibold'>Thuộc dự án</TableHead>
+            <TableHead className="text-center font-semibold">Giá trị căn hộ</TableHead>
             <TableHead className="text-center font-semibold">Diện tích</TableHead>
             <TableHead className="text-center font-semibold">Phòng ngủ</TableHead>
             <TableHead className="text-center font-semibold">Nhà tắm</TableHead>
-            <TableHead className='font-semibold'>Thuộc dự án</TableHead>
             <TableHead className="text-center font-semibold">Trạng thái</TableHead>
-            <TableHead></TableHead>
+            <TableHead className="text-center font-semibold">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -65,32 +102,45 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                     className="rounded-lg w-16 h-16"
                   />
                 </TableCell>
-                <TableCell className="text-center">{apartment.price}</TableCell>
-                <TableCell className="text-center">{apartment.area}</TableCell>
+                <TableCell>{apartment.projectApartmentName}</TableCell>
+                <TableCell className="text-center">{formatMoneyShortcut(apartment.price)}</TableCell>
+                <TableCell className="text-center">{formatTextArea(apartment.area)}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfRooms}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfBathrooms}</TableCell>
-                <TableCell>{apartment.projectApartmentName}</TableCell>
                 <TableCell className="text-center">{apartment.apartmentStatus}</TableCell>
-                <TableCell className="items-center">
-                  <Link
-                    href={`/${role}/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
-                  >
-                    <Button className="items-center" variant="outline" >
-                      Xem chi tiết
-                    </Button>
-                  </Link>
-                  {state.state === "pending-request" ? (
-                    <>
-                      <Button className="items-center" variant="outline" onClick={() => approveApartment({ id: apartment.apartmentID })}>
-                        Duyệt
-                      </Button>
-                      <Button className="items-center" variant="outline" onClick={() => rejectApartment({ id: apartment.apartmentID })}>
-                        Từ chối
-                      </Button>
-                    </>
-                  ) : (
-                    <></>
-                  )}
+                <TableCell className="text-center">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <Ellipsis size={24} />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuItem>
+                        <Link
+                          href={`/${role}/dashboard/apartment-manage/${apartment.apartmentID}/detail`}
+                        >
+                          Xem chi tiết
+                        </Link>
+                      </DropdownMenuItem>
+                      {state.state === "pending-request" ? (
+                        <>
+                          <DropdownMenuItem onClick={() => {
+                            approveApartment({ id: apartment.apartmentID })
+                            revalidateProjectPath(pathName)
+                          }}>
+                            Duyệt
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => {
+                            rejectApartment({ id: apartment.apartmentID })
+                            revalidateProjectPath(pathName)
+                          }}>
+                            Từ chối
+                          </DropdownMenuItem>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow> //sda
             ))

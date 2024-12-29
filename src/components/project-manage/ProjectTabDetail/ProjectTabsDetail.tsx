@@ -38,11 +38,11 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
   const count = projectCart.apartments.length;
 
   console.log("imageeeeeeee", data?.projectImages);
-  
+
 
   return (
     <div className="w-full">
-      <h1>data {data?.projectApartmentID}</h1>
+      {/* <h1>data {data?.projectApartmentID}</h1> */}
       <Tabs defaultValue="overview" className="w-full">
         <TabsList className="grid max-w-screen-sm grid-cols-5">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
@@ -146,7 +146,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                   <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.id, url: img.imageUrl }))} />
                 </div>
               ))} */}
-              
+
               <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.projectImageID, url: img.url, description: img.description }))} />
               {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
             </div>
@@ -155,9 +155,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
         <TabsContent value="cart">
           <div>
             <div className="flex justify-between">
-              <p className="text-blur text-sm">
-                Hiển thị {count} trên {totalItem} căn hộ
-              </p>
+
               {userInfor?.role === "Staff" ? (
                 <div className="w-3/4 flex justify-end mr-20">
                   <Button variant="default">
@@ -172,7 +170,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
 
             </div>
             <div>
-              <ProjectCartTable data={projectCart.apartments} role={userInfor?.role}/>
+              <ProjectCartTable data={projectCart.apartments} role={userInfor?.role} />
             </div>
             <div>
               {totalPages ? (

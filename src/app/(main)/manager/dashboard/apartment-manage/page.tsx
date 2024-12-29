@@ -21,8 +21,8 @@ async function ApartmentManage(props: {
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
-      <div className="flex">
-        <div className="w-3/4">
+      <div className="flex justify-between items-center">
+        <div className="w-[40%] my-2">
           <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
         </div>
         <Link
@@ -36,13 +36,13 @@ async function ApartmentManage(props: {
         <ApartmentTable query={query} currentPage={currentPage} state="list-apt" />
       </div>
 
-      <div className="absolute bottom-0 right-0">
-        {totalPages !== 1 ? (
+      {/* <div className="absolute bottom-0 right-0">
+        {totalPages > 1 ? (
           <PaginationComponent totalPages={totalPages} />
         ) : (
           <></>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -81,11 +81,6 @@ export function AppSidebar() {
       icon: User,
     },
     {
-      title: "Danh sách yêu cầu",
-      url: "/manager/dashboard/request-manage",
-      icon: ListCheck,
-    },
-    {
       title: "Quản lý căn hộ",
       url: "/manager/dashboard/apartment-manage",
       icon: Building2,
@@ -144,6 +139,11 @@ export function AppSidebar() {
       icon: Building2,
     },
     {
+      title: "Ký gửi",
+      url: "/staff/dashboard/consignment-manage",
+      icon: FileCheck2,
+    },
+    {
       title: "Giao dịch",
       url: "/staff/dashboard/transaction-manage",
       icon: CreditCard,
@@ -165,30 +165,20 @@ export function AppSidebar() {
     },
   ];
 
-  const ProjectProviderItem = [
+  const ProviderItem = [
     {
       title: "Tổng quan",
-      url: "/projectprovider/dashboard",
+      url: "/provider/dashboard",
       icon: LayoutDashboard,
     },
     {
       title: "Quản lý dự án",
-      url: "/projectprovider/dashboard/project-manage",
+      url: "/provider/dashboard/project-manage",
       icon: FolderKanban,
     },
     {
-      title: "Quản lý căn hộ",
-      url: "/projectprovider/dashboard/apartment-manage",
-      icon: Building2,
-    },
-    {
-      title: "Quản lý nhà cung cấp",
-      url: "/projectprovider/dashboard/provider-manage",
-      icon: BriefcaseBusiness,
-    },
-    {
       title: "Cài đặt",
-      url: "/projectprovider/dashboard/setting",
+      url: "/provider/dashboard/setting",
       icon: Settings,
     },
   ];
@@ -355,6 +345,45 @@ export function AppSidebar() {
 
               {pathname.includes("/seller/dashboard") &&
                 SellerItem.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      {item.title === "Tổng quan" ? (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
+                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                            }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl`}
+                          >
+                            {item.title}
+                          </span>
+                        </a>
+                      ) : (
+                        <a
+                          href={item.url}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
+                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                            : "text-gray-700 hover:bg-gray-400"
+                            }`}
+                        >
+                          <item.icon />
+                          <span
+                            className={`flex items-center gap-2 p-5 rounded-xl`}
+                          >
+                            {item.title}
+                          </span>
+                        </a>
+                      )}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+
+              {pathname.includes("/provider/dashboard") &&
+                ProviderItem.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
                       {item.title === "Tổng quan" ? (

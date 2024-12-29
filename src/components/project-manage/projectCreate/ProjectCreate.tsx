@@ -45,6 +45,8 @@ import {
 } from "@/components/ui/command";
 import { createProject } from "@/app/actions/project";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface Props {
   facilities: Facility[];
@@ -60,6 +62,13 @@ interface ImageType {
 
 const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   console.log("data of projects", data);
+  const router = useRouter();
+  const pathname = usePathname();
+  console.log("Original pathname:", pathname);
+
+  const newPathname = pathname.split("/").slice(0, -1).join("/");
+  console.log("Updated pathname:", newPathname);
+
 
   const form = useForm<z.infer<typeof projectSchema>>({
     resolver: zodResolver(projectSchema),
@@ -147,12 +156,14 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   const onSubmit = async (value: z.infer<typeof projectSchema>) => {
     try {
       const payload = { ...value, Images: selectedImages };
+      console.log("Create project payload", payload);
       if (data) {
         // const res = await updateProject(data.projectApartmentID, payload);
         // console.log("Update project successfully", res);
       } else {
-        console.log("Create project payload", payload);
-        // const res = await createProject(payload);
+        const res = await createProject(payload);
+        console.log("Create project successfully", res);
+        router.push(newPathname);
       }
     } catch (error) {
       console.error("Error creating project:", error);
@@ -217,7 +228,12 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.log("Lỗi validation:", errors);
+          })}
+          className="space-y-8"
+        >
           <h1 className="font-semibold">Thông tin dự án</h1>
           <div className="flex justify-between gap-4">
             <div className="flex justify-start w-1/2 items-center gap-5">
@@ -276,10 +292,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                  (provider) =>
-                                    provider.apartmentProjectProviderID ===
-                                    field.value
-                                )?.apartmentProjectProviderName
+                                (provider) =>
+                                  provider.apartmentProjectProviderID ===
+                                  field.value
+                              )?.apartmentProjectProviderName
                               : "Chọn chủ đầu tư"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -778,8 +794,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                  ? URL?.createObjectURL(image)
-                  : (image as ImageType).url;
+                    ? URL?.createObjectURL(image)
+                    : (image as ImageType).url;
 
               return (
                 <div key={index} className="relative">

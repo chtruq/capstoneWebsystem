@@ -43,9 +43,8 @@ import {
   createApartment,
   createMultipleApartment,
 } from "@/app/actions/apartment";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
-import { useRouter } from "next/navigation";
 
 interface Props {
   projectId: string;
@@ -193,12 +192,14 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
           console.log("Payload create multi apt:", payload);
           setIsDialogOpen(false);
           await createMultipleApartment(payload);
-          revalidateProjectPath(newPathname);
+          router.push(newPathname);
+          router.refresh();
         } else {
           console.log("Payload create single apt:", payload);
           await createApartment(payload);
           revalidateProjectPath(newPathname);
           router.push(newPathname);
+          router.refresh();
         }
         revalidateProjectPath(newPathname);
       }
@@ -212,7 +213,12 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form
+          onSubmit={form.handleSubmit(onSubmit, (errors) => {
+            console.log("Lỗi validation:", errors);
+          })}
+          className="space-y-8"
+        >
           <h1 className="font-semibold">Thông tin dự án</h1>
           <div className="flex justify-between gap-4">
             <div className="flex justify-start w-1/2 items-center gap-2">
@@ -506,6 +512,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -574,6 +581,7 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -657,8 +665,8 @@ const ApartmentCreate: FC<Props> = ({ data, projectId, staffId }) => {
                 typeof image === "string" // If it's already a URL string
                   ? image
                   : image instanceof File // If it's a File object
-                  ? URL?.createObjectURL(image)
-                  : (image as ImageType).url; // If it's an object from the API
+                    ? URL?.createObjectURL(image)
+                    : (image as ImageType).url; // If it's an object from the API
 
               return (
                 <div key={index} className="relative">

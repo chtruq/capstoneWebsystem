@@ -24,7 +24,7 @@ export const UserAccountProvider: React.FC<{ children: React.ReactNode }> = ({ c
     const fetchUserData = async () => {
       try {
         const userData = await getUserInforFromCookie();
-        console.log("User data from cookiess:", userData);
+        // console.log("User data from cookiess:", userData);
         setUser(userData);
       } catch (error) {
         console.error("Failed to load user data", error);
@@ -43,8 +43,8 @@ export const UserAccountProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
 export const useUserAccount = (): UserAccountContextProps => {
   const context = useContext(UserAccountContext);
-  console.log("Contextttt", context?.user);
-  
+  // console.log("Contextttt", context?.user);
+
   if (!context) {
     throw new Error("useUserAccount must be used within a UserAccountProvider");
   }

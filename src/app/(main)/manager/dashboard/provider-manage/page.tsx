@@ -25,7 +25,7 @@ async function ProviderManage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Quản lý nhà cung cấp</h1>
-      <div>
+      <div className="w-[40%] my-2">
         <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
       </div>
       <div>

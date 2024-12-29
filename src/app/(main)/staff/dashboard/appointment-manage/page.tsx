@@ -34,13 +34,13 @@ async function AppointmentManage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Lịch hẹn</h1>
-      <div className='my-2'>
-        <SearchInput placeholder="Tìm kiếm mã giao dịch, mã căn hộ" query="keyword" />
+      <div className='w-[40%] my-2'>
+        <SearchInput placeholder="Tìm kiếm mã lịch hẹn, tên khách hàng" query="keyword" />
       </div>
       <div>
         <AppointmentTable data={dataAppointment?.appointments} />
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div>
         {totalPages > 1 && (
           <PaginationComponent totalPages={totalPages} />
         )}

@@ -12,9 +12,10 @@ import {
 import { Button } from "../ui/button";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { formatDateTime } from "@/lib/utils/dataFormat";
+import { is } from "date-fns/locale";
+import { acceptAppointment, rejectAppointment } from "@/app/actions/apointment";
 
 interface Props {
-  appointmentId: string;
   data: Appointment;
   isOpen: boolean;
   onClose: () => void;
@@ -46,12 +47,61 @@ const statusType = (type: string) => {
   }
 };
 
+const appoinmentType = (type: string) => {
+  switch (type) {
+    case "Appointment":
+      return (
+        type = "Tư vấn căn hộ"
+      );
+    case "Property":
+      return (
+        type = "Tư vấn ký gửi"
+      );
+    case "Deposit":
+      return (
+        type = "Tư vấn đặt cọc"
+      );
+
+    default:
+      return type;
+  }
+};
 
 
-
-const DialogDetailAppointment: FC<Props> = ({ appointmentId, data, isOpen, onClose }) => {
+const DialogDetailAppointment: FC<Props> = ({ data, isOpen, onClose }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(isOpen);
   console.log("State isOpen", isDialogOpen);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  // console.log("Update data", formatDateTime(data?.updatedDate));
+  // console.log("Craete date", formatDateTime(data?.createDate));
+  console.log("Data appointmentID in dialog", data.appointmentID);
+  console.log("Data in dialog", data.appointmentID);
+
+
+  const onReject = async () => {
+    setIsSubmitting(true);
+    try {
+      await rejectAppointment(data.appointmentID);
+      onClose();
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error("Lỗi khi từ chối cuộc hẹn:", error);
+      alert("Đã xảy ra lỗi. Vui lòng thử lại.");
+    }
+  }
+
+  const onAccept = async () => {
+    setIsSubmitting(true);
+    try {
+      await acceptAppointment(data.appointmentID);
+      onClose();
+      setIsSubmitting(false);
+    } catch (error) {
+      console.error("Lỗi khi chấp nhận cuộc hẹn:", error);
+      alert("Đã xảy ra lỗi. Vui lòng thử lại.");
+    }
+  }
+
 
   return (
     <div>
@@ -70,7 +120,7 @@ const DialogDetailAppointment: FC<Props> = ({ appointmentId, data, isOpen, onClo
                   <div className="font-normal">{data.appointmentCode || "Đang cập nhật"}</div>
 
                   <div className="font-semibold">Loại cuộc hiện:</div>
-                  <div>{data.title || "Đang cập nhật"}</div>
+                  <div>{appoinmentType(data.appointmentTypes) || "Đang cập nhật"}</div>
 
                   <div className="font-semibold">Mã căn hộ:</div>
                   <div>{data.apartmentCode || "Đang cập nhật"}</div>
@@ -82,7 +132,7 @@ const DialogDetailAppointment: FC<Props> = ({ appointmentId, data, isOpen, onClo
                   <div>{statusType(data.appointmentStatus) || "Đang cập nhật"}</div>
 
                   <div className="font-semibold">Thời gian cập nhật:</div>
-                  {new Date(data.updatedDate) < new Date(data.appointmentDate)
+                  {new Date(data.updatedDate) <= new Date(data.createDate)
                     ? "Đang cập nhật"
                     : formatDateTime(data.updatedDate)}
                 </div>
@@ -121,6 +171,26 @@ const DialogDetailAppointment: FC<Props> = ({ appointmentId, data, isOpen, onClo
               </div>
             </div>
           </DialogDescription>
+          {data.appointmentStatus === "Confirmed" ? (
+            <DialogFooter>
+              <Button
+                variant={"default"}
+                onClick={onReject}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Đang gửi..." : "Hủy"}
+              </Button>
+              <Button
+                variant={"default"}
+                onClick={onAccept}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Đang gửi..." : "Hoàn thành"}
+              </Button>
+            </DialogFooter>
+          ) : (
+            <> </>
+          )}
         </DialogContent>
       </Dialog>
     </div>

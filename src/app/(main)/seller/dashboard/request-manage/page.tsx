@@ -33,7 +33,7 @@ async function RequestManage(props: {
   return (
     <>
       <h1 className="text-2xl font-semibold">Quản lý yêu cầu</h1>
-      <div>
+      <div className="my-2 w-[40%]">
         <SearchInput placeholder="Tìm kiếm mã yêu cầu, mã căn hộ" query="keyword" />
       </div>
       <Tabs defaultValue={activeTab}>
@@ -74,14 +74,12 @@ async function RequestManage(props: {
         </TabsContent>
         {dataTeam.teamType !== "ProjectManagement" ? (
           <TabsContent value="property">
-            <div>Ký gửi</div>
-            <RequestPropertyTable />
+            <RequestPropertyTable
+              query={query}
+              currentPage={currentPage}
+            />
           </TabsContent>
         ) : null}
-        {/* <TabsContent value="property">
-          <div>Ký gửi</div>
-          <RequestPropertyTable />
-        </TabsContent> */}
       </Tabs>
     </>
   );

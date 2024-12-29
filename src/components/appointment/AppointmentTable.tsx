@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,7 +20,12 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis } from 'lucide-react';
 import DialogDetailAppointment from "./DialogDetailAppointment";
-import { set } from "zod";
+import { acceptAppointment, rejectAppointment } from "@/app/actions/apointment";
+import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { usePathname } from "next/navigation";
+import { checkOwnerExist } from "@/app/actions/apartmentOwer";
+import { set } from "date-fns";
+import AddNewOwner from "../consignment/apartmentOwner/AddNewOwner";
 
 interface Props {
   data: Appointment[];
@@ -58,17 +63,13 @@ const appoinmentType = (type: string) => {
       return (
         type = "Tư vấn căn hộ"
       );
-    case "Accepted":
+    case "Property":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-fit">
-          <span className="text-success">Thành công</span>
-        </div>
+        type = "Tư vấn ký gửi"
       );
-    case "Rejected":
+    case "Deposit":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-fit">
-          <span className="text-failed text-center">Từ chối</span>
-        </div>
+        type = "Tư vấn đặt cọc"
       );
 
     default:
@@ -79,79 +80,149 @@ const appoinmentType = (type: string) => {
 const AppointmentTable: FC<Props> = ({ data }) => {
   const [selectetDataDetail, setSelectetDataDetail] = useState<Appointment | null>(null);
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false); // Quản lý trạng thái của dialog chi tiết
+  const [isOwner, setIsOwner] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountID, setAccountID] = useState<string | null>(null);
+  const pathName = usePathname();
+
+  const handleCheckOwner = async (customerId: string) => {
+    try {
+      // console.log("Checking owner existence for customer ID:", customerId);
+      const result = await checkOwnerExist(customerId);
+      console.log("Owner existence result:", result);
+      setIsOwner(result);
+      if (result === false) {
+        setIsLoading(true);
+      }
+    } catch (error) {
+      console.error("Error checking owner existence:", error);
+      alert("Error occurred while checking owner existence.");
+    }
+  };
+
+  // Log `isOwner` when it changes
+  useEffect(() => {
+    console.log("isOwner changed:", isOwner);
+    console.log("isLoading changed:", isLoading);
 
 
+  }, [isOwner]);
 
-  console.log("Data in tableeee", data);
+
+  // console.log("Data in tableeee", data);
+  // console.log("pathName in tableeee", pathName);
 
 
   return (
+
     <div>
       <Table>
         <TableHeader>
           <TableRow>
             <TableHead className="font-semibold">Mã lịch hẹn</TableHead>
             <TableHead className="font-semibold">Khách hàng</TableHead>
-            <TableHead className="font-semibold">Số điện thoại</TableHead>
-            <TableHead className="font-semibold">Thời gian hẹn</TableHead>
-            <TableHead className="font-semibold">Kiểu lịch hẹn</TableHead>
-            <TableHead className="font-semibold">Trạng thái</TableHead>
-            {/* <TableHead className="font-semibold">Địa điểm</TableHead> */}
+            <TableHead className="font-semibold text-center">Số điện thoại</TableHead>
+            <TableHead className="font-semibold text-center">Thời gian hẹn</TableHead>
+            <TableHead className="font-semibold text-center">Kiểu lịch hẹn</TableHead>
+            <TableHead className="font-semibold text-center">Trạng thái</TableHead>
+            <TableHead className="font-semibold text-center">Thao tác</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.map((data: Appointment) => (
-            <TableRow key={data.appointmentID}>
-              <TableCell>{data.appointmentCode}</TableCell>
-              <TableCell>{data.customerName}</TableCell>
-              <TableCell>{data.customerPhone}</TableCell>
-              <TableCell>{formatDateTime(data.appointmentDate)}</TableCell>
-              <TableCell>{appoinmentType(data.appointmentTypes)}</TableCell>
-              <TableCell>{statusType(data.appointmentStatus)}</TableCell>
-              {/* <TableCell>{data.location}</TableCell> */}
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <Ellipsis size={24} />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent>
-                    {/* <DropdownMenuLabel>Thao tác</DropdownMenuLabel> */}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem onClick={() => {
-                      setSelectetDataDetail(data)
-                      setIsDetailDialogOpen(true)
+          {data && data.length > 0 ? (
+            data?.map((data: Appointment) => (
+              <TableRow key={data.appointmentID}>
+                <TableCell>{data.appointmentCode}</TableCell>
+                <TableCell>{data.customerName}</TableCell>
+                <TableCell className="text-center">{data.customerPhone}</TableCell>
+                <TableCell className="text-center">{formatDateTime(data.appointmentDate)}</TableCell>
+                <TableCell className="text-center">{appoinmentType(data.appointmentTypes)}</TableCell>
+                <TableCell className="flex justify-center">{statusType(data.appointmentStatus)}</TableCell>
+                {/* <TableCell>{data.location}</TableCell> */}
+                <TableCell className="text-center">
+                  <DropdownMenu onOpenChange={() => {
+                    setIsOwner(false)
+                    setIsLoading(false)
+                  }}>
+                    <DropdownMenuTrigger onPointerDown={() => {
+                      // console.log("Xác minh khách hàng")
+                      handleCheckOwner(data.customerID)
                     }}>
-                      Chi tiết
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      Hoàn thành
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      Hủy
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
+                      <Ellipsis size={24} />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      {/* <DropdownMenuLabel>Thao tác</DropdownMenuLabel> */}
+                      {/* <DropdownMenuSeparator /> */}
+                      <DropdownMenuItem onClick={() => {
+                        setSelectetDataDetail(data)
+                        setIsDetailDialogOpen(true)
+                      }}>
+                        Chi tiết
+                      </DropdownMenuItem>
+                      {isOwner === false && data.appointmentTypes === "Property" && isLoading ? (
+                        <DropdownMenuItem onClick={() => setAccountID(data.customerID)}>
+                          Tạo chủ nhân
+                        </DropdownMenuItem>
+                      ) : (
+                        <></>
+                      )}
+
+                      {data.appointmentStatus === "Confirmed" ? (
+                        <>
+                          <DropdownMenuItem onClick={() => {
+                            acceptAppointment(data.appointmentID)
+                            revalidateProjectPath(pathName);
+                          }}>
+                            Hoàn thành
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => {
+                            rejectAppointment(data.appointmentID)
+                            revalidateProjectPath(pathName);
+                          }}>
+                            Hủy
+                          </DropdownMenuItem>
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={7} className="text-center">Không có dữ liệu</TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
 
       {/* Hiển thị Dialog Detail */}
-      {selectetDataDetail && (
-        <DialogDetailAppointment
-          appointmentId={selectetDataDetail.appointmentID}
-          data={selectetDataDetail}
-          isOpen={true}
-          onClose={() => {
-            setSelectetDataDetail(null)
-            setIsDetailDialogOpen(false)
-          }}
+      {
+        selectetDataDetail && (
+          <DialogDetailAppointment
+            data={selectetDataDetail}
+            isOpen={isDetailDialogOpen}
+            onClose={() => {
+              setSelectetDataDetail(null)
+              setIsDetailDialogOpen(false)
+              revalidateProjectPath(pathName);
+            }}
+          />
+        )
+      }
+
+      {/* Hiển thị Dialog tạo chủ nhân */}
+      {accountID && (
+        <AddNewOwner
+          onClose={() => setAccountID(null)}
+          AccountID={accountID}
         />
       )}
 
-    </div>
+    </div >
   );
 }
 
