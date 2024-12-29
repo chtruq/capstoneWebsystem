@@ -22,10 +22,10 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         </TabsList>
         <TabsContent value="overview">
           <div>
-            <h1>{data?.apartmentID}</h1>
-            <h1>{data?.apartmentStatus}</h1>
+            {/* <h1>{data?.apartmentID}</h1>
+            <h1>{data?.apartmentStatus}</h1> */}
             <h1 className="font-semibold">Thông tin căn hộ</h1>
-            <div className="grid grid-cols-2 grid-rows-7 gap-4">
+            <div className="grid grid-cols-2 gap-4">
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Tên căn hộ</span>
                 <span className="w-2/3">{data.apartmentName}</span>
@@ -77,14 +77,14 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                 <span className="w-2/3">{data.balconyDirection}</span>
               </div>
             </div>
-            <h1 className="font-semibold">Mô tả căn hộ</h1>
+            <h1 className="font-semibold mt-4">Mô tả căn hộ</h1>
             <div>{data.description}</div>
           </div>
         </TabsContent>
         <TabsContent value="media">
           <div>
             <h1 className="font-semibold">Hình ảnh ({data.images.length})</h1>
-            
+
             {/* <div className="grid grid-cols-4 gap-4">
               {data.images.map((image) => (
                 <Image

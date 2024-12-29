@@ -42,11 +42,11 @@ export const rejectRequestAppointment = async (requestId: string, sellerId: stri
 
 export const accepttRequestAppointment = async (requestId: string, sellerId: string) => {
   try {
-    console.log("Request ID in reject", requestId);
-    console.log("Seller ID in reject:", sellerId);
+    console.log("Request ID accept", requestId);
+    console.log("Seller ID in accept:", sellerId);
 
     const res = await apiClient.put(`/appointmentrequests/accept/${requestId}?sellerId=${sellerId}`);
-    console.log("Res in reject", res);
+    console.log("Res in accept", res);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -83,7 +83,8 @@ export const createAppointment = async (data: z.infer<typeof AppointmentSchema>)
     console.log("Res in create appointment", res);
     return res.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error in createAppointment:", error);
+    throw error;
   }
 }
 
@@ -131,4 +132,49 @@ export const getAppointmentByTeamId = async ({
   }
 };
 
+export const getAppointmentByAssignAccountId = async ({
+  query,
+  currentPage,
+  accountId,
+}: {
+  query: string;
+  currentPage: number;
+  accountId: string;
+}) => {
+  try {
+    const res = await apiClient.get(
+      `/appointments/search?keyword=${query}&SellerId=${accountId}&PageIndex=${currentPage}&PageSize=10`
+    );
+    // console.log("Res in get appointment by team", res.data.data);
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const acceptAppointment = async (appointmentId: string) => {
+  try {
+    console.log("appointmentId  accept:", appointmentId);
+
+    const res = await apiClient.put(`/appointments/complete-appointment/${appointmentId}`);
+    console.log("Res in reject", res);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const rejectAppointment = async (appointmentId: string) => {
+  try {
+    console.log("appointmentId  accept:", appointmentId);
+
+    const res = await apiClient.put(`/appointments/cancel-appointment/${appointmentId}`);
+    console.log("Res in reject", res);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 

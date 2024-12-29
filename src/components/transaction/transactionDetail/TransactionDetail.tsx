@@ -17,6 +17,22 @@ interface Props {
   data: Transaction;
 }
 
+const tableType = (type: string) => {
+  switch (type) {
+    case "Failed":
+      return (
+        <p className="text-failed text-center">Thất bại</p>
+      );
+    case "Completed":
+      return (
+        <p className="text-success">Thành công</p>
+      );
+
+    default:
+      return type;
+  }
+};
+
 const TransactionDetail: FC<Props> = ({ data }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -31,38 +47,38 @@ const TransactionDetail: FC<Props> = ({ data }) => {
             <DialogTitle>Chi tiết giao dịch</DialogTitle>
           </DialogHeader>
           <DialogDescription asChild>
-            <div>
+            <div className="space-y-2">
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Mã giao dịch:</span>
+                <span className="font-semibold ...">Mã giao dịch:</span>
                 <span className="..."> {data.depositCode} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Mã ngân hàng:</span>
+                <span className="font-semibold ...">Mã ngân hàng:</span>
                 <span className="..."> {data.transactionNo} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Mã căn hộ:</span>
+                <span className="font-semibold ...">Mã căn hộ:</span>
                 <span className="..."> {data.apartmentCode} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Khách hàng:</span>
+                <span className="font-semibold ...">Khách hàng:</span>
                 <span className="..."> {data.customerName} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Số tiền đặt cọc:</span>
+                <span className="font-semibold ...">Số tiền đặt cọc:</span>
                 <span className="..."> {formatMoney(data.amountPaid)} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Ngày giao dịch:</span>
+                <span className="font-semibold ...">Ngày giao dịch:</span>
                 <span className="..."> {formatDateTime(data.transactionDate)} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Phương thức thanh toán:</span>
+                <span className="font-semibold ...">Phương thức:</span>
                 <span className="..."> {data.paymentMethods} </span>
               </div>
               <div className="grid grid-cols-2 gap-2">
-                <span className="...">Trạng thái:</span>
-                <span className="..."> {data.status} </span>
+                <span className="font-semibold ...">Trạng thái:</span>
+                <span className="..."> {tableType(data.status)} </span>
               </div>
             </div>
           </DialogDescription>

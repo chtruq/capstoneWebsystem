@@ -16,13 +16,13 @@ export const projectSchema = z.object({
       required_error: "Khoảng giá là bắt buộc.",
     })
     .nonempty("Khoảng giá không được để trống."),
-  ApartmentArea: z.string().optional().nullable(),
-  ProjectSize: z.string().optional().nullable(),
-  ProjectArea: z.string().optional().nullable(),
+  ApartmentArea: z.string().optional(),
+  ProjectSize: z.string().optional(),
+  ProjectArea: z.string().optional(),
   ConstructionStartYear: z
     .string()
     .optional()
-    .nullable()
+    
     .refine(
       (val) => !val || !isNaN(Date.parse(val)),
       "Năm khởi công phải đúng định dạng ngày-tháng-năm."
@@ -30,14 +30,14 @@ export const projectSchema = z.object({
   ConstructionEndYear: z
     .string()
     .optional()
-    .nullable()
+    
     .refine(
       (val) => !val || !isNaN(Date.parse(val)),
       "Năm bàn giao phải đúng định dạng ngày-tháng-năm."
     ),
-  Address: z.string().optional().nullable(),
-  AddressUrl: z.string().optional().nullable(),
-  TotalApartment: z.string().optional().nullable(),
+  Address: z.string().optional(),
+  AddressUrl: z.string().optional(),
+  TotalApartment: z.string().optional(),
   LicensingAuthority: z
   .string({
     required_error: "Cơ quan cấp phép là bắt buộc.",
@@ -45,8 +45,6 @@ export const projectSchema = z.object({
   .nonempty("Cơ quan cấp phép không được để trống."),
   LicensingDate: z
     .string()
-    .optional()
-    .nullable()
     .refine(
       (val) => !val || !isNaN(Date.parse(val)),
       "Năm cấp phép phải đúng định dạng ngày-tháng-năm."
@@ -73,7 +71,6 @@ export const projectSchema = z.object({
     .max(2, "Chọn trạng thái hợp lệ."),
   TeamID: z
     .string()
-    .optional()
     .refine(
       (val) =>
         !val ||

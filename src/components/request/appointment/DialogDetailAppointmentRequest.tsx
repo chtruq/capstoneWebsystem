@@ -9,13 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Eye } from "lucide-react";
 import { formatDateTime, formatDate } from "@/lib/utils/dataFormat";
 import { Button } from "@/components/ui/button";
-import { rejectRequestAppointment } from "@/app/actions/apointment";
 import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
 import RejectRequestDialog from "../RejectRequestDialog";
-import { on } from "events";
+import { accepttRequestAppointment } from "@/app/actions/apointment";
 
 interface Props {
   accountID: string;
@@ -62,7 +60,7 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
   return (
     <div>
       <Dialog open={isDialogOpen} onOpenChange={onClose}>
-        <DialogContent className="w-[24rem]">
+        <DialogContent className="w-[28rem]">
           <DialogHeader>
             <DialogTitle>Chi tiết yêu cầu tư vấn căn hộ</DialogTitle>
           </DialogHeader>
@@ -70,7 +68,7 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
             <div>
               <div className="grid grid-cols-2 gap-2">
                 <div className="font-semibold">Mã yêu cầu:</div>
-                <div>{data.appointmentRequestCode || "Không có"}</div>
+                <div>{data.appointmentRequestCode || "Đang cập nhật"}</div>
 
                 <div className="font-semibold">Mã căn hộ:</div>
                 <div>{data.apartmentCode}</div>
@@ -98,7 +96,7 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
               </div>
               {data?.status === "Pending" && (
                 <>
-                  <div className="mt-5 flex justify-center gap-10">
+                  <div className="mt-2 flex justify-around">
                     <Button onClick={() => setRejectRequestDialog(true)}>
                       Từ chối
                     </Button>
@@ -122,10 +120,13 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
           AssignedStaffAccountID={accountID}
           RequestID={data.requestID}
           onClose={() => {
+            console.log("Closing dialogs detail onClose...");
             setAddAppointmentDialog(false)
           }}
-          isSubmitted={() => {
+          isSubmitted={async () => {
             setAddAppointmentDialog(false)
+            console.log("Closing dialogs detail isSubmit...");
+            await accepttRequestAppointment(data.requestID, accountID);
             setIsDialogOpen(false)
             onClose()
           }}
@@ -143,7 +144,7 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
             setRejectRequestDialog(false)
           }}
           isSubmitted={() => {
-            console.log("Closing dialogs...");
+            console.log("Closing dialogs in detail...");
             setRejectRequestDialog(false)
             setIsDialogOpen(false)
             onClose()

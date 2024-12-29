@@ -32,7 +32,7 @@ const ProviderManageTable: FC<Props> = ({ data }) => {
             <TableHead className="font-semibold">Thông tin</TableHead>
             <TableHead className="font-semibold">Vị trí</TableHead>
             <TableHead className="font-semibold">Ngày tạo</TableHead>
-            <TableHead className="font-semibold">Thao tac</TableHead>
+            <TableHead className="font-semibold">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

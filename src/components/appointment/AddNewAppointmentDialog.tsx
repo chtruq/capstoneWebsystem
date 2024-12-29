@@ -51,7 +51,7 @@ const AddNewAppointmentDialog: FC<Props> = ({
   const form = useForm<z.infer<typeof AppointmentSchema>>({
     resolver: zodResolver(AppointmentSchema),
     defaultValues: {
-      title: "",
+      title: "Lịch hẹn",
       description: "",
       location: "",
       appointmentDate: "",
@@ -65,13 +65,24 @@ const AddNewAppointmentDialog: FC<Props> = ({
 
   const pathName = usePathname();
 
+  console.log("ReferenceCode in AddNewAppointmentDialog:", ReferenceCode);
+  // console.log("CustomerID in AddNewAppointmentDialog:", CustomerID);
+  // console.log("ApartmentID in AddNewAppointmentDialog:", ApartmentID);
+  // console.log("AssignedStaffAccountID in AddNewAppointmentDialog:", AssignedStaffAccountID);
+  // console.log("RequestID in AddNewAppointmentDialog:", RequestID);
+
+
+
+
   // useEffect(() => {
   //   console.log("Dữ liệu trong form:", form.watch());
   // }, [form.watch()]);
 
+  // console.log("ReferenceCode in AddNewAppointmentDialog:", ReferenceCode);
+
 
   async function onSubmit(values: z.infer<typeof AppointmentSchema>) {
-
+    let hasError = false;
     try {
       setIsSubmitting(true);
       console.log("Đang gửi form với giá trị:", values); // Thêm log kiểm tra
@@ -79,25 +90,27 @@ const AddNewAppointmentDialog: FC<Props> = ({
       // Gọi API tạo lịch hẹn
       const appointmentResponse = await createAppointment(values);
       console.log("Tạo lịch hẹn thành công:", appointmentResponse);
+    } catch (error) {
+      hasError = true;
+      console.error("Đã xảy ra lỗi khi tạo lịch hẹn:", error);
+      console.log("Đã xảy ra lỗi:", error); // Log nếu xảy ra lỗi
+      alert("Đã xảy ra lỗi khi tạo lịch hẹn");
+    } finally {
+      if (hasError) {
+        setIsSubmitting(false);
+        return; // Thoát khỏi finally nếu có lỗi
+      }
 
-      // Gọi API chấp nhận yêu cầu
-      const acceptResponse = await accepttRequestAppointment(RequestID, AssignedStaffAccountID);
-      console.log("Chấp nhận yêu cầu thành công:", acceptResponse);
-
-      // Đóng dialog và revalidate
+      // Đóng dialog
       isSubmitted();
       form.reset();
-      revalidateProjectPath(pathName);
-    } catch (error) {
-      console.log("Đã xảy ra lỗi:", error); // Log nếu xảy ra lỗi
-    } finally {
       setIsSubmitting(false);
     }
   }
 
   return (
     <div>
-      <Dialog open={!!ReferenceCode} onOpenChange={onClose}>
+      <Dialog open={!!RequestID} onOpenChange={onClose}>
         <DialogTrigger>
           <p>Chấp nhận</p>
         </DialogTrigger>
@@ -113,7 +126,7 @@ const AddNewAppointmentDialog: FC<Props> = ({
                       console.log("Lỗi validation:", errors);
                     })}
                   >
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name="title"
                       render={({ field }) => (
@@ -125,13 +138,13 @@ const AddNewAppointmentDialog: FC<Props> = ({
                           <FormMessage className="text-error" />
                         </FormItem>
                       )}
-                    />
+                    /> */}
                     <FormField
                       control={form.control}
                       name="description"
                       render={({ field }) => (
                         <FormItem>
-                          <div>Thong tin mo ta</div>
+                          <div>Thông tin mô tả</div>
                           <FormControl>
                             <Textarea placeholder="Nhập mô tả" {...field} />
                           </FormControl>
@@ -144,7 +157,7 @@ const AddNewAppointmentDialog: FC<Props> = ({
                       name="location"
                       render={({ field }) => (
                         <FormItem>
-                          <div>Dia chi</div>
+                          <div>Địa chỉ</div>
                           <FormControl>
                             <Input placeholder="Nhập địa điểm" {...field} />
                           </FormControl>
@@ -157,7 +170,7 @@ const AddNewAppointmentDialog: FC<Props> = ({
                       name="appointmentDate"
                       render={({ field }) => (
                         <FormItem>
-                          <div>Ngay hen</div>
+                          <div>Ngày hẹn</div>
                           <FormControl>
                             <Input type="datetime-local"
                               {...field}
@@ -173,7 +186,13 @@ const AddNewAppointmentDialog: FC<Props> = ({
                         </FormItem>
                       )}
                     />
-                    <Button variant="outline" type="submit" disabled={isSubmitting} onClick={() => console.log("Nút Chấp nhận được nhấn")}>
+                    <Button
+                      className="mt-2"
+                      variant="default"
+                      type="submit"
+                      disabled={isSubmitting}
+                      onClick={() => console.log("Nút Chấp nhận được nhấn")}
+                    >
                       <span>Chấp nhận</span>
                     </Button>
                   </form>

@@ -75,7 +75,10 @@ async function RequestManage(props: {
         {dataTeam.teamType !== "ProjectManagement" ? (
           <TabsContent value="property">
             <div>Ký gửi</div>
-            <RequestPropertyTable />
+            <RequestPropertyTable
+              query={query}
+              currentPage={currentPage}
+            />
           </TabsContent>
         ) : null}
         {/* <TabsContent value="property">

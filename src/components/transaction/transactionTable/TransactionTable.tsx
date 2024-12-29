@@ -45,11 +45,11 @@ const TransactionTable: FC<Props> = ({ data }) => {
             <TableHead className="font-semibold">Mã giao dịch</TableHead>
             <TableHead className="font-semibold">Mã căn hộ</TableHead>
             <TableHead className="font-semibold">Khách hàng</TableHead>
-            <TableHead className="font-semibold">Ngày giao dịch</TableHead>
-            <TableHead className="font-semibold">Số tiền cọc</TableHead>
-            <TableHead className="font-semibold">Phương thức thanh toán</TableHead>
-            <TableHead className="font-semibold">Trạng thái</TableHead>
-            <TableHead></TableHead>
+            <TableHead className="font-semibold ">Số tiền giữ chỗ</TableHead>
+            <TableHead className="font-semibold text-center">Ngày giao dịch</TableHead>
+            <TableHead className="font-semibold text-center">Phương thức</TableHead>
+            <TableHead className="font-semibold text-center">Trạng thái</TableHead>
+            <TableHead className="font-semibold text-center">Thao tác</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -58,11 +58,11 @@ const TransactionTable: FC<Props> = ({ data }) => {
               <TableCell>{transaction.depositCode}</TableCell>
               <TableCell>{transaction.apartmentCode}</TableCell>
               <TableCell>{transaction.customerName}</TableCell>
-              <TableCell>{formatDateTime(transaction.transactionDate)}</TableCell>
-              <TableCell>{formatMoney(transaction.amountPaid)}</TableCell>
-              <TableCell>{transaction.paymentMethods}</TableCell>
-              <TableCell>{tableType(transaction.status)}</TableCell>
-              <TableCell>
+              <TableCell className="">{formatMoney(transaction.amountPaid)}</TableCell>
+              <TableCell className="text-center">{formatDateTime(transaction.transactionDate)}</TableCell>
+              <TableCell className="text-center">{transaction.paymentMethods}</TableCell>
+              <TableCell className="flex justify-center">{tableType(transaction.status)}</TableCell>
+              <TableCell className="text-center">
                 <TransactionDetail data={transaction} />
               </TableCell>
             </TableRow>

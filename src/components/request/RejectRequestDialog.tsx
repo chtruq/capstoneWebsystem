@@ -12,6 +12,7 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import { rejectRequestAppointment } from "@/app/actions/apointment";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
+import { rejectRequestConsignment } from "@/app/actions/consignment";
 
 interface Props {
   requestId: string;
@@ -29,13 +30,40 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
   // console.log("Pathname in reject:", pathName);
 
   // Danh sách lý do từ chối
-  const reasonsList = [
-    "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
-    "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
-    "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
-    "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
-    "Khác"
-  ];
+
+  const reasonsList = (typeRequest: string) => {
+    switch (typeRequest) {
+      case "appointment":
+        return [
+          "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
+          "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
+          "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Khác"
+        ];
+      case "consignment":
+        return [
+          "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
+          "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
+          "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
+          "Khách hàng không còn như cầu ký gửi căn hộ nữa.",
+          "Khác"
+        ];
+      case "deposit":
+        return [
+          "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
+          "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
+          "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
+          "Khác"
+        ];
+      default:
+        return [
+          "Loại yêu cầu này chưa được hỗ trợ.",
+          "Khác"
+        ];
+    }
+  }
 
   // console.log("Request ID in reject:", requestId);
   // console.log("Seller ID in reject:", sellerId);
@@ -50,7 +78,15 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
     setIsSubmitting(true);
     try {
       console.log("Reson in reject:", reason);
-      await rejectRequestAppointment(requestId, sellerId, reason);
+      if (typeRequest === "appointment") {
+        await rejectRequestAppointment(requestId, sellerId, reason);
+      } else if (typeRequest === "consignment") {
+        await rejectRequestConsignment(requestId, sellerId, reason);
+      } else if (typeRequest === "deposit") {
+        // await rejectRequestDeposit(requestId, sellerId, reason);
+      } else {
+        return;
+      }
       isSubmitted();
       revalidateProjectPath(pathName);
       // alert("Từ chối yêu cầu thành công!");
@@ -88,7 +124,7 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
                   <option value="" disabled>
                     -- Chọn lý do --
                   </option>
-                  {reasonsList.map((reason, index) => (
+                  {reasonsList(typeRequest).map((reason, index) => (
                     <option key={index} value={reason}>
                       {reason}
                     </option>

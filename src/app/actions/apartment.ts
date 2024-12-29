@@ -249,3 +249,77 @@ export const createMultipleApartment = async (
     console.log(error);
   }
 };
+
+interface ConsignmentValue {
+  ApartmentName: string,
+  Description: string,
+  Address: string,
+  Area: string,
+  District?: string | null,
+  Ward?: string | null,
+  NumberOfRooms: string,
+  NumberOfBathrooms: string,
+  Location?: string | null,
+  Direction: number,
+  ApartmentType: number,
+  BalconyDirection: number,
+  Building: string,
+  Floor: string,
+  RoomNumber: string,
+  PropertyVerificationID: string,
+  ProjectApartmentID: string,
+  Images: File[],
+  VRVideoFiles: File[],
+}
+
+export const createApartmentForOwner = async (value: ConsignmentValue) => {
+  try {
+    console.log("valueeeee", value);
+    const formData = new FormData();
+    formData.append("ApartmentName", value.ApartmentName);
+    formData.append("Description", value.Description);
+    formData.append("Address", value.Address);
+    formData.append("Area", value.Area);
+    if (value.District) {
+      formData.append("District", value.District);
+    }
+    if (value.Ward) {
+      formData.append("Ward", value.Ward);
+    }
+    formData.append("NumberOfRooms", value.NumberOfRooms);
+    formData.append("NumberOfBathrooms", value.NumberOfBathrooms);
+    if (value.Location) {
+      formData.append("Location", value.Location);
+    }
+    formData.append("Direction", value.Direction.toString());
+    formData.append("ApartmentType", value.ApartmentType.toString());
+    formData.append("BalconyDirection", value.BalconyDirection.toString());
+    formData.append("Building", value.Building);
+    formData.append("Floor", value.Floor);
+    formData.append("RoomNumber", value.RoomNumber);
+    formData.append("PropertyVerificationID", value.PropertyVerificationID);
+    formData.append("ProjectApartmentID", value.ProjectApartmentID);
+    value.Images.forEach((file: any) => {
+      formData.append("Images", file); // Truyền trực tiếp File object
+    });
+    value.VRVideoFiles.forEach((file: any) => {
+      formData.append("VRVideoFiles", file); // Truyền trực tiếp File object
+    });
+
+    console.log(
+      "formData in create apartment for owner",
+      formData.forEach((value, key) => console.log(key, value))
+    );
+
+    const res = await apiClient.post("/apartments/create-apartment-for-owner", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+

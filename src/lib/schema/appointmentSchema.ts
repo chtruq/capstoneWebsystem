@@ -2,9 +2,7 @@ import { z } from "zod";
 
 export const AppointmentSchema = z.object({
   title: z
-    .string()
-    .min(1, "Tiêu đề không được để trống")
-    .max(100, "Tiêu đề không được dài hơn 100 ký tự"),
+    .string(),
   description: z
     .string()
     .min(1, "Mô tả không được để trống")

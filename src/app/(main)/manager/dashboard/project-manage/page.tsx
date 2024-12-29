@@ -66,7 +66,7 @@ async function ProjectManage(props: {
         <ProjectTable data={data} />
       </div>
       <div className="absolute bottom-0 right-0">
-        {totalPages !== 1 ? (
+        {totalPages > 1 ? (
           <PaginationComponent totalPages={totalPages} />
         ) : (
           <></>

@@ -1,7 +1,7 @@
 interface PropertyRequest {
   requestID: string;
+  propertyRequestCode: string;
   ownerID: string;
-  staffId: string;
   propertyName: string;
   description: string;
   expectedPrice: number;
@@ -12,4 +12,7 @@ interface PropertyRequest {
   userName: string;
   email: string;
   phoneNumber: string;
+  assignedTeamMemberID: string;
+  sellerId: string;
+  note: string;
 }
