@@ -23,12 +23,12 @@ import { usePathname } from "next/navigation";
 import DialogDetailOwner from "./DialogDetailOwner";
 
 interface Props {
-  data: ApartmentOwner[];
+  data: Owner[];
 }
 
 
 const OwnerManageTable: FC<Props> = ({ data }: Props) => {
-  const [selectedData, setSelectedData] = useState<ApartmentOwner | null>(null);
+  const [selectedData, setSelectedData] = useState<Owner | null>(null);
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false); // Quản lý trạng thái của dialog chi tiết
 
   console.log("Data in OwnerManageTable", data);
@@ -49,7 +49,7 @@ const OwnerManageTable: FC<Props> = ({ data }: Props) => {
         </TableHeader>
         <TableBody>
           {data && data.length > 0 ? (
-            data?.map((onwer: ApartmentOwner) => (
+            data?.map((onwer: Owner) => (
               <TableRow key={onwer.apartmentOwnerID}>
                 <TableCell>{onwer.name}</TableCell>
                 <TableCell>{onwer.email}</TableCell>
