@@ -38,6 +38,7 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
           "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Khách hàng không còn nhu cầu đặt lịch nữa.",
           "Khác"
         ];
       case "consignment":
@@ -46,15 +47,15 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
           "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
-          "Khách hàng không còn như cầu ký gửi căn hộ nữa.",
+          "Khách hàng không còn nhu cầu ký gửi căn hộ nữa.",
           "Khác"
         ];
       case "deposit":
         return [
-          "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
           "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
+          "Khách hàng không còn nhu cầu đặt giữ chỗ căn hộ nữa.",
           "Khác"
         ];
       default:

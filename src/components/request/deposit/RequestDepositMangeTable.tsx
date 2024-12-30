@@ -1,4 +1,6 @@
-import React, { FC } from 'react'
+"use client"
+
+import React, { FC, useState } from 'react'
 import {
   Table,
   TableBody,
@@ -16,16 +18,44 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis } from 'lucide-react';
-
 import { Button } from "../../ui/button";
 import { formatMoneyShortcut } from '@/lib/utils/dataFormat';
+import { revalidateProjectPath } from "@/app/actions/revalidate";
+import { usePathname } from "next/navigation";
+import { useUserAccount } from '@/lib/context/UserAccountContext';
+import DialogDetailDepositRequest from './DialogDetailDepositRequest';
+import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
+import RejectRequestDialog from '../RejectRequestDialog';
 
 interface Props {
   data: Deposit[];
 }
 
+const depositType = (type: string) => {
+  switch (type) {
+    case "Trade":
+      return (
+        type = "Trao đổi"
+      );
+    case "Deposit":
+      return (
+        type = "Đặt cọc"
+      );
+    default:
+      return type;
+  }
+};
+
+
+
 const RequestDepositMangeTable: FC<Props> = ({ data }) => {
   console.log("Data in Mange Table", data);
+  const [selectedData, setSelectedData] = useState<Deposit | null>(null);
+  const [rejectDialog, setRejectDialog] = useState<Deposit | null>(null);
+  const [addAppointmentDialog, setAddAppointmentDialog] = useState<Deposit | null>(null);
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false); // Quản lý trạng thái của dialog chi tiết
+  const { user } = useUserAccount();
+  const pathName = usePathname();
 
   return (
     <div className='w-full'>
@@ -37,6 +67,7 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
             <TableHead className='font-semibold'>Khách hàng</TableHead>
             <TableHead className='font-semibold text-center'>Số điện thoại</TableHead>
             <TableHead className='font-semibold text-center'>Giá giữ chỗ</TableHead>
+            <TableHead className='font-semibold text-center'>Loại yêu cầu</TableHead>
             <TableHead className='font-semibold text-center'>Trạng thái</TableHead>
             <TableHead className='font-semibold text-center'>Thao tác</TableHead>
           </TableRow>
@@ -50,6 +81,7 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
                 <TableCell>{item?.depositProfile[0]?.fullName}</TableCell>
                 <TableCell className='text-center'>{item?.depositProfile[0]?.phoneNumber}</TableCell>
                 <TableCell className='text-center'>{formatMoneyShortcut(item?.depositAmount)}</TableCell>
+                <TableCell className='text-center'>{depositType(item?.depositType)}</TableCell>
                 <TableCell className='flex justify-center'>{item?.depositStatus}</TableCell>
                 <TableCell className='text-center'>
                   <DropdownMenu>
@@ -59,11 +91,20 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
                     <DropdownMenuContent className='cursor-pointer align-middle'>
                       {/* <DropdownMenuLabel>My Account</DropdownMenuLabel> */}
                       {/* <DropdownMenuSeparator /> */}
-                      <DropdownMenuItem>
-                        <Button variant='default' className='mr-2'>Chấp nhận</Button>
+                      <DropdownMenuItem onClick={() => {
+                        setSelectedData(item)
+                        setIsDetailDialogOpen(true)
+                      }}>
+                        Xem chi tiết
                       </DropdownMenuItem>
                       <DropdownMenuItem>
-                        <Button variant='default'>Từ chối</Button>
+                        Chấp nhận ngay
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setAddAppointmentDialog(item)}>
+                        Xác nhận
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setRejectDialog(item)}>
+                        Từ chối
                       </DropdownMenuItem>
                       {/* <DropdownMenuItem>Team</DropdownMenuItem>
                       <DropdownMenuItem>Subscription</DropdownMenuItem> */}
@@ -79,6 +120,62 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
           )}
         </TableBody>
       </Table>
+
+      {/* Hiển thị Dialog Detail */}
+      {isDetailDialogOpen && selectedData && (
+        <DialogDetailDepositRequest
+          accountID={user?.id || ""}
+          data={selectedData}
+          isOpen={isDetailDialogOpen}
+          onClose={() => {
+            console.log("Closing dialogs detail onClose...");
+            setIsDetailDialogOpen(false)
+          }}
+        />
+      )}
+
+      {/* Hiển thị Popup từ chối */}
+      {rejectDialog && (
+        <RejectRequestDialog
+          requestId={rejectDialog?.depositID}
+          sellerId={user?.id || ""}
+          typeRequest="deposit"
+          onClose={() => {
+            console.log("Closing dialogs in managetable...");
+            setRejectDialog(null);
+            setIsDetailDialogOpen(false);
+          }} // Đóng popup
+          isSubmitted={() => {
+            console.log("Closing isSubmiit dialogs in manage table...");
+            setRejectDialog(null)
+            setIsDetailDialogOpen(false)
+          }}
+        />
+      )}
+
+      {/* Hiển thị Dialog AddNewAppointment */}
+      {addAppointmentDialog && (
+        <AddNewAppointmentDialog
+          ReferenceCode={addAppointmentDialog.depositCode}
+          CustomerID={addAppointmentDialog.accountID}
+          ApartmentID={addAppointmentDialog.apartmentID}
+          AssignedStaffAccountID={user?.id || ""}
+          RequestID={addAppointmentDialog.depositID}
+          onClose={() => {
+            console.log("Closing onclose dialogs in manage table...");
+            setAddAppointmentDialog(null)
+            setIsDetailDialogOpen(false)
+          }}
+          isSubmitted={async () => {
+            console.log("Closing isSubmiit dialogs in manage table...");
+            setAddAppointmentDialog(null)
+            setIsDetailDialogOpen(false)
+            revalidateProjectPath(pathName);
+
+          }}
+        />
+      )}
+
     </div>
   )
 }
