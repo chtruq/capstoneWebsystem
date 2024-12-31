@@ -40,37 +40,38 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.financialContracts?.map((contract: FinancialContract) => (
-          <TableRow key={contract.financialContractID}>
-            <TableCell>
-              {contract.lowestPrice} - {contract.highestPrice}
-            </TableCell>
-            <TableCell>{contract.depositAmount}</TableCell>
-            <TableCell>{contract.brokerageFee}</TableCell>
-            <TableCell>{contract.commissionFee}</TableCell>
-            <TableCell>
-              {role === "Management" && (
-                <div className="flex gap-1">
-                  <AddFinancialContract
-                    projectApartmentId={data?.projectApartmentID}
-                    title="Sửa"
-                    dialogTitle="Sửa thông tin môi giới"
-                    data={contract}
-                  />
-                  <DialogAction
-                    title="Xóa thông tin"
-                    description="Bạn có chắc chắn muốn xóa thông tin này không?"
-                    action={async () => {
-                      await deleteFinancialContract(contract.financialContractID);
-                      revalidateProjectPath(pathName);
-                    }}
-                    btnTitle="Xóa"
-                    btnActionTitle="Xoá"
-                  />
-                </div>
-              ) 
-              }
-              {/* <div className="flex gap-1">
+        {data && data?.financialContracts?.length > 0 ? (
+          data?.financialContracts?.map((contract: FinancialContract) => (
+            <TableRow key={contract.financialContractID}>
+              <TableCell>
+                {contract.lowestPrice} - {contract.highestPrice}
+              </TableCell>
+              <TableCell>{contract.depositAmount}</TableCell>
+              <TableCell>{contract.brokerageFee}</TableCell>
+              <TableCell>{contract.commissionFee}</TableCell>
+              <TableCell>
+                {role === "Management" && (
+                  <div className="flex gap-1">
+                    <AddFinancialContract
+                      projectApartmentId={data?.projectApartmentID}
+                      title="Sửa"
+                      dialogTitle="Sửa thông tin môi giới"
+                      data={contract}
+                    />
+                    <DialogAction
+                      title="Xóa thông tin"
+                      description="Bạn có chắc chắn muốn xóa thông tin này không?"
+                      action={async () => {
+                        await deleteFinancialContract(contract.financialContractID);
+                        revalidateProjectPath(pathName);
+                      }}
+                      btnTitle="Xóa"
+                      btnActionTitle="Xoá"
+                    />
+                  </div>
+                )
+                }
+                {/* <div className="flex gap-1">
                 <AddFinancialContract
                   projectApartmentId={data?.projectApartmentID}
                   title="Sửa"
@@ -88,9 +89,16 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
                   btnActionTitle="Xoá"
                 />
               </div> */}
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={5} className="text-center">
+              Không có dữ liệu
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );

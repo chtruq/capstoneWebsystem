@@ -175,3 +175,28 @@ export const createProject = async (value: ProjectValue) => {
     console.log(error);
   }
 };
+
+
+export const createProjectFileContract = async (data: any) => {
+  try {
+    console.log("data create project file", data);
+
+    const res = await apiClient.post("/project-files/create", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteProjectFileContract = async (id: string) => {
+  try {
+    const res = await apiClient.delete(`/project-files/${id}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

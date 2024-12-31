@@ -138,9 +138,9 @@ export const createConsignment = async (value: ConsignmentValue) => {
 
 export const acceptConsignment = async (verificationId: string) => {
   try {
-    console.log("verificationId in accept", verificationId );
+    console.log("verificationId in accept", verificationId);
 
-    const res = await apiClient.post(`/property-verifications/accept/${verificationId}`);
+    const res = await apiClient.put(`/property-verifications/accept/${verificationId}`);
     console.log("Res in accept", res);
     return res.data;
   } catch (error) {
@@ -149,11 +149,11 @@ export const acceptConsignment = async (verificationId: string) => {
 }
 
 
-export const rejectConsignment = async (verificationId: string) => {
+export const rejectConsignment = async (verificationId: string, reson: string) => {
   try {
-    console.log("verificationId in accept", verificationId );
+    console.log("verificationId in accept", verificationId);
 
-    const res = await apiClient.post(`/property-verifications/reject/${verificationId}`);
+    const res = await apiClient.put(`/property-verifications/reject/${verificationId}?comment=${reson}`);
     console.log("Res in reject", res);
     return res.data;
   } catch (error) {

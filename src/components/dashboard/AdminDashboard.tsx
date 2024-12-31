@@ -12,10 +12,13 @@ import TotalMoneyIcon from "@public/icon/dashboard/totalmoney";
 import CalendarIcon from "@public/icon/dashboard/calendar";
 import DepositIcon from "@public/icon/dashboard/deposit";
 import AvailableApartmentIcon from "@public/icon/dashboard/availableApartment";
-
+import BarChartMultipleDashboard from "./chart/BarChartMultipleDashboard";
 import PieChartComponent from "./chart/PieChart";
 import DashboardTable from "./table/DashboardTable";
 import { AreaChartDashboard } from "./chart/AreaChartDashboard";
+
+import { TrendingUp } from "lucide-react"
+import { Label, Pie, PieChart } from "recharts"
 
 const AdminDashboard = () => {
   const cardData = [
@@ -120,10 +123,13 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
+      <div className="w-full">
+        <BarChartMultipleDashboard data={chartData} />
+      </div>
       <div className="flex w-full">
         <div className="w-[30%]">
-          <PieChartComponent chartData={chartData} />
-          <PieChartComponent chartData={chartData} />
+          {/* <PieChartComponent chartData={chartData} /> */}
+          <PieChartComponent data={tableData} />
         </div>
         <div className="w-[70%] bg-white rounded-md border m-1 p-1">
           <DashboardTable tableData={tableData} />

@@ -25,12 +25,6 @@ async function ApartmentManage(props: {
         <div className="w-[40%] my-2">
           <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
         </div>
-        <Link
-          className="w-1/4 flex justify-end"
-          href={`/manager/dashboard/apartment-manage/pending`}
-        >
-          <Button>Danh sách chờ duyệt</Button>
-        </Link>
       </div>
       <div>
         <ApartmentTable query={query} currentPage={currentPage} state="list-apt" />

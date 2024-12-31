@@ -28,14 +28,16 @@ export const getApartmentsTest = async ({
 };
 
 export const getApartmentsPendingRequest = async ({
+  teamId,
   currentPage,
 }: {
+  teamId?: string;
   query: string;
   currentPage: number;
 }) => {
   try {
     const res = apiClient.get(
-      `/apartments/search?apartmentStatuses=0&pageIndex=${currentPage}&pageSize=10`
+      `/apartments/search?teamId=${teamId}&apartmentStatuses=0&pageIndex=${currentPage}&pageSize=10`
     );
     return res;
   } catch (error) {

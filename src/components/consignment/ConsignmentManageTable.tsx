@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Button } from "../ui/button";
 import {
   Table,
@@ -24,6 +24,7 @@ import { usePathname } from "next/navigation";
 import { useUserAccount } from '@/lib/context/UserAccountContext';
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { acceptConsignment, rejectConsignment } from "@/app/actions/consignment";
+import RejectRequestDialog from "../request/RejectRequestDialog";
 
 
 
@@ -66,7 +67,13 @@ const tableType = (type: string) => {
           <span className="text-failed text-center">Từ chối</span>
         </div>
       );
-
+      case "Expirated":
+        return (
+          <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+            <span className="text-pending">Đã hết hạn</span>
+          </div>
+        );
+    
     default:
       return type;
   }
@@ -77,6 +84,7 @@ const ConsignmentManageTable: FC<Props> = ({ data }) => {
   console.log("Pathname", pathname);
   const { user } = useUserAccount();
   console.log("Use r", user?.role);
+  const [rejectDialog, setRejectDialog] = useState<Consignment | null>(null);
 
 
   // const pathnameForCreateApartmentOwner = pathname.split("/").slice(0, -1).join("/") + "/apartment-manage/create-for-owner";
@@ -132,8 +140,9 @@ const ConsignmentManageTable: FC<Props> = ({ data }) => {
                             Phê duyệt
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={async () => {
-                            await rejectConsignment(item.verificationID);
-                            revalidateProjectPath(pathname)
+                            // await rejectConsignment(item.verificationID);
+                            // revalidateProjectPath(pathname)
+                            setRejectDialog(item);
                           }}>
                             Từ chối
                           </DropdownMenuItem>
@@ -161,10 +170,19 @@ const ConsignmentManageTable: FC<Props> = ({ data }) => {
               <TableCell>Không có dữ liệu</TableCell>
             </TableRow>
           )}
-
-
         </TableBody>
       </Table>
+
+      {/* Hiển thị Popup từ chối */}
+      {rejectDialog && (
+        <RejectRequestDialog
+          requestId={rejectDialog?.verificationID}
+          sellerId={user?.id || ""}
+          typeRequest="consignment"
+          onClose={() => setRejectDialog(null)}
+          isSubmitted={() => setRejectDialog(null)}
+        />
+      )}
     </div >
   )
 };

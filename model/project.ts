@@ -20,8 +20,9 @@ interface FinancialContract {
 interface ProjectFile {
   // Define the structure of project files if needed
   projectFileID: string;
-  projectFileDate: string;
-  projectFileDescription: string;
+  projectFileUrl: string;
+  description: string;
+  updateDate: string;
 }
 
 interface Project {

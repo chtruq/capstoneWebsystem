@@ -28,12 +28,12 @@ async function ConsignmentMange(props: {
   }
 
   return (
-    <div className="h-full">
+    <div>
       <h1 className="text-2xl font-semibold">Quản lý hợp đồng ký gửi</h1>
       {teamData?.teamType === "ProjectManagement" ? (
         <div className="mt-4 ml-2 text-xl underline underline-offset-1">Chức năng này không khả dụng với nhóm của bạn</div>
       ) : (
-        <div className="h-screen">
+        <div>
           <div className="flex justify-between items-center">
             <div className="my-2 w-[30%]">
               <SearchInput placeholder="Tìm kiếm mã, tên hợp đồng, chủ sở hữu" query="keyword" />
