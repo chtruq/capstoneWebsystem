@@ -26,6 +26,7 @@ import { useUserAccount } from '@/lib/context/UserAccountContext';
 import DialogDetailDepositRequest from './DialogDetailDepositRequest';
 import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
 import RejectRequestDialog from '../RejectRequestDialog';
+import { approveDepositRequest } from '@/app/actions/deposit';
 
 interface Props {
   data: Deposit[];
@@ -97,7 +98,10 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
                       }}>
                         Xem chi tiết
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={async () => {
+                        await approveDepositRequest(item.depositID, user?.id || "");
+                        revalidateProjectPath(pathName);
+                      }}>
                         Chấp nhận ngay
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => setAddAppointmentDialog(item)}>
@@ -170,8 +174,8 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
             console.log("Closing isSubmiit dialogs in manage table...");
             setAddAppointmentDialog(null)
             setIsDetailDialogOpen(false)
+            await approveDepositRequest(addAppointmentDialog.depositID, user?.id || "");
             revalidateProjectPath(pathName);
-
           }}
         />
       )}

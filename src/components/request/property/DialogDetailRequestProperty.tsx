@@ -109,7 +109,7 @@ const DialogDetailRequestProperty: FC<Props> = ({ accountID, data, isOpen, onClo
         <RejectRequestDialog
           requestId={data.requestID}
           sellerId={accountID}
-          typeRequest="consignment"
+          typeRequest="request-consignment"
           onClose={() => {
             console.log("Closing dialogs detail onClose...");
             setRejectRequestDialog(false);

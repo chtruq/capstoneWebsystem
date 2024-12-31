@@ -11,8 +11,6 @@ function HomePage() {
   ];
   return (
     <div>
-      <BreadCrumb items={breadcrumbItems} />
-
       <AdminDashboard />
     </div>
   );

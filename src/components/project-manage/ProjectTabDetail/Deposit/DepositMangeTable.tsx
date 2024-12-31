@@ -25,8 +25,8 @@ const DepositMangeTable: FC<Props> = ({ data, accountId }) => {
 
   console.log("Data depositaâ", data);
   console.log("Accountaaa ID", accountId);
-  
-  
+
+
   return (
     <div>
       <Table>
@@ -48,10 +48,10 @@ const DepositMangeTable: FC<Props> = ({ data, accountId }) => {
               <TableCell>{data?.depositProfile[0]?.phoneNumber}</TableCell>
               <TableCell>{data.depositAmount}</TableCell>
               <TableCell className="flex justify-center items-center">
-                <Button className="items-center" variant="outline" onClick={() => approveDepositRequest({ depositRequestId: data.depositID, staffId: accountId })}>
+                <Button className="items-center" variant="outline" onClick={() => approveDepositRequest(data.depositID, accountId)}>
                   Duyệt
                 </Button>
-                <Button className="items-center" variant="outline" onClick={() => rejectDepositRequest({ depositRequestId: data.depositID })}>
+                <Button className="items-center" variant="outline" onClick={() => rejectDepositRequest(data.depositID, accountId, "helo")}>
                   Từ chối
                 </Button>
               </TableCell>

@@ -171,7 +171,7 @@ const RequestPropertyMangeTable: FC<Props> = ({ data }) => {
         <RejectRequestDialog
           requestId={selectedData?.requestID}
           sellerId={user?.id || ""}
-          typeRequest="consignment"
+          typeRequest="request-consignment"
           onClose={() => {
             console.log("Closing dialogs in managetable...");
             setSelectedData(null)

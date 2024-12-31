@@ -24,13 +24,7 @@ export const getDepositByProjectId = async (id: string) => {
   }
 };
 
-export const approveDepositRequest = async ({
-  depositRequestId,
-  staffId,
-}: {
-  depositRequestId: string;
-  staffId: string;
-}) => {
+export const approveDepositRequest = async (depositRequestId: string, staffId: string) => {
   try {
     console.log("Approve apartment id:", depositRequestId);
     console.log("Approve staff id:", staffId);
@@ -45,13 +39,9 @@ export const approveDepositRequest = async ({
   }
 };
 
-export const rejectDepositRequest = async ({
-  depositRequestId,
-}: {
-  depositRequestId: string;
-}) => {
+export const rejectDepositRequest = async (requestId: string, sellerId: string, reason: string) => {
   try {
-    const res = await apiClient.post(`/deposits/reject/${depositRequestId}`);
+    const res = await apiClient.post(`/deposits/reject/${requestId}?staffID=${sellerId}&note=${reason}`);
     return res.data.data;
   } catch (error) {
     console.error("Error approve apartment:", error);
@@ -69,7 +59,7 @@ export const getRequestDepositByTeam = async ({
   teamID: string;
 }) => {
   console.log("teamIDaaaaaaa", teamID);
-  
+
   try {
     const res = await apiClient.get(
       `/deposits/search?keyword=${query}&teamId=${teamID}&pageIndex=${currentPage}&pageSize=10`

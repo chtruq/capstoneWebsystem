@@ -108,7 +108,9 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
         filesArray.forEach(validateFile);
         filesArray.forEach(validateFile);
         const updatedFiles = [...selectedFile, ...filesArray];
-        setSelectedFile(updatedFiles);;
+        setSelectedFile(updatedFiles);
+        console.log("File in handleFileChange", updatedFiles);
+
       } catch (error: any) {
         alert(error.message); // Hiển thị thông báo lỗi cho người dùng
         console.error("Error adding file:", error);

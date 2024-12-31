@@ -4,6 +4,7 @@ import { getApartmentsTest, getApartmentsPendingRequest } from "@/app/actions/ap
 import ApartmentManageTable from "./ApartmentManageTable";
 import { getUserInforFromCookie } from "@/app/actions/auth";
 import PaginationComponent from "@/components/pagination/PaginationComponent";
+import { getTeamByAccountId } from "@/app/actions/team";
 
 
 interface Props {
@@ -14,10 +15,17 @@ interface Props {
 
 const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) => {
   let data;
+
+  const userToken = await getUserInforFromCookie();
+  console.log("User Token from apartment table", userToken);
+
+  const teamData = await getTeamByAccountId(userToken?.id);
+  console.log("Team data", teamData.teamID);
+
   try {
     if (state === "pending-request") {
       console.log("Fetching apartments in pending request state...");
-      data = await getApartmentsPendingRequest({ query, currentPage });
+      data = await getApartmentsPendingRequest({ teamId: teamData.teamID, query, currentPage });
     } else if (state === "list-apt") {
       console.log("Fetching apartments in detail state...");
       data = await getApartmentsTest({ query, currentPage });
@@ -25,9 +33,6 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
   } catch (error) {
     console.log("Error fetching apartments:", error);
   }
-
-  const userToken = await getUserInforFromCookie();
-  console.log("User Token from apartment table", userToken);
 
   console.log("Data apartment", data?.data?.data);
   const totalPages = data?.data?.data?.totalPages;

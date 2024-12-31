@@ -49,7 +49,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
           <TabsTrigger value="cart">Giỏ hàng</TabsTrigger>
           <TabsTrigger value="contract">Hợp đồng</TabsTrigger>
-          <TabsTrigger value="request-deposit">Yêu cầu đặt cọc</TabsTrigger>
+          {/* <TabsTrigger value="request-deposit">Yêu cầu đặt cọc</TabsTrigger> */}
         </TabsList>
         <TabsContent className="w-full" value="overview">
           <div>
@@ -203,25 +203,33 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               </div> */}
             </div>
 
+            {/* Tiền môi giới và hợp đồng liên quan */}
             <div className="w-full">
               <ProjectContract data={data} role={userInfor?.role} />
             </div>
-            <div>
-              <h1 className="font-semibold">Hợp đồng</h1>
-              <div>Danh sách bàn giao</div>
+
+
+            {/* Hợp đồng */}
+            <div className="mt-4">
+              <h1 className="font-semibold">Danh sách bàn giao</h1>
               <div>
                 <ProjectFile data={data} />
               </div>
             </div>
           </div>
+
         </TabsContent>
-        <TabsContent value="request-deposit">
+
+
+        {/* <TabsContent value="request-deposit">
           <div>
             <DepositTable projectId={data?.projectApartmentID} />
           </div>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
+
+
   );
 };
 
