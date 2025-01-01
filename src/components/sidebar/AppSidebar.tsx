@@ -95,11 +95,11 @@ export function AppSidebar() {
       url: "/manager/dashboard/team-manage",
       icon: Users,
     },
-    {
-      title: "Hợp đồng",
-      url: "/manager/dashboard/contract-manage",
-      icon: ReceiptText,
-    },
+    // {
+    //   title: "Hợp đồng",
+    //   url: "/manager/dashboard/contract-manage",
+    //   icon: ReceiptText,
+    // },
     {
       title: "Giao dịch",
       url: "/manager/dashboard/transaction-manage",
