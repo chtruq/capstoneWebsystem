@@ -7,7 +7,6 @@ import React from "react";
 
 const DetailsMessage = async ({ params }: { params: { id: string } }) => {
   const data = await chatMessages(params.id);
-  console.log("dataaaa", data);
   const userId = (await getUserInforFromCookie()) || {
     id: "",
     role: "",
