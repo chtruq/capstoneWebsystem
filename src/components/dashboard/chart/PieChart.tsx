@@ -17,57 +17,62 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { FC } from "react"
-const chartData = [
-  { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig
 
 interface Props {
-  data: any
+  data: AppointmentCountByType[]
 }
 
-const PieChartComponent: FC<Props> = ({data}) => {
+const PieChartComponent: FC<Props> = ({ data }) => {
+  console.log("Data in PieChartComponenttttttttttt", data[0].count);
+
+  const chartData = [
+    { browser: "chrome", visitors: data[0].count, fill: "var(--color-chrome)" },
+    { browser: "safari", visitors: data[1].count, fill: "var(--color-safari)" },
+    // { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
+    { browser: "edge", visitors: data[2].count, fill: "var(--color-edge)" },
+    { browser: "other", visitors: data[3].count, fill: "var(--color-other)" },
+  ]
+  const chartConfig = {
+    visitors: {
+      label: "Visitors",
+    },
+    chrome: {
+      label: "Tư vấn",
+      color: "hsl(var(--chart-1))",
+    },
+    safari: {
+      label: "Đặt cọc",
+      color: "hsl(var(--chart-2))",
+    },
+    // firefox: {
+    //   label: "Firefox",
+    //   color: "hsl(var(--chart-3))",
+    // },
+    edge: {
+      label: "Ký gửi",
+      color: "hsl(var(--chart-4))",
+    },
+    other: {
+      label: "Tái ký",
+      color: "hsl(var(--chart-5))",
+    },
+  } satisfies ChartConfig
+
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
   }, [])
+
+  console.log("Data in PieChartComponent", data);
+
   return (
     <Card className="flex flex-col">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+      <CardHeader className="items-center p-3 pb-0">
+        <CardTitle>Biểu đồ tròn - Lịch hẹn</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="flex flex-1 pb-0 items-center">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="w-[200px] h-[200px] mx-auto"
         >
           <PieChart>
             <ChartTooltip
@@ -103,7 +108,7 @@ const PieChartComponent: FC<Props> = ({data}) => {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          Cuộc hẹn
                         </tspan>
                       </text>
                     )
@@ -113,15 +118,25 @@ const PieChartComponent: FC<Props> = ({data}) => {
             </Pie>
           </PieChart>
         </ChartContainer>
+        <div className="w-[30%]">
+          <div className="flex items-center gap-2">
+            <div className="bg-[hsl(var(--chart-1))] w-6 h-4 rounded-sm" />
+            <p>Tư vấn</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-[hsl(var(--chart-2))] w-6 h-4 rounded-sm" />
+            <p>Đặt cọc</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-[hsl(var(--chart-4))] w-6 h-4 rounded-sm" />
+            <p>Ký gửi</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="bg-[hsl(var(--chart-5))] w-6 h-4 rounded-sm" />
+            <p>Tái ký</p>
+          </div>
+        </div>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
     </Card>
   )
 }

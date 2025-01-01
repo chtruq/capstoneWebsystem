@@ -129,7 +129,7 @@ const AdminDashboard = () => {
       <div className="flex w-full">
         <div className="w-[30%]">
           {/* <PieChartComponent chartData={chartData} /> */}
-          <PieChartComponent data={tableData} />
+          {/* <PieChartComponent data={tableData} /> */}
         </div>
         <div className="w-[70%] bg-white rounded-md border m-1 p-1">
           <DashboardTable tableData={tableData} />

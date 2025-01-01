@@ -26,8 +26,8 @@ const ProjectFile: FC<Props> = ({ data }) => {
         <TableBody>
           {data?.projectFiles?.map((file) => (
             <TableRow key={file.projectFileID}>
-              <TableHead>{file.projectFileDate}</TableHead>
-              <TableHead>{file.projectFileDescription}</TableHead>
+              <TableHead>{file.updateDate}</TableHead>
+              <TableHead>{file.description}</TableHead>
               <TableHead>
                 <Button variant="outline">Tải xuống</Button>
               </TableHead>
