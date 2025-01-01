@@ -124,7 +124,7 @@ const AdminDashboard = () => {
         ))}
       </div>
       <div className="w-full">
-        <BarChartMultipleDashboard data={chartData} />
+        {/* <BarChartMultipleDashboard data={chartData} /> */}
       </div>
       <div className="flex w-full">
         <div className="w-[30%]">

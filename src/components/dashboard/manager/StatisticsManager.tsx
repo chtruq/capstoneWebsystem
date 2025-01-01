@@ -31,8 +31,8 @@ const CartStatistics: FC<CartStatisticsProps> = ({ title, value, icon: Icon }) =
 
 
 const StatisticsManager: FC<Props> = ({ dataAppointmentCountByTpye, dataStatistics }) => {
-  console.log("Data in statistics manager", dataStatistics);
-  console.log("Data in Appointment manager", dataAppointmentCountByTpye);
+  // console.log("Data in statistics manager", dataStatistics);
+  // console.log("Data in Appointment manager", dataAppointmentCountByTpye);
 
 
 
