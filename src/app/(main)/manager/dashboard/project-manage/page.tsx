@@ -50,7 +50,7 @@ async function ProjectManage(props: {
 
 
   return (
-    <div className="h-screen">
+    <div >
       <h1 className="text-2xl font-semibold">Quản lý dự án</h1>
       <div className="flex">
         <SearchInput placeholder="Tìm kiếm dự án" query="projectName" />
@@ -65,7 +65,7 @@ async function ProjectManage(props: {
       <div>
         <ProjectTable data={data} />
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div>
         {totalPages > 1 ? (
           <PaginationComponent totalPages={totalPages} />
         ) : (

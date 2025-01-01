@@ -12,7 +12,8 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import { rejectRequestAppointment } from "@/app/actions/apointment";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
-import { rejectRequestConsignment } from "@/app/actions/consignment";
+import { rejectConsignment, rejectRequestConsignment } from "@/app/actions/consignment";
+import { rejectDepositRequest } from "@/app/actions/deposit";
 
 interface Props {
   requestId: string;
@@ -38,23 +39,32 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
           "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Khách hàng không còn nhu cầu đặt lịch nữa.",
           "Khác"
         ];
-      case "consignment":
+      case "request-consignment":
         return [
           "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
           "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
-          "Khách hàng không còn như cầu ký gửi căn hộ nữa.",
+          "Khách hàng không còn nhu cầu ký gửi căn hộ nữa.",
           "Khác"
         ];
       case "deposit":
         return [
-          "Khách hàng thông báo không có nhu cầu đặt lịch tư vấn vào thời điểm hiện tại.",
           "Liên lạc với khách hàng không thành công sau nhiều lần thử.",
           "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
           "Khách hàng chưa cung cấp đầy đủ thông tin cần thiết để tiến hành cuộc hẹn.",
+          "Khách hàng không còn nhu cầu đặt giữ chỗ căn hộ nữa.",
+          "Khác"
+        ];
+      case "consignment":
+        return [
+          "Thông tin chưa rõ ràng.",
+          "Khách hàng đã gửi một yêu cầu tương tự và đã được phản hồi.",
+          "Bất đồng sản này hiện đang trong tình trạng khó khăn.",
+          "Dính tranh chấp.",
           "Khác"
         ];
       default:
@@ -80,10 +90,12 @@ const RejectRequestDialog: FC<Props> = ({ requestId, sellerId, typeRequest, onCl
       console.log("Reson in reject:", reason);
       if (typeRequest === "appointment") {
         await rejectRequestAppointment(requestId, sellerId, reason);
-      } else if (typeRequest === "consignment") {
+      } else if (typeRequest === "request-consignment") {
         await rejectRequestConsignment(requestId, sellerId, reason);
       } else if (typeRequest === "deposit") {
-        // await rejectRequestDeposit(requestId, sellerId, reason);
+        await rejectDepositRequest(requestId, sellerId, reason);
+      } else if (typeRequest === "consignment") {
+        await rejectConsignment(requestId, reason);
       } else {
         return;
       }

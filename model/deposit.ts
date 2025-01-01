@@ -16,6 +16,7 @@ interface Deposit {
   depositCode: string;
   oldDepositCode: string | null;
   apartmentCode: string;
+  oldApartmentCode: string | null;
   depositPercentage: number;
   depositAmount: number;
   paymentAmount: number;
@@ -28,8 +29,8 @@ interface Deposit {
   createDate: string;
   updateDate: string;
   expiryDate: string;
-  depositStatus: number;
-  depositType: number;
+  depositStatus: string;
+  depositType: string;
   disbursementStatus: number;
   accountID: string;
   apartmentID: string;

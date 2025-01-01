@@ -184,7 +184,7 @@ const AddNewOwner: FC<Props> = ({ onClose, AccountID, data }) => {
                           <FormItem>
                             <div className="font-semibold">Ngày sinh</div>
                             <FormControl>
-                              <Input type="datetime-local"
+                              <Input type="date"
                                 {...field}
                               />
                             </FormControl>
@@ -199,7 +199,7 @@ const AddNewOwner: FC<Props> = ({ onClose, AccountID, data }) => {
                           <FormItem>
                             <div className="font-semibold">Ngày cấp phát</div>
                             <FormControl>
-                              <Input type="datetime-local"
+                              <Input type="date"
                                 {...field}
                               />
                             </FormControl>
