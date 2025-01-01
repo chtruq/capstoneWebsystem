@@ -15,3 +15,13 @@ interface AppointmentCountByType {
   appointmentType: string;
   count: number;
 }
+
+interface RevenueSumary {
+  startDate: string,
+  endDate: string,
+  month: string,
+  totalRevenue: number,
+  totalBrokerageFee: number,
+  totalTradeFee: number,
+  totalSecurityDeposit: number
+}
