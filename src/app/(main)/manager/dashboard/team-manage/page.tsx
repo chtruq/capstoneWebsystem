@@ -20,11 +20,11 @@ async function TeamManagePage(props: {
 
   return (
     <div>
-      <div className="h-screen">
+      <div>
         <h1 className="text-2xl font-semibold">Quản lý nhóm</h1>
-        <div className="flex">
-          <div className="w-full">
-            <SearchInput placeholder="Tìm kiếm nhóm" query="keyWord" />
+        <div className="flex justify-between">
+          <div className="w-[40%] my-2">
+            <SearchInput placeholder="Tìm kiếm mã nhóm, tên nhóm" query="keyWord" />
           </div>
           <NewTeamDialog leaders={leaders?.data} />
         </div>
@@ -35,7 +35,7 @@ async function TeamManagePage(props: {
             // currentPage={currentPage}
           />
         </div>
-        <div className="absolute bottom-0 right-0">
+        <div >
           {totalPages > 1 ? (
             <PaginationComponent totalPages={totalPages} />
           ) : (

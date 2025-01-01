@@ -20,7 +20,7 @@ const ApartmentTable: FC<Props> = async ({ query, currentPage, state }: Props) =
   console.log("User Token from apartment table", userToken);
 
   const teamData = await getTeamByAccountId(userToken?.id);
-  console.log("Team data", teamData.teamID);
+  console.log("Team data", teamData?.teamID);
 
   try {
     if (state === "pending-request") {

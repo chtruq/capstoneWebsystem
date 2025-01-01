@@ -9,7 +9,15 @@ import {
 } from "@/components/ui/table";
 import Link from "next/link";
 import React, { FC } from "react";
-
+import { Ellipsis } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 interface Props {
   //   query: string;
   //   currentPage: number;
@@ -29,12 +37,12 @@ const TeamTable: FC<Props> = async ({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Mã nhóm</TableHead>
-                <TableHead>Tên nhóm</TableHead>
-                <TableHead>Trưởng nhóm</TableHead>
-                <TableHead>Số nhân viên</TableHead>
-                <TableHead>Đơn vị</TableHead>
-                <TableHead>Hành động</TableHead>
+                <TableHead className="font-semibold">Mã nhóm</TableHead>
+                <TableHead className="font-semibold">Tên nhóm</TableHead>
+                <TableHead className="font-semibold">Trưởng nhóm</TableHead>
+                <TableHead className="font-semibold text-center">Số nhân viên</TableHead>
+                <TableHead className="font-semibold">Đơn vị</TableHead>
+                <TableHead className="font-semibold text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -43,18 +51,30 @@ const TeamTable: FC<Props> = async ({
                   <TableCell>{team.teamCode}</TableCell>
                   <TableCell>{team.teamName}</TableCell>
                   <TableCell>{team.managerName}</TableCell>
-                  <TableCell>{team.teamDescription}</TableCell>
+                  <TableCell className="text-center">{team.teamCode}</TableCell>
                   <TableCell>
                     {team.teamType === "ProjectManagement"
                       ? "Theo dự án"
                       : "Ký gửi"}
                   </TableCell>
-                  <TableCell className="gap-1 flex">
-                    <Link
-                      href={`/manager/dashboard/team-manage/${team.teamID}`}
-                    >
-                      <Button variant="outline">Xem chi tiết</Button>
-                    </Link>
+                  <TableCell className="text-center">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <Ellipsis size={24} />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuItem>
+                          <Link
+                            href={`/manager/dashboard/team-manage/${team.teamID}`}
+                          >
+                            Xem chi tiết
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          Sửa
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}

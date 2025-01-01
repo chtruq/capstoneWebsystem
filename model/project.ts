@@ -22,7 +22,10 @@ interface ProjectFile {
   projectFileID: string;
   projectFileUrl: string;
   description: string;
+  createDate: string;
   updateDate: string;
+  expiryDate: string;
+  projectFileTypes: string;
 }
 
 interface Project {
