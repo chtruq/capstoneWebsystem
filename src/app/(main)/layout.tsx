@@ -4,11 +4,9 @@ import { UserAccountProvider } from "@/lib/context/UserAccountContext";
 function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <UserAccountProvider>
-        {children}
-      </UserAccountProvider>
+      <UserAccountProvider>{children}</UserAccountProvider>
     </div>
-  )
+  );
 }
 
 export default MainLayout;

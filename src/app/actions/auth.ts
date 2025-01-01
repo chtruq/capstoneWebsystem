@@ -131,7 +131,6 @@ export const getUserInforFromCookie = async () => {
 
     // Lưu userId và role vào cookie dưới dạng JSON string
     const userInfor = { id: userId, role, name };
-    console.log("User Info Cookiaaaaae:", userInfor);
     return userInfor;
   } else {
     console.log("No token found in cookies.");

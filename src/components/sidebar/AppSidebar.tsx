@@ -24,6 +24,7 @@ import {
   Users,
   ListTodo,
   FileCheck2,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import Applogo from "@public/icon/applogo";
@@ -159,6 +160,11 @@ export function AppSidebar() {
       icon: ListTodo,
     },
     {
+      title: "Chat",
+      url: "/staff/dashboard/chat",
+      icon: MessageCircle,
+    },
+    {
       title: "Cài đặt",
       url: "/staff/dashboard/setting",
       icon: Settings,
@@ -226,7 +232,6 @@ export function AppSidebar() {
     },
   ];
 
-
   return (
     <Sidebar>
       <SidebarHeader className="flex items-center">
@@ -243,10 +248,11 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span>{item.title}</span>
@@ -254,10 +260,11 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span>{item.title}</span>
@@ -274,10 +281,11 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
-                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -289,10 +297,11 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -312,10 +321,11 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
-                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -327,16 +337,18 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span
                             className={`flex items-center gap-2 p-5 rounded-xl`}
                           >
-                            {item.title}</span>
+                            {item.title}
+                          </span>
                         </a>
                       )}
                     </SidebarMenuButton>
@@ -350,10 +362,11 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
-                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -365,10 +378,11 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -389,10 +403,11 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
-                            ? "bg-primary-foreground hover:text-black hover:bg-primary"
-                            : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname === item.url
+                              ? "bg-primary-foreground hover:text-black hover:bg-primary"
+                              : "text-gray-700 hover:bg-gray-400 hover:text-black"
+                          }`}
                         >
                           <item.icon />
                           <span
@@ -404,10 +419,11 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
-                            ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
-                            : "text-gray-700 hover:bg-gray-400"
-                            }`}
+                          className={`flex items-center gap-2 p-5 rounded-xl ${
+                            pathname.includes(item.url)
+                              ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
+                              : "text-gray-700 hover:bg-gray-400"
+                          }`}
                         >
                           <item.icon />
                           <span
