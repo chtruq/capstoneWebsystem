@@ -23,6 +23,7 @@ export const formatDate = (isoDateString: string): string => {
 }
 
 export const formatMoney = (moneyString: number): string => {
+  if (moneyString === 0) return "0 VNĐ"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
   if (!moneyString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
   const moneyNumber = Number(moneyString); // Chuyển đổi string thành số
   if (isNaN(moneyNumber)) return "N/A"; // Kiểm tra nếu không phải số
@@ -55,6 +56,7 @@ export const formatTime = (isoDateString: string): string => {
 }
 
 export const formatMoneyShortcut = (price: number) => {
+  if (price === 0) return "0 VNĐ"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
   if (price === undefined || price === null || isNaN(price)) {
     return "Đang cập nhật";
   }

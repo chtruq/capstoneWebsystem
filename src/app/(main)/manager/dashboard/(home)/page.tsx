@@ -7,12 +7,13 @@ import StatisticsManager from "@/components/dashboard/manager/StatisticsManager"
 import BarChartMultipleDashboard from "@/components/dashboard/chart/BarChartMultipleDashboard";
 import BarChartMultiple from "@/components/dashboard/manager/BarChartMultiple";
 
+
 async function HomePage() {
   const userToken = await getUserInforFromCookie();
   console.log("User Tolken", userToken);
-  const dataStatistics = await getStatistics();
+  // const dataStatistics = await getStatistics("all");
   // console.log("Data in home page", dataStatistics);
-  const dataAppointmentCountByTpye = await getAppointmentCountByTpye();
+  // const dataAppointmentCountByTpye = await getAppointmentCountByTpye();
   // console.log("Data Appointment", dataAppointmentCountByTpye.details);
   // const dataRevenueSumary = await getRevenueSumary();
   // console.log("data revenue", dataRevenueSumary);
@@ -21,9 +22,11 @@ async function HomePage() {
 
   return (
     <div className="space-y-4">
+      <h1 className="font-semibold text-2xl">Tổng quan hệ thống</h1>
+      
       <StatisticsManager
-        dataAppointmentCountByTpye={dataAppointmentCountByTpye.details}
-        dataStatistics={dataStatistics}
+        // dataAppointmentCountByTpye={dataAppointmentCountByTpye.details}
+        // dataStatistics={dataStatistics}
       />
       {/* <BarChartMultipleDashboard data={dataRevenueSumary} /> */}
       <BarChartMultiple />

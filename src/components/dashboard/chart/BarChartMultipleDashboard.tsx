@@ -18,7 +18,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { FC } from "react"
-
+import { formatMoney } from "@/lib/utils/dataFormat"
 
 interface Props {
   data: RevenueSumary[]
@@ -95,7 +95,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
     }
   );
 
-  console.log("Total Summary:", totalSummary);
+  // console.log("Total Summary:", totalSummary);s
 
 
   return (
@@ -122,7 +122,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
             <div className="w-6 h-10 bg-[hsl(var(--chart-1))] rounded-sm" />
             <div>
               <p className="text-sm">Tiền ký quỹ:</p>
-              <p className="font-semibold text-xl">{totalSummary.totalSecurityDeposit}</p>
+              <p className="font-semibold text-xl">{formatMoney(totalSummary.totalSecurityDeposit)}</p>
             </div>
           </div>
 
@@ -130,7 +130,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
             <div className="w-6 h-10 bg-[hsl(var(--chart-2))] rounded-sm" />
             <div>
               <p className="text-sm">Tiền môi giới:</p>
-              <p className="font-semibold text-xl">{totalSummary.totalBrokerageFee}</p>
+              <p className="font-semibold text-xl">{formatMoney(totalSummary.totalBrokerageFee)}</p>
             </div>
           </div>
 
@@ -138,7 +138,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
             <div className="w-6 h-10 bg-[hsl(var(--chart-4))] rounded-sm" />
             <div>
               <p className="text-sm">Tiền dịch vụ:</p>
-              <p className="font-semibold text-xl">{totalSummary.totalTradeFee}</p>
+              <p className="font-semibold text-xl">{formatMoney(totalSummary.totalTradeFee)}</p>
             </div>
           </div>
         </div>
