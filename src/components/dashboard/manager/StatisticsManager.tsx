@@ -1,9 +1,19 @@
+"use client"
 
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { X, Banknote, Building, HandCoins, ListTodo, CreditCard, Users, PiggyBank } from "lucide-react";
 import PieChartComponent from "../chart/PieChart";
 import { formatMoneyShortcut } from "@/lib/utils/dataFormat";
-
+import { getAppointmentCountByTpye, getStatistics } from "@/app/actions/dataDashboard";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 interface Props {
   dataAppointmentCountByTpye: AppointmentCountByType[]
   dataStatistics: Statistics
@@ -30,30 +40,62 @@ const CartStatistics: FC<CartStatisticsProps> = ({ title, value, icon: Icon }) =
 };
 
 
-const StatisticsManager: FC<Props> = ({ dataAppointmentCountByTpye, dataStatistics }) => {
+const StatisticsManager = () => {
   // console.log("Data in statistics manager", dataStatistics);
   // console.log("Data in Appointment manager", dataAppointmentCountByTpye);
+  const [dataStatistics, setDataStatistics] = useState<Statistics | null>(null);
+  const [dataAppointmentCountByTpye, setDataAppointmentCountByTpye] = useState<AppointmentCountByType[] | null>(null);
+  const [duration, setDuration] = useState<string>("all")
+  useEffect(() => {
+    const fetchData = async () => {
+      const dataStatistics = await getStatistics(duration);
+      const dataAppointmentCountByTpye = await getAppointmentCountByTpye();
+      setDataStatistics(dataStatistics);
+      setDataAppointmentCountByTpye(dataAppointmentCountByTpye.details);
+    };
+    fetchData();
+  }, [duration]);
 
-
+  const handleDurationChange = (value: string) => {
+    setDuration(value); // Cập nhật giá trị đã chọn
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold">Thống kê</h1>
-      <div className="w-full grid grid-cols-6 gap-4">
-        <div className="col-span-4">
-          <div className="grid grid-cols-3 gap-4">
-            <CartStatistics title="Doanh thu" value={formatMoneyShortcut(dataStatistics.totalRevenue)} icon={Banknote} />
-            <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.totalAppointments.toString()} icon={Building} />
-            <CartStatistics title="Tiền ký quỹ" value={formatMoneyShortcut(dataStatistics.totalSecurityDeposit)} icon={HandCoins} />
-            <CartStatistics title="Tiền môi giới" value={formatMoneyShortcut(dataStatistics.totalBrokerageFee)} icon={PiggyBank} />
-            <CartStatistics title="Giao dịch" value={dataStatistics.totalTransactions.toString()} icon={CreditCard} />
-            <CartStatistics title="Người dùng" value={dataStatistics.totalUsers.toString()} icon={Users} />
+    <div className="space-y-4">
+      <div className="flex items-center space-x-2">
+        <p className="font-medium">Khung thời gian:</p>
+        <Select onValueChange={handleDurationChange}>
+          <SelectTrigger className="w-[120px]">
+            <SelectValue placeholder="All" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {/* <SelectLabel>Loại thống kê</SelectLabel> */}
+              <SelectItem value="all">Tất cả</SelectItem>
+              <SelectItem value="week">Tuần này</SelectItem>
+              <SelectItem value="month">Tháng này</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {dataStatistics && dataAppointmentCountByTpye && (
+        <div className="w-full grid grid-cols-6 gap-4">
+          <div className="col-span-4">
+            <div className="grid grid-cols-3 gap-4">
+              <CartStatistics title="Doanh thu" value={formatMoneyShortcut(dataStatistics.totalRevenue)} icon={Banknote} />
+              <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.totalAppointments.toString()} icon={Building} />
+              <CartStatistics title="Tiền ký quỹ" value={formatMoneyShortcut(dataStatistics.totalSecurityDeposit)} icon={HandCoins} />
+              <CartStatistics title="Tiền môi giới" value={formatMoneyShortcut(dataStatistics.totalBrokerageFee)} icon={PiggyBank} />
+              <CartStatistics title="Giao dịch" value={dataStatistics.totalTransactions.toString()} icon={CreditCard} />
+              <CartStatistics title="Người dùng" value={dataStatistics.totalUsers.toString()} icon={Users} />
+            </div>
+          </div>
+          <div className=" col-span-2">
+            <PieChartComponent data={dataAppointmentCountByTpye} />
           </div>
         </div>
-        <div className=" col-span-2">
-          <PieChartComponent data={dataAppointmentCountByTpye} />
-        </div>
-      </div>
+      )}
     </div>
   );
 }

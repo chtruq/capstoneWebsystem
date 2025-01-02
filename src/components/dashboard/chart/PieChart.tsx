@@ -23,7 +23,7 @@ interface Props {
 }
 
 const PieChartComponent: FC<Props> = ({ data }) => {
-  console.log("Data in PieChartComponenttttttttttt", data[0].count);
+  // console.log("Data in PieChartComponenttttttttttt", data[0].count);
 
   const chartData = [
     { browser: "chrome", visitors: data[0].count, fill: "var(--color-chrome)" },
@@ -62,7 +62,7 @@ const PieChartComponent: FC<Props> = ({ data }) => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
   }, [])
 
-  console.log("Data in PieChartComponent", data);
+  // console.log("Data in PieChartComponent", data);
 
   return (
     <Card className="flex flex-col">
