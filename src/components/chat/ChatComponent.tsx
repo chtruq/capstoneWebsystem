@@ -46,6 +46,7 @@ const ChatComponent = ({
   const [newReceiveMessage, setNewReceiveMessage] = useState<ChatMessage>();
   const [messages, setMessages] = useState<ChatMessage[]>(data);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
   const [form, setForm] = useState({
     sessionId: sessionId,
     senderid: userId.id,
@@ -59,15 +60,12 @@ const ChatComponent = ({
     const data = await chatMessages(sessionId);
     const sortedMessages = sortMessages(data?.data?.results || []);
     setMessages(sortedMessages);
-    scrollToBottom();
   };
-  const viewport = useRef<HTMLDivElement>(null);
   const handlePress = (item: ChatMessage) => {
     setExpandedItemId(expandedItemId === item.id ? null : item.id);
   };
   useEffect(() => {
     fetchMessages();
-    scrollToBottom();
   }, []);
   const sortMessages = (messages: ChatMessage[]) => {
     return [...messages].sort(
@@ -142,13 +140,7 @@ const ChatComponent = ({
       ).map((id) => newMessages.find((msg) => msg.id === id));
       return uniqueMessages;
     });
-    scrollToBottom();
   };
-  const scrollToBottom = () =>
-    viewport.current!.scrollTo({ top: 0, behavior: "smooth" });
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
 
   useEffect(() => {
     if (newReceiveMessage) {
@@ -191,6 +183,12 @@ const ChatComponent = ({
     }
   };
 
+  useEffect(() => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({ behavior: "instant" });
+    }
+  }, [messages]);
+
   return (
     <>
       <div>
@@ -204,7 +202,6 @@ const ChatComponent = ({
           display: "flex",
           flexDirection: "column-reverse",
         }}
-        ref={viewport}
       >
         <div className="w-full flex flex-col ">
           {sortMessages(messages)?.map((item: ChatMessage) => (
@@ -233,17 +230,20 @@ const ChatComponent = ({
                   />
                 )}
 
-                <p>{item.messageContent}</p>
+                <div>
+                  <p>{item.messageContent}</p>
+                  {expandedItemId === item.id && (
+                    <p className=" p-2 text-xs ">
+                      {item?.timestamp
+                        ? new Date(item.timestamp).toLocaleString()
+                        : "Invalid date"}
+                    </p>
+                  )}
+                </div>
               </div>
-              {expandedItemId === item.id && (
-                <p className=" p-2 text-xs text-gray-400">
-                  {item?.timestamp
-                    ? new Date(item.timestamp).toLocaleString()
-                    : "Invalid date"}
-                </p>
-              )}
             </button>
           ))}
+          <div ref={bottomRef} />
         </div>
       </ScrollArea>
       <div className="w-full flex items-center justify-between p-4">

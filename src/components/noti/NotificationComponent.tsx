@@ -88,7 +88,6 @@ const NotificationComponent = ({
 
   const fetchNotification = async () => {
     const res = await getNotification(userInfo.id);
-    // const res = await getNotification("");
     const unreadNoti = res?.data?.results.filter((noti: Noti) => !noti.isRead);
     setUnreadNoti(unreadNoti.length);
     console.log("notificationres", res?.data?.results);
@@ -157,6 +156,7 @@ const NotificationComponent = ({
     <div>
       <Popover>
         {/* NotificationComponent<></> */}
+
         {!isConnected && (
           <div className="relative right-0 top-0 m-5">
             <button className=" text-white rounded-lg bg-primary p-2">
@@ -184,7 +184,7 @@ const NotificationComponent = ({
               <ScrollArea className="h-72 w-full  ">
                 <h1 className="text-lg font-bold text-red-700">Thông báo</h1>
                 <div className="flex flex-col mt-3">
-                  {notification ? (
+                  {notification &&
                     notification?.map((noti) => (
                       <div
                         key={noti.notificationID}
@@ -196,13 +196,15 @@ const NotificationComponent = ({
                         <h1 className="text-lg font-bold">{noti.title}</h1>
                         <p>{noti.description}</p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="flex flex-col p-2 border-b">
-                      <h1 className="text-lg font-bold">No notification</h1>
-                    </div>
-                  )}
+                    ))}
                 </div>
+                {notification.length === 0 && (
+                  <>
+                    <h1 className="text-lg font-bold">
+                      Bạn chưa có thông báo nào
+                    </h1>
+                  </>
+                )}
               </ScrollArea>
               <div className="flex justify-center">
                 <button
