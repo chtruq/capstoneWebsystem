@@ -13,6 +13,7 @@ import Link from "next/link";
 import { getUserInforFromCookie } from "@/app/actions/auth";
 import DepositTable from "./Deposit/DepositTable";
 import { formatDate } from "@/lib/utils/dataFormat";
+import AddProjectBulkFile from "./ProjectFinancialContract/AddProjectBulkFile";
 interface Props {
   data: Project;
   searchParam?: Promise<{
@@ -212,6 +213,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
             {/* Hợp đồng */}
             <div className="mt-4">
               <h1 className="font-semibold">Danh sách bàn giao</h1>
+              <AddProjectBulkFile ProjectApartmentID={data.projectApartmentID}/>
               <div>
                 <ProjectFile data={data} />
               </div>

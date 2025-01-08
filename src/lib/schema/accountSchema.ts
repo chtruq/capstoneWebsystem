@@ -33,3 +33,9 @@ export const accountSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+  export const accountUpdateSchema = z
+  .object({
+    name: z.string().min(6, { message: "Name is too short" }).max(255, { message: "Name is too long" }),
+    phoneNumber: z.string().min(10, { message: "Phone number is too short" }),
+  })

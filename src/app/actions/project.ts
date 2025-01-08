@@ -200,3 +200,27 @@ export const deleteProjectFileContract = async (id: string) => {
     console.log(error);
   }
 };
+
+interface BulkFile {
+  file: File;
+  description: string;
+  expiryDate?: string;
+  projectApartmentId?: string;
+  images: File[];
+  vrFiles: File[];
+}
+
+export const addProjectBulkFIle = async (data: any) => {
+  try {
+    console.log("data upload bulk file", data);
+
+    const res = await apiClient.post("/apartments/bulk-upload", data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
