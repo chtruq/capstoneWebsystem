@@ -3,6 +3,7 @@ interface Statistics {
   startDate: string;
   endDate: string;
   totalRevenue: number;
+  totalServiceFee: number;
   totalAppointments: number;
   totalAvailableApartments: number;
   totalBrokerageFee: number;
@@ -22,6 +23,6 @@ interface RevenueSumary {
   month: string,
   totalRevenue: number,
   totalBrokerageFee: number,
-  totalTradeFee: number,
+  totalServiceFee: number,
   totalSecurityDeposit: number
 }

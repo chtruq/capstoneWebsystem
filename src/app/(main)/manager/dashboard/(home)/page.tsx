@@ -23,11 +23,8 @@ async function HomePage() {
   return (
     <div className="space-y-4">
       <h1 className="font-semibold text-2xl">Tổng quan hệ thống</h1>
-      
-      <StatisticsManager
-        // dataAppointmentCountByTpye={dataAppointmentCountByTpye.details}
-        // dataStatistics={dataStatistics}
-      />
+
+      <StatisticsManager />
       {/* <BarChartMultipleDashboard data={dataRevenueSumary} /> */}
       <BarChartMultiple />
 

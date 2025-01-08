@@ -41,9 +41,22 @@ const CartStatistics: FC<CartStatisticsProps> = ({ title, value, icon: Icon }) =
 
 
 const StatisticsManager = () => {
+  const defaultStatistics = {
+    totalRevenue: 0,
+    totalServiceFee: 0,
+    totalAppointments: 0,
+    totalSecurityDeposit: 0,
+    totalBrokerageFee: 0,
+    totalTransactions: 0,
+    totalUsers: 0,
+    timePeriod: "",
+    startDate: "",
+    endDate: "",
+    totalAvailableApartments: 0,
+  };
   // console.log("Data in statistics manager", dataStatistics);
   // console.log("Data in Appointment manager", dataAppointmentCountByTpye);
-  const [dataStatistics, setDataStatistics] = useState<Statistics | null>(null);
+  const [dataStatistics, setDataStatistics] = useState<Statistics>(defaultStatistics);
   const [dataAppointmentCountByTpye, setDataAppointmentCountByTpye] = useState<AppointmentCountByType[] | null>(null);
   const [duration, setDuration] = useState<string>("all")
   useEffect(() => {
@@ -79,7 +92,7 @@ const StatisticsManager = () => {
         </Select>
       </div>
 
-      {dataStatistics && dataAppointmentCountByTpye && (
+      {/* {dataStatistics && dataAppointmentCountByTpye && ( */}
         <div className="w-full grid grid-cols-6 gap-4">
           <div className="col-span-4">
             <div className="grid grid-cols-3 gap-4">
@@ -92,10 +105,10 @@ const StatisticsManager = () => {
             </div>
           </div>
           <div className=" col-span-2">
-            <PieChartComponent data={dataAppointmentCountByTpye} />
+            {dataAppointmentCountByTpye && <PieChartComponent data={dataAppointmentCountByTpye} />}
           </div>
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 }

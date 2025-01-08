@@ -66,7 +66,7 @@ function SigninComponent() {
           height={38}
           priority
         />
-        <p className="">Apartment trading floor</p>
+        <p className="text-money text-2xl font-semibold">Apartment trading floor</p>
       </div>
       <div className="grid-cols-6 w-1/2 bg-primary flex items-center justify-center">
         <div className="flex justify-center mt-8">

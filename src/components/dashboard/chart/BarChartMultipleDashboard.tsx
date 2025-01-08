@@ -58,7 +58,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
     month: item.month, // Sử dụng tháng từ API
     desktop: item.totalSecurityDeposit, // Tùy chỉnh dựa trên field từ API
     mobile: item.totalBrokerageFee, // Tùy chỉnh dựa trên field từ API
-    cash: item.totalTradeFee, // Tùy chỉnh dựa trên field từ API
+    cash: item.totalServiceFee, // Tùy chỉnh dựa trên field từ API
   }));
 
   const chartConfig = {
@@ -82,7 +82,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
       return {
         totalRevenue: acc.totalRevenue + curr.totalRevenue,
         totalBrokerageFee: acc.totalBrokerageFee + curr.totalBrokerageFee,
-        totalTradeFee: acc.totalTradeFee + curr.totalTradeFee,
+        totalTradeFee: acc.totalTradeFee + curr.totalServiceFee,
         totalSecurityDeposit:
           acc.totalSecurityDeposit + curr.totalSecurityDeposit,
       };
