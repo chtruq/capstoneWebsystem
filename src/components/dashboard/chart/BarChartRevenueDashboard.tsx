@@ -67,7 +67,7 @@ const BarChartRevenueDashboard: FC<Props> = ({ data, onYearChangeRevenue, select
       return {
         totalRevenue: acc.totalRevenue + curr.totalRevenue,
         totalBrokerageFee: acc.totalBrokerageFee + curr.totalBrokerageFee,
-        totalTradeFee: acc.totalTradeFee + curr.totalTradeFee,
+        totalServiceFee: acc.totalServiceFee + curr.totalServiceFee,
         totalSecurityDeposit:
           acc.totalSecurityDeposit + curr.totalSecurityDeposit,
       };
@@ -75,7 +75,7 @@ const BarChartRevenueDashboard: FC<Props> = ({ data, onYearChangeRevenue, select
     {
       totalRevenue: 0,
       totalBrokerageFee: 0,
-      totalTradeFee: 0,
+      totalServiceFee: 0,
       totalSecurityDeposit: 0,
     }
   );
