@@ -193,7 +193,7 @@ const ChatComponent = ({
     <>
       <div>
         {error && <div>{error}</div>}
-        {isConnected && <div>Đã kết nối </div>}
+        {/* {isConnected && <div>Đã kết nối </div>} */}
       </div>
       <ScrollArea
         className="h-full w-full overflow-y-auto"
