@@ -66,7 +66,8 @@ export const handleLogin = async (email: string, password: string) => {
       default:
         // Xử lý nếu role không khớp với bất kỳ case nào
         console.warn("Role không hợp lệ");
-        break;
+        return { invalidRole: true };
+        // break;
     }
   }
 

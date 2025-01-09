@@ -3,6 +3,7 @@ import ProviderTable from "@/components/provider/ProviderTable";
 import SearchInput from "@/components/search/SearchInput";
 import React from "react";
 import { getProviders } from "@/app/actions/provider";
+import AddNewProviderDialog from "@/components/provider/AddNewProviderDialog";
 
 
 async function ProviderManage(props: {
@@ -18,15 +19,18 @@ async function ProviderManage(props: {
   let data;
   try {
     data = await getProviders({ query, currentPage });
-    console.log("abcaaa",data?.providers);
+    console.log("abcaaa", data?.providers);
   } catch (error) {
     console.log(error);
   }
   return (
     <div>
       <h1 className="text-2xl font-semibold">Quản lý nhà cung cấp</h1>
-      <div className="w-[40%] my-2">
-        <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
+      <div className="flex justify-between">
+        <div className="w-[40%] my-2">
+          <SearchInput placeholder="Tìm kiếm nhà cung cấp" query="providerName" />
+        </div>
+        <AddNewProviderDialog />
       </div>
       <div>
         <ProviderTable data={data.providers} />

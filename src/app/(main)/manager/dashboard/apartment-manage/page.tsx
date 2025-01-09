@@ -23,7 +23,7 @@ async function ApartmentManage(props: {
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div className="flex justify-between items-center">
         <div className="w-[40%] my-2">
-          <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
+          <SearchInput placeholder="Tìm kiếm theo mã căn hộ" query="apartmentName" />
         </div>
       </div>
       <div>

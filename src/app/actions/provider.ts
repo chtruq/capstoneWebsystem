@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import apiClient from "./apiClient";
 
 export const getProviders = async ({
@@ -47,3 +48,47 @@ export const getProviderByAccountId = async ({ accountId }: { accountId: string 
     console.log(error);
   }
 }
+
+interface createProvider {
+  Name: string;
+  Email: string;
+  Password: string;
+  ConfirmPassword: string;
+  ApartmentProjectProviderName: string;
+  ApartmentProjectDescription: string;
+  Location: string;
+  DiagramUrl?: File | null;
+}
+
+export const createProvider = async (data: createProvider) => {
+  try {
+    console.log("data in create provider API", data);
+    const formData = new FormData();
+    formData.append("Name", data.Name);
+    formData.append("Email", data.Email);
+    formData.append("Password", data.Password);
+    formData.append("ConfirmPassword", data.ConfirmPassword);
+    formData.append("ApartmentProjectProviderName", data.ApartmentProjectProviderName);
+    formData.append("ApartmentProjectDescription", data.ApartmentProjectDescription);
+    formData.append("Location", data.Location);
+    if (data.DiagramUrl) {
+      formData.append("DiagramUrl", data.DiagramUrl);
+    }
+    // Log formData
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
+    });
+
+    const res = await apiClient.post("/projectproviders/create", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res;
+  } catch (error) {
+    if (error instanceof AxiosError && error.response?.status === 400) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+};
