@@ -47,10 +47,18 @@ function SigninComponent() {
     try {
       setIsSubmitting(true);
       const res = await handleLogin(form.email, form.password);
-      console.log(res);
+      if (res?.invalidRole) {
+        setErrors({
+          ...errors,
+          email: "Đăng nhập thất bại. Quyền truy cập không hợp lệ.",
+          password: "",
+        });
+      } else {
+        console.log(res); // Xử lý kết quả thành công
+      }
     } catch (e) {
       console.log("Đăng nhập thất bại:", e);
-      setErrors({ ...errors, email: "Đăng nhập thất bại. Vui lòng kiểm tra thông tin." });
+      setErrors({ ...errors, email: "Đăng nhập thất bại. Vui lòng kiểm tra thông tin.", password: "" });
     } finally {
       setIsSubmitting(false);
     }

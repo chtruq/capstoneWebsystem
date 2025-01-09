@@ -45,6 +45,7 @@ import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { useRouter } from "next/navigation";
 import { apartmentOwnerSchema } from "@/lib/schema/apartmentOwnerSchema";
 import { createApartmentForOwner } from "@/app/actions/apartment";
+import hcmcTree from '../../../lib/utils/HCMC_tree.json';
 
 interface Props {
   PropertyVerificationID: string;
@@ -60,7 +61,23 @@ type VRVideoFile = {
 
 const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) => {
   console.log("PropertyVerificationID", PropertyVerificationID);
+  // const districtsData = {
 
+  // };
+  const [districtsData, setDistrictsData] = React.useState(hcmcTree);
+  // console.log("districtsData", districtsData["quan-huyen"]);
+
+  const districts = Object.entries(districtsData["quan-huyen"]).map(([code, district]) => ({
+    code,
+    name: district.name_with_type,
+    wards: Object.entries(district["xa-phuong"]).map(([wardCode, ward]) => ({
+      code: wardCode,
+      name: ward.name_with_type,
+    })),
+  }));
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [wards, setWards] = useState<{ code: string; name: string }[]>([]);
 
   const form = useForm<z.infer<typeof apartmentOwnerSchema>>({
     resolver: zodResolver(apartmentOwnerSchema),
@@ -232,6 +249,18 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
     } catch (error) {
       console.error("Error creating apartment for owner:", error);
     }
+  };
+
+  const handleDistrictChange = (districtName: string) => {
+    setSelectedDistrict(districtName); // Lưu tên quận/huyện đã chọn
+    const selected = districts.find((d) => d.name === districtName);
+    setWards(selected?.wards || []); // Lấy danh sách xã/phường
+    form.setValue("District", districtName); // Lưu tên quận/huyện vào form
+    form.setValue("Ward", ""); // Reset tên xã/phường
+  };
+
+  const handleWardChange = (wardName: string) => {
+    form.setValue("Ward", wardName); // Lưu tên xã/phường vào form
   };
 
 
@@ -481,6 +510,73 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                                 value={type.value.toString()}
                               >
                                 {type.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between gap-4">
+              <div className="flex justify-start w-1/2 items-center gap-2">
+                <span className="text-blur text-sm w-1/5">Quận/Huyện</span>
+                <FormField
+                  control={form.control}
+                  name="District"
+                  render={({ field }) => (
+                    <FormItem className="w-3/5">
+                      <FormControl>
+                        <Select
+                          value={selectedDistrict}
+                          onValueChange={(value) => {
+                            handleDistrictChange(value);
+                            field.onChange(value);
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Chọn Quận/Huyện" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {districts.map((district) => (
+                              <SelectItem key={district.name} value={district.name}>
+                                {district.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-start w-1/2 items-center gap-2">
+                <span className="text-blur text-sm w-1/5">Xã/Phường</span>
+                <FormField
+                  control={form.control}
+                  name="Ward"
+                  render={({ field }) => (
+                    <FormItem className="w-3/5">
+                      <FormControl>
+                        <Select
+                          value={form.watch("Ward") ?? undefined}
+                          onValueChange={(value) => {
+                            handleWardChange(value);
+                            field.onChange(value);
+                          }}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Chọn Xã/Phường" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {wards.map((ward) => (
+                              <SelectItem key={ward.name} value={ward.name}>
+                                {ward.name}
                               </SelectItem>
                             ))}
                           </SelectContent>

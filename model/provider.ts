@@ -7,4 +7,7 @@
   diagramUrl: string;
   createDate: string;
   updateDate: string;
+  email: string;
+  name: string;
+  accountId: string;
 }

@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,12 +31,18 @@ import {
 import { createTeam } from "@/app/actions/team";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { Value } from "@radix-ui/react-select";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   leaders: Leader[];
 }
 
 const NewTeamDialog: FC<Props> = ({ leaders }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+
+  console.log("Original pathname:", pathname);
   const form = useForm<z.infer<typeof CreateTeamSchema>>({
     resolver: zodResolver(CreateTeamSchema),
     defaultValues: {
@@ -47,7 +53,8 @@ const NewTeamDialog: FC<Props> = ({ leaders }) => {
     },
   });
 
-  console.log("leaders", leaders);
+  // console.log("leaders", leaders);
+  console.log("isDialogOpen", isDialogOpen);
 
   async function onSubmit(values: z.infer<typeof CreateTeamSchema>) {
     try {
@@ -57,13 +64,18 @@ const NewTeamDialog: FC<Props> = ({ leaders }) => {
       console.log("error", error);
     } finally {
       form.reset();
-      revalidateProjectPath("/manager/dashboard/team-manage");
+      // revalidateProjectPath("/manager/dashboard/team-manage");
+      router.push(pathname);
+      setIsDialogOpen(false);
     }
   }
 
   return (
     <div>
-      <Dialog>
+      <Dialog open={isDialogOpen} onOpenChange={() => {
+        setIsDialogOpen(!isDialogOpen);
+        form.reset();
+      }}>
         <DialogTrigger asChild>
           <Button>Tạo mới</Button>
         </DialogTrigger>

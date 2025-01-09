@@ -225,7 +225,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
     }} >
       <DialogTrigger>
         <Button variant="outline">
-          Thêm hợp đồng
+          Danh sách bàn giao
           <span>
             <CombineCirlePlus />
           </span>
@@ -233,7 +233,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
       </DialogTrigger>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Thêm hợp đồng thỏa thuận</DialogTitle>
+          <DialogTitle>Thêm danh sách bàn giao</DialogTitle>
           <DialogDescription asChild>
             <div>
               <Form {...form}>
@@ -248,7 +248,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <div className="font-semibold">Tài liệu hợp đồng</div>
+                        <div className="font-semibold">Tài liệu bàn giao</div>
                         <FormControl>
                           <Input placeholder="Nhập tên danh sách" {...field} />
                         </FormControl>
@@ -258,7 +258,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                   />
 
                   <div>
-                    <h1 className="font-semibold">Hình ảnh căn hộ</h1>
+                    <h1 className="font-semibold">File tài liệu</h1>
                     <FormField
                       control={form.control}
                       name="file"
@@ -375,7 +375,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
 
                   {/* Quản lý hình ảnh VR */}
                   <div>
-                    <h1 className="font-semibold">Hình ảnh VR dự án</h1>
+                    <h1 className="font-semibold">Hình ảnh VR</h1>
                     <div className="flex justify-start gap-5">
                       <FormField
                         control={form.control}
