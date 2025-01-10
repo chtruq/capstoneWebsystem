@@ -153,7 +153,7 @@ const NotificationComponent = ({
   };
 
   return (
-    <div>
+    <div className="absolute z-50 right-0 top-0 mt-8 mr-2">
       <Popover>
         {/* NotificationComponent<></> */}
 

@@ -65,4 +65,14 @@ export const AppointmentSchema = z.object({
     .string()
     .min(1, "Mã tham chiếu không được để trống")
     .max(100, "Mã tham chiếu không được dài hơn 100 ký tự"),
+  username: z
+    .string({
+      required_error: "tên khách hàng là bắt buộc.",
+    }),
+  phoneNumber: z
+    .string({
+      required_error: "số điện thoại là bắt buộc.",
+    })
+
+
 });

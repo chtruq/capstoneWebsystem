@@ -10,10 +10,10 @@ export const useSignalR = (token: string) => {
         setIsConnected(true);
         setError(null);
       } catch (err) {
-        setIsConnected(false);
-        setError(
-          err instanceof Error ? err.message : "Failed to connect to SignalR"
-        );
+        // setIsConnected(false);
+        // setError(
+        //   err instanceof Error ? err.message : "Failed to connect to SignalR"
+        // );
       }
     };
     if (token) {

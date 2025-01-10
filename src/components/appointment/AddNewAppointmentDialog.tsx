@@ -33,6 +33,8 @@ interface Props {
   ApartmentID: string;
   AssignedStaffAccountID: string;
   RequestID: string;
+  Name: string;
+  Phone: string;
   onClose: () => void;
   isSubmitted: () => void;
 }
@@ -43,6 +45,8 @@ const AddNewAppointmentDialog: FC<Props> = ({
   ApartmentID,
   AssignedStaffAccountID,
   RequestID,
+  Name,
+  Phone,
   onClose,
   isSubmitted,
 }) => {
@@ -60,6 +64,8 @@ const AddNewAppointmentDialog: FC<Props> = ({
       customerID: CustomerID,
       apartmentID: ApartmentID,
       referenceCode: ReferenceCode,
+      username: Name,
+      phoneNumber: Phone,
     },
   });
 

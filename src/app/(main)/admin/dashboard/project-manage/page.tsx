@@ -21,7 +21,7 @@ async function ProjectManage(props: {
   const totalPages = Math.ceil(totalItem / 10); // Calculate total pages
 
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý dự án</h1>
       <div>
         <SearchInput placeholder="Tìm kiếm căn hộ" query="projectName" />

@@ -1,6 +1,7 @@
 import { apartmentSchema } from "@/lib/schema/apartmentSchema";
 import apiClient from "./apiClient";
 import { z } from "zod";
+import QueryString from "qs";
 
 export const getApartments = async (page: number, pageIndex: number) => {
   const response = await apiClient.get(
@@ -13,14 +14,26 @@ export const getApartments = async (page: number, pageIndex: number) => {
 export const getApartmentsTest = async ({
   query,
   currentPage,
+  statuses,
 }: {
   query: string;
   currentPage: number;
+  statuses?: number[];
 }) => {
   try {
-    const res = apiClient.get(
-      `/apartments/search?apartmentCode=${query}&pageIndex=${currentPage}&pageSize=8`
+    statuses = [1,2,3,4,5];
+    const queryString = QueryString.stringify({
+      apartmentCode: query,
+      pageIndex: currentPage,
+      pageSize: 8,
+      apartmentStatuses: statuses,
+    });
+    const res = await apiClient.get(
+      // `/apartments/search?apartmentCode=${query}&pageIndex=${currentPage}&pageSize=8`
+      `/apartments/search?${queryString}`
     );
+    console.log("ressssssssss", res?.data?.data?.apartments);
+    
     return res;
   } catch (error) {
     console.log(error);

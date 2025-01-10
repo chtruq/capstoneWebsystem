@@ -32,7 +32,7 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
           <TableHead>Hoa hồng</TableHead>
 
           {
-            role === "Management" && (
+            role === "Management" || role === "Project Provider" && (
               <TableHead>Hành động</TableHead>
 
             )
@@ -50,7 +50,7 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
               <TableCell>{contract.brokerageFee}</TableCell>
               <TableCell>{contract.commissionFee}</TableCell>
               <TableCell>
-                {role === "Management" && (
+                {role === "Management" || role === "Project Provider" && (
                   <div className="flex gap-1">
                     <AddFinancialContract
                       projectApartmentId={data?.projectApartmentID}

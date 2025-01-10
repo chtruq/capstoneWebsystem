@@ -65,7 +65,7 @@ async function ProjectManage(props: {
 
 
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý dự án</h1>
       <div className="w-[40%] mt-2">
         <SearchInput placeholder="Tìm kiếm dự án" query="projectName" />

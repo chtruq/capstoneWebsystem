@@ -276,7 +276,7 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
           </div>
           <div className="flex justify-between  gap-4">
             <div className="flex justify-start w-1/2 items-center gap-5">
-              <span className="text-blur text-sm w-1/5">Chủ đầu tư</span>
+              <span className="text-blur text-sm w-1/5">Nhà cung cấp</span>
               <FormField
                 control={form.control}
                 name="ApartmentProjectProviderID"
@@ -297,16 +297,16 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                                   provider.apartmentProjectProviderID ===
                                   field.value
                               )?.apartmentProjectProviderName
-                              : "Chọn chủ đầu tư"}
+                              : "Chọn nhà cung cấp"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className=" p-0">
                           <Command className="w-full">
-                            <CommandInput placeholder="Tìm kiếm chủ đầu tư" />
+                            <CommandInput placeholder="Tìm kiếm nhà cung cấp" />
                             <CommandList>
                               <CommandEmpty>
-                                Không tìm bất kì chủ đầu tư nào.
+                                Không tìm bất kì nhà cung cấp nào.
                               </CommandEmpty>
                               <CommandGroup className="w-full">
                                 {providers.map((provider) => (

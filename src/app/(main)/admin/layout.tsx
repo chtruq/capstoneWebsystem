@@ -17,12 +17,12 @@ async function AdminLayout({ children }: { children: React.ReactNode }) {
         <main className="w-full">
           <div className="flex justify-between z-50">
             <SidebarTrigger />
-            {userInfo && (
+            {/* {userInfo && (
               <NotificationComponent
                 userInfo={userInfo}
                 userToken={token?.value || ""}
               />
-            )}
+            )} */}
           </div>
 
           {children}
