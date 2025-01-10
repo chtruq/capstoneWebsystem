@@ -160,8 +160,8 @@ const RequestPropertyMangeTable: FC<Props> = ({ data }) => {
           }}
           isSubmitted={async () => {
             console.log("Closing dialogs detail isSubmitted...");
-            revalidateProjectPath(pathName);
             await acceptRequestConsignment(selectedData?.requestID, user?.id || "");
+            revalidateProjectPath(pathName);
             setSelectedData(null)
             setIsAddNewDialogOpen(false)
           }}

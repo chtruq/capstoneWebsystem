@@ -68,6 +68,8 @@ export const createAppointment = async (data: z.infer<typeof AppointmentSchema>)
       fromData.append("ApartmentID", data.apartmentID);
     }
     fromData.append("ReferenceCode", data.referenceCode);
+    fromData.append("Username", data.username);
+    fromData.append("Phone", data.phoneNumber);
     fromData.forEach((value, key) => {
       console.log(`${key}: ${value}`);
     });
