@@ -69,14 +69,16 @@ const AddNewAppointmentDialog: FC<Props> = ({
     },
   });
 
+
   const pathName = usePathname();
 
   console.log("ReferenceCode in AddNewAppointmentDialog:", ReferenceCode);
-  // console.log("CustomerID in AddNewAppointmentDialog:", CustomerID);
-  // console.log("ApartmentID in AddNewAppointmentDialog:", ApartmentID);
-  // console.log("AssignedStaffAccountID in AddNewAppointmentDialog:", AssignedStaffAccountID);
-  // console.log("RequestID in AddNewAppointmentDialog:", RequestID);
-
+  console.log("CustomerID in AddNewAppointmentDialog:", CustomerID);
+  console.log("ApartmentID in AddNewAppointmentDialog:", ApartmentID);
+  console.log("AssignedStaffAccountID in AddNewAppointmentDialog:", AssignedStaffAccountID);
+  console.log("RequestID in AddNewAppointmentDialog:", RequestID);
+  console.log("Name in AddNewAppointmentDialog:", Name);
+  console.log("Phone in AddNewAppointmentDialog:", Phone);
 
 
 

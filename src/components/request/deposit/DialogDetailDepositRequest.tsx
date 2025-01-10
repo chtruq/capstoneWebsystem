@@ -175,7 +175,7 @@ const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClos
                 </div>
               </div>
 
-              {data?.depositStatus === "pending" && (
+              {data?.depositStatus === "Pending" && (
                 <>
                   <div className="mt-2 flex justify-around">
                     <Button onClick={() => setRejectRequestDialog(true)}>
