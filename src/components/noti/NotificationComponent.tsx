@@ -96,7 +96,7 @@ const NotificationComponent = ({
 
   useEffect(() => {
     fetchNotification();
-  }, []);
+  }, [newReceivedNotification]);
 
   const displayNoti = (noti: any) => {
     const newNoti: Noti = {
@@ -121,7 +121,7 @@ const NotificationComponent = ({
     if (newReceivedNotification) {
       displayNoti(newReceivedNotification);
     }
-  });
+  }, []);
 
   console.log("New notification:", notification);
 
