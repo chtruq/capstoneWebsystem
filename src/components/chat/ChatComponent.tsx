@@ -192,7 +192,7 @@ const ChatComponent = ({
   return (
     <>
       <div>
-        {error && <div>{error}</div>}
+        {/* {error && <div>{error}</div>} */}
         {/* {isConnected && <div>Đã kết nối </div>} */}
       </div>
       <ScrollArea
