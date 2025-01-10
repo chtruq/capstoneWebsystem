@@ -19,7 +19,7 @@ async function ApartmentManage(props: {
   const data = await getApartmentsTest({ query, currentPage });
   const totalPages = data?.data?.data?.totalPages;
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div className="flex justify-between items-center">
         <div className="w-[40%] my-2">

@@ -49,16 +49,16 @@ export const handleLogin = async (email: string, password: string) => {
 
     switch (role) {
       case "Admin":
-        redirect("/admin/dashboard");
+        redirect("/admin/dashboard/user-manage");
         break;
       case "Management":
         redirect("/manager/dashboard");
         break;
       case "Staff":
-        redirect("/staff/dashboard");
+        redirect("/staff/dashboard/request-manage");
         break;
       case "Seller":
-        redirect("/seller/dashboard/apartment-manage");
+        redirect("/seller/dashboard/request-manage");
         break;
       case "Project Provider":
         redirect("/provider/dashboard");

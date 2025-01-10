@@ -51,32 +51,32 @@ const tableType = (type: string) => {
   switch (type) {
     case "Pending":
       return (
-        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
           <span className="text-pending">Chờ duyệt</span>
         </div>
       );
     case "Accepted":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
           <span className="text-success">Đã duyệt</span>
         </div>
       );
     case "Rejected":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
           <span className="text-failed text-center">Từ chối</span>
         </div>
       );
     case "Expirated":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
           <span className="text-pending">Đã hết hạn</span>
         </div>
       );
     case "Canceled":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
-          <span className="text-failed text-center">Từ chối</span>
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+          <span className="text-failed text-center">Hủy hợp đồng</span>
         </div>
       );
     default:

@@ -14,7 +14,7 @@ async function ManagerLayout({ children }: { children: React.ReactNode }) {
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full bg-gray-100 p-3">
-          <div className="flex justify-between z-50">
+          <div className="flex justify-between z-40">
             <SidebarTrigger />
             {userInfo && (
               <NotificationComponent

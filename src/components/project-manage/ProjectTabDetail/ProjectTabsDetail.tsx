@@ -68,7 +68,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div className="text-sm text-blur ">Trạng thái</div>
                     <div>{data?.projectType}</div>
 
-                    <div className="text-sm text-blur ">Chủ đầu tư</div>
+                    <div className="text-sm text-blur ">Nhà cung cấp</div>
                     <div>{tableText(data?.apartmentProjectProviderName)}</div>
 
                     <div className="text-sm text-blur ">Nhóm quản lý</div>
@@ -187,7 +187,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
             <h1 className="font-semibold">Thông tin khách hàng</h1>
             <div className="flex">
               <div className="grid grid-cols-2 gap-y-2 w-1/2">
-                <div className="text-sm text-blur">Chủ đầu tư</div>
+                <div className="text-sm text-blur">Nhà cung cấp</div>
                 <div>{tableText(data?.projectApartmentName)}</div>
 
                 {/* <div className="text-sm text-blur">Số liên hệ</div>

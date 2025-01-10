@@ -86,6 +86,16 @@ class SignalRService {
   }
 
   public async startConnection(token: string) {
+    
+    if (
+      this.connection &&
+      (this.connection.state === signalR.HubConnectionState.Connected ||
+        this.connection.state === signalR.HubConnectionState.Connecting)
+    ) {
+      console.log("SignalR is already connected or connecting.");
+      return;
+    }
+    
     if (this.connection?.state === signalR.HubConnectionState.Connected) {
       console.log("SignalR is already connected.");
       return;
@@ -97,16 +107,16 @@ class SignalRService {
       .withUrl(`${BASE_URL}/notificationHub`, {
         accessTokenFactory: () => token,
       })
-      .configureLogging(signalR.LogLevel.Information)
+      .configureLogging(signalR.LogLevel.None)
       .withAutomaticReconnect([0, 2000, 5000, 10000])
       .build();
 
     this.connection.onclose((error) => {
-      // console.error("Connection closed. Attempting to reconnect...", error);
+      console.log("Connection closed. Attempting to reconnect...", error);
     });
 
     this.connection.onreconnecting((error) => {
-      // console.warn("Reconnecting due to error...", error);
+      console.log("Reconnecting due to error...", error);
     });
 
     this.connection.onreconnected(() => {

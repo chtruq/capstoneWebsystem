@@ -13,7 +13,7 @@ async function ApartmentManage(props: {
   const query = searchParams?.apartmentCode || "";
   const currentPage = Number(searchParams?.page) || 1;
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div className="flex justify-between items-center">
         <div className="w-[40%] my-2">

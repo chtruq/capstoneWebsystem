@@ -119,6 +119,8 @@ const DialogDetailAppointmentRequest: FC<Props> = ({ accountID, data, isOpen, on
           ApartmentID={data.apartmentID}
           AssignedStaffAccountID={accountID}
           RequestID={data.requestID}
+          Name={data.username}
+          Phone={data.phoneNumber}
           onClose={() => {
             console.log("Closing dialogs detail onClose...");
             setAddAppointmentDialog(false)

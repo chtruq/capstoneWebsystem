@@ -198,6 +198,8 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
           ApartmentID={addAppointmentDialog.apartmentID}
           AssignedStaffAccountID={user?.id || ""}
           RequestID={addAppointmentDialog.depositID}
+          Name={addAppointmentDialog.depositProfile[0].fullName}
+          Phone={addAppointmentDialog.depositProfile[0].phoneNumber}
           onClose={() => {
             console.log("Closing onclose dialogs in manage table...");
             setAddAppointmentDialog(null)

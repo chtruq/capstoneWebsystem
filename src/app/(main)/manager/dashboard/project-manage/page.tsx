@@ -53,7 +53,9 @@ async function ProjectManage(props: {
     <div >
       <h1 className="text-2xl font-semibold">Quản lý dự án</h1>
       <div className="flex">
-        <SearchInput placeholder="Tìm kiếm dự án" query="projectName" />
+        <div className="w-[40%]">
+          <SearchInput placeholder="Tìm kiếm dự án" query="projectName" />
+        </div>
         <div className="w-3/4 flex justify-end">
           <Button variant="default">
             <Link href="/manager/dashboard/project-manage/create">

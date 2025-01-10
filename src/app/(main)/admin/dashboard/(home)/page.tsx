@@ -13,7 +13,7 @@ function HomePage() {
     <div>
       <BreadCrumb items={breadcrumbItems} />
 
-      <AdminDashboard />
+      {/* <AdminDashboard /> */}
     </div>
   );
 }

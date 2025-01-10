@@ -42,7 +42,7 @@ const ProviderManageTable: FC<Props> = ({ data }) => {
                 <TableCell className="">{provider.apartmentProjectProviderName}</TableCell>
                 <TableCell className="">{provider.name}</TableCell>
                 <TableCell>{provider.email}</TableCell>
-                <TableCell>{provider.location}</TableCell>
+                <TableCell className="w-60">{provider.location}</TableCell>
                 <TableCell>{formatDate(provider.createDate)}</TableCell>
                 <TableCell>
                   <Button

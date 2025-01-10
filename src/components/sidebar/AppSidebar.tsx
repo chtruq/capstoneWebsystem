@@ -34,36 +34,36 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   const items = [
-    {
-      title: "Tổng quan",
-      url: "/admin/dashboard",
-      icon: LayoutDashboard,
-    },
+    // {
+    //   title: "Tổng quan",
+    //   url: "/admin/dashboard",
+    //   icon: LayoutDashboard,
+    // },
     {
       title: "Quản lý tài khoản",
       url: "/admin/dashboard/user-manage",
       icon: User,
     },
-    {
-      title: "Danh sách yêu cầu",
-      url: "/admin/dashboard/request-manage",
-      icon: ListCheck,
-    },
-    {
-      title: "Quản lý căn hộ",
-      url: "/admin/dashboard/apartment-manage",
-      icon: Building2,
-    },
-    {
-      title: "Quản lý dự án",
-      url: "/admin/dashboard/project-manage",
-      icon: FolderKanban,
-    },
-    {
-      title: "Quản lý nhà cung cấp",
-      url: "/admin/dashboard/provider-manage",
-      icon: BriefcaseBusiness,
-    },
+    // {
+    //   title: "Danh sách yêu cầu",
+    //   url: "/admin/dashboard/request-manage",
+    //   icon: ListCheck,
+    // },
+    // {
+    //   title: "Quản lý căn hộ",
+    //   url: "/admin/dashboard/apartment-manage",
+    //   icon: Building2,
+    // },
+    // {
+    //   title: "Quản lý dự án",
+    //   url: "/admin/dashboard/project-manage",
+    //   icon: FolderKanban,
+    // },
+    // {
+    //   title: "Quản lý nhà cung cấp",
+    //   url: "/admin/dashboard/provider-manage",
+    //   icon: BriefcaseBusiness,
+    // },
     {
       title: "Cài đặt",
       url: "/admin/dashboard/setting",
@@ -76,11 +76,11 @@ export function AppSidebar() {
       url: "/manager/dashboard",
       icon: LayoutDashboard,
     },
-    {
-      title: "Quản lý tài khoản",
-      url: "/manager/dashboard/user-manage",
-      icon: User,
-    },
+    // {
+    //   title: "Quản lý tài khoản",
+    //   url: "/manager/dashboard/user-manage",
+    //   icon: User,
+    // },
     {
       title: "Quản lý căn hộ",
       url: "/manager/dashboard/apartment-manage",
@@ -119,11 +119,11 @@ export function AppSidebar() {
   ];
 
   const StaffItem = [
-    {
-      title: "Tổng quan",
-      url: "/staff/dashboard",
-      icon: LayoutDashboard,
-    },
+    // {
+    //   title: "Tổng quan",
+    //   url: "/staff/dashboard",
+    //   icon: LayoutDashboard,
+    // },
     {
       title: "Quản lý yêu cầu",
       url: "/staff/dashboard/request-manage",

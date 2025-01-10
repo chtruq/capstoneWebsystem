@@ -185,6 +185,8 @@ const RequestAppointmentMangeTable: FC<Props> = ({ data }) => {
           ApartmentID={addAppointmentDialog.apartmentID}
           AssignedStaffAccountID={user?.id || ""}
           RequestID={addAppointmentDialog.requestID}
+          Name={addAppointmentDialog.username}
+          Phone={addAppointmentDialog.phoneNumber}
           onClose={() => {
             console.log("Closing onclose dialogs in manage table...");
             setAddAppointmentDialog(null)

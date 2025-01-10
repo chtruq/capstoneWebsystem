@@ -38,23 +38,22 @@ const statusType = (type: string) => {
   switch (type) {
     case "PendingApproval":
       return (
-        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
-          <p className="text-pending">Chờ xác nhận</p>
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-pending text-center">Chờ xác nhận</p>
         </div>
       );
     case "Done":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+        <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
           <p className="text-success">Thành công</p>
         </div>
       );
     case "Canceled":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
           <p className="text-failed text-center">Đã được hủy</p>
         </div>
       );
-
     default:
       return type;
   }
@@ -107,7 +106,9 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                 <TableCell className="text-center">{formatTextArea(apartment.area)}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfRooms}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfBathrooms}</TableCell>
-                <TableCell className="text-center">{statusType(apartment.apartmentStatus)}</TableCell>
+                <TableCell className="mt-[18px] flex items-center justify-center">
+                  {statusType(apartment.apartmentStatus)}
+                </TableCell>
                 <TableCell className="text-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger>

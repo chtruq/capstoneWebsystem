@@ -151,6 +151,8 @@ const RequestPropertyMangeTable: FC<Props> = ({ data }) => {
           ApartmentID=""
           AssignedStaffAccountID={user?.id || ""}
           RequestID={selectedData?.requestID}
+          Name={selectedData?.userName}
+          Phone={selectedData?.phoneNumber}
           onClose={() => {
             console.log("Closing dialogs detail onClose...");
             setSelectedData(null)

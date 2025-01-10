@@ -103,7 +103,7 @@ function SigninComponent() {
                 )}
               </div>
 
-              <div className="mb-4">
+              <div className="mb-8">
                 <label htmlFor="password" className="text-sm font-medium">
                   Mật khẩu
                 </label>
@@ -135,7 +135,7 @@ function SigninComponent() {
                 )}
               </div>
 
-              <div className="flex justify-between mb-4">
+              {/* <div className="flex justify-between mb-4">
                 <div>
                   <input type="checkbox" id="remember" />
                   <label htmlFor="remember" className="text-sm font-medium ml-2">
@@ -147,7 +147,7 @@ function SigninComponent() {
                     Quên mật khẩu
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               <Button
                 onClick={handleSubmit}

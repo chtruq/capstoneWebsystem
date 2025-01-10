@@ -8,7 +8,7 @@ const ProviderDetail = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold">Chi tiết chủ đầu tư</h1>
+      <h1 className="text-2xl font-semibold">Chi tiết nhà cung cấp</h1>
       <ProviderTabsDetails data={data} />
     </div>
   );

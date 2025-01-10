@@ -12,7 +12,7 @@ async function ApartmentManage(props: {
   const query = searchParams?.apartmentCode || "";
   const currentPage = Number(searchParams?.page) || 1;
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div className="my-2">
         <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentCode" />

@@ -15,7 +15,7 @@ async function UserManage(props: {
   const currentPage = Number(searchParams?.page) || 1;
   const totalPages = 4;
   return (
-    <div className="h-screen">
+    <div className="">
       <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
       <div>
         <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
