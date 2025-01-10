@@ -250,9 +250,9 @@ const AddNewProviderDialog = () => {
                   {/* Quản lý hình ảnh */}
                   <div>
                     <div className="flex space-x-2 items-center">
-                      <h1 className="font-semibold">Hình ảnh căn hộ</h1>
+                      {/* <h1 className="font-semibold">Hình ảnh căn hộ</h1> */}
                       <Button onClick={handleOpenFileImagePicker} variant="outline">
-                        Chọn hình ảnh
+                        Chọn hình ảnh đại diện
                       </Button>
                     </div>
 

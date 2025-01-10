@@ -5,6 +5,7 @@ interface DepositProfile {
   dateOfBirth: string;
   nationality: string;
   address: string;
+  gender: string;
   email: string;
   phoneNumber: string;
   identityCardFrontImage: string;

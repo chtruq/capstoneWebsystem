@@ -149,8 +149,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   }, [data]);
 
   const projectType = [
-    { label: "Đang mở bán", value: 1 },
-    { label: "Đã bàn giao", value: 2 },
+    { label: "Đang mở bán", value: 2 },
+    { label: "Đã bàn giao", value: 3 },
   ];
 
   const onSubmit = async (value: z.infer<typeof projectSchema>) => {
@@ -163,7 +163,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
       } else {
         const res = await createProject(payload);
         console.log("Create project successfully", res);
-        router.push(newPathname);
+        // router.push(newPathname);
+        window.location.href = newPathname;
       }
     } catch (error) {
       console.error("Error creating project:", error);
@@ -514,6 +515,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
+                          fromYear={1990}
+                          toYear={new Date().getFullYear() + 4}
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -521,6 +525,11 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           onSelect={(date) =>
                             field.onChange(date?.toISOString())
                           }
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
+                          toDate={
+                            new Date(new Date().getFullYear() + 4, 11, 31)
+                          } // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />
@@ -684,6 +693,9 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
+                          captionLayout="dropdown-buttons"
+                          fromYear={1990}
+                          toYear={new Date().getFullYear() + 4}
                           mode="single"
                           selected={
                             field.value ? new Date(field.value) : undefined
@@ -691,6 +703,11 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           onSelect={(date) =>
                             field.onChange(date?.toISOString())
                           }
+                          disabled={(date) => date < new Date("1900-01-01")}
+                          fromDate={new Date(1990, 0, 1)} // Đặt ngày bắt đầu
+                          toDate={
+                            new Date(new Date().getFullYear() + 4, 11, 31)
+                          } // Đặt ngày kết thúc
                           initialFocus
                           locale={vi}
                         />

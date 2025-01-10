@@ -3,7 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
 import React, { FC } from "react";
-
+import { formatDirection } from "@/lib/utils/dataFormat";
 interface Props {
   data: Apartment;
 }
@@ -66,7 +66,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Hướng nhà</span>
-                <span className="w-2/3">{data.direction}</span>
+                <span className="w-2/3">{formatDirection(data.direction)}</span>
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Địa chỉ</span>
@@ -74,7 +74,7 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Hướng ban công</span>
-                <span className="w-2/3">{data.balconyDirection}</span>
+                <span className="w-2/3">{formatDirection(data.balconyDirection)}</span>
               </div>
             </div>
             <h1 className="font-semibold mt-4">Mô tả căn hộ</h1>

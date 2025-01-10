@@ -37,6 +37,55 @@ const depositType = (type: string) => {
   }
 };
 
+const tableType = (type: string) => {
+  switch (type) {
+    case "Pending":
+      return (
+        // <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-pending">Chờ duyệt</span>
+        // </div>
+      );
+    case "Accept":
+      return (
+        // <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-success">Thành công</span>
+        // </div>
+      );
+    case "Reject":
+      return (
+        // <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-failed text-center">Từ chối</span>
+        // </div>
+      );
+    case "Disable":
+      return (
+        // <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-failed text-center">Hết hạn thanh toán</span>
+        // </div>
+      );
+    case "Paid":
+      return (
+        // <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-success">Đã thanh toán</span>
+        // </div>
+      );
+    case "RefundRequest":
+      return (
+        // <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-pending">Yêu cầu hoàn tiền</span>
+        // </div>
+      );
+    case "Refund":
+      return (
+        // <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <span className="text-success">Đã hoàn tiền</span>
+        // </div>
+      );
+    default:
+      return type;
+  }
+};
+
 
 const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClose }) => {
   // const [isLoading, setIsLoading] = useState(false); // Trạng thái loading khi gọi API
@@ -88,7 +137,7 @@ const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClos
                   <div className="font-normal">{data.paymentAmount}</div>
 
                   <div className="font-semibold">Trạng thái:</div>
-                  <div className="font-normal">{data.depositStatus}</div>
+                  <div className="font-normal">{tableType(data.depositStatus)}</div>
 
 
 
@@ -105,6 +154,9 @@ const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClos
 
                   <div className="font-semibold">Địa chỉ mail:</div>
                   <div className="font-normal">{data.depositProfile[0].email}</div>
+
+                  <div className="font-semibold">Giới tính:</div>
+                  <div className="font-normal">{data.depositProfile[0].gender}</div>
 
                   <div className="font-semibold">Số căn cước công dân:</div>
                   <div className="font-normal">{data.depositProfile[0].identityCardNumber}</div>
@@ -123,18 +175,18 @@ const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClos
                 </div>
               </div>
 
-              {/* {data?.depositStatus === "pending" && (
-                <> */}
-              <div className="mt-2 flex justify-around">
-                <Button onClick={() => setRejectRequestDialog(true)}>
-                  Từ chối
-                </Button>
-                <Button onClick={() => setAddAppointmentDialog(true)}>
-                  Chấp nhận
-                </Button>
-              </div>
-              {/* </>
-              )} */}
+              {data?.depositStatus === "pending" && (
+                <>
+                  <div className="mt-2 flex justify-around">
+                    <Button onClick={() => setRejectRequestDialog(true)}>
+                      Từ chối
+                    </Button>
+                    <Button onClick={() => setAddAppointmentDialog(true)}>
+                      Chấp nhận
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
           </DialogDescription>
         </DialogContent>

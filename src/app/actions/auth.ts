@@ -58,7 +58,7 @@ export const handleLogin = async (email: string, password: string) => {
         redirect("/staff/dashboard");
         break;
       case "Seller":
-        redirect("/seller/dashboard");
+        redirect("/seller/dashboard/apartment-manage");
         break;
       case "Project Provider":
         redirect("/provider/dashboard");
@@ -67,7 +67,7 @@ export const handleLogin = async (email: string, password: string) => {
         // Xử lý nếu role không khớp với bất kỳ case nào
         console.warn("Role không hợp lệ");
         return { invalidRole: true };
-        // break;
+      // break;
     }
   }
 

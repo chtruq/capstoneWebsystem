@@ -92,3 +92,16 @@ export const createProvider = async (data: createProvider) => {
     throw error;
   }
 };
+
+export const getProviderStatisticsByAccount = async ({ accountId, timePeriod }: { accountId: string, timePeriod: string }) => {
+  try {
+    console.log("get provider by account id", accountId);
+
+    const res = await apiClient.get(`projectproviders/statistics-by-account?accountId=${accountId}&timePeriod=${timePeriod}`);
+    // console.log("res provide", res.data.data);
+
+    return res.data.data;
+  } catch (error) {
+    console.log(error);
+  }
+}

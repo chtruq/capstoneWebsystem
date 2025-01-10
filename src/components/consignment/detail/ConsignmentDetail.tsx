@@ -8,6 +8,43 @@ interface Props {
   data: Consignment;
 }
 
+const tableType = (type: string) => {
+  switch (type) {
+    case "Pending":
+      return (
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-pending">Chờ duyệt</span>
+        </div>
+      );
+    case "Accepted":
+      return (
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-success">Đã duyệt</span>
+        </div>
+      );
+    case "Rejected":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Từ chối</span>
+        </div>
+      );
+    case "Expirated":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-pending">Đã hết hạn</span>
+        </div>
+      );
+    case "Canceled":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Từ chối</span>
+        </div>
+      );
+    default:
+      return type;
+  }
+};
+
 const ConsignmentDetail: FC<Props> = ({ data }: Props) => {
   console.log("Data in consignment detaileeeee", data);
 
@@ -52,11 +89,11 @@ const ConsignmentDetail: FC<Props> = ({ data }: Props) => {
           <div className="w-full grid gap-4">
             <div className="grid grid-cols-3">
               <p className="col-span-1 text-blur">Căn hộ:</p>
-              <p className="col-span-2">{data.hasApartment ? "Chưa tạo" : "Đã tạo"}</p>
+              <p className="col-span-2">{data.hasApartment ? "Đã tạo" : "Chưa tạo"}</p>
             </div>
-            <div className="grid grid-cols-3">
+            <div className="grid grid-cols-3 items-center">
               <p className="col-span-1 text-blur">Trạng thái:</p>
-              <p className="col-span-2">{data.verificationStatus}</p>
+              <p className="col-span-2">{tableType(data.verificationStatus)}</p>
             </div>
             <div className="grid grid-cols-3">
               <p className="col-span-1 text-blur">Giá trị hợp đồng:</p>

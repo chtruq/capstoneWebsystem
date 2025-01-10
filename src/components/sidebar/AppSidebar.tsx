@@ -190,11 +190,11 @@ export function AppSidebar() {
   ];
 
   const SellerItem = [
-    {
-      title: "Tổng quan",
-      url: "/seller/dashboard",
-      icon: LayoutDashboard,
-    },
+    // {
+    //   title: "Tổng quan",
+    //   url: "/seller/dashboard",
+    //   icon: LayoutDashboard,
+    // },
     {
       title: "Quản lý yêu cầu",
       url: "/seller/dashboard/request-manage",

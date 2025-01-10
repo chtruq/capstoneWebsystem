@@ -55,6 +55,12 @@ const tableType = (type: string) => {
           <span className="text-failed text-center">Từ chối</span>
         </div>
       );
+    case "Disabled":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Hết hạn</span>
+        </div>
+      );
 
     default:
       return type;

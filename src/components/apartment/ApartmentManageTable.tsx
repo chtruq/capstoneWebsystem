@@ -36,10 +36,10 @@ interface Props {
 
 const statusType = (type: string) => {
   switch (type) {
-    case "Confirmed":
+    case "PendingApproval":
       return (
         <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-28">
-          <p className="text-pending">Đang tiến hành</p>
+          <p className="text-pending">Chờ xác nhận</p>
         </div>
       );
     case "Done":
@@ -107,7 +107,7 @@ const ApartmentManageTable: FC<Props> = ({ data, state, role }) => {
                 <TableCell className="text-center">{formatTextArea(apartment.area)}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfRooms}</TableCell>
                 <TableCell className="text-center">{apartment.numberOfBathrooms}</TableCell>
-                <TableCell className="text-center">{apartment.apartmentStatus}</TableCell>
+                <TableCell className="text-center">{statusType(apartment.apartmentStatus)}</TableCell>
                 <TableCell className="text-center">
                   <DropdownMenu>
                     <DropdownMenuTrigger>

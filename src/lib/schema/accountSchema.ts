@@ -34,8 +34,33 @@ export const accountSchema = z
     path: ["confirmPassword"],
   });
 
-  export const accountUpdateSchema = z
+export const accountUpdateSchema = z
   .object({
-    name: z.string().min(6, { message: "Name is too short" }).max(255, { message: "Name is too long" }),
-    phoneNumber: z.string().min(10, { message: "Phone number is too short" }),
+    Name: z.string().min(6, { message: "Name is too short" }).max(255, { message: "Name is too long" }),
+    PhoneNumber: z.string().min(10, { message: "Phone number is too short" }),
+    UnlockAccount: z.string(),
   })
+
+export const updatePasswordSchema = z.object({
+  accountId: z.string(),
+  currentPassword: z
+    .string({
+      required_error: "Mật khẩu cũ là bắt buộc.",
+    })
+    .nonempty("Mật khẩu cũ không được để trống.")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+  newPassword: z
+    .string({
+      required_error: "Mật khẩu mới là bắt buộc.",
+    })
+    .nonempty("Mật khẩu mới không được để trống.")
+    .min(6, "Mật khẩu phải có ít nhất 6 ký tự."),
+  confirmNewPassword: z
+    .string({
+      required_error: "Xác nhận mật khẩu là bắt buộc.",
+    })
+    .nonempty("Xác nhận mật khẩu không được để trống."),
+}).refine(data => data.newPassword === data.confirmNewPassword, {
+  message: "Mật khẩu xác nhận phải trùng với mật khẩu.",
+  path: ["confirmNewPassword"],
+});
