@@ -11,7 +11,7 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { getDashboardBaseUrl } from "@/lib/utils/getPath";
-
+import { toast } from "react-toastify";
 const NotificationComponent = ({
   userInfo,
   userToken,
@@ -96,6 +96,17 @@ const NotificationComponent = ({
 
   useEffect(() => {
     fetchNotification();
+    toast("Có thông báo mới!!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      // transition: Bounce,
+    });
   }, [newReceivedNotification]);
 
   const displayNoti = (noti: any) => {
