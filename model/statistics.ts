@@ -26,3 +26,15 @@ interface RevenueSumary {
   totalServiceFee: number,
   totalSecurityDeposit: number
 }
+
+interface StatisticsForProvider{
+  providerName: string,
+  accountId: string,
+  timePeriod: string,
+  startDate: string,
+  endDate: string,
+  totalProjects: number,
+  totalApartments: number,
+  availableApartments: number,
+  totalDeposits: number,
+}

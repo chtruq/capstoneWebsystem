@@ -75,12 +75,34 @@ export const formatMoneyShortcut = (price: number) => {
 
 export const formatTextArea = (text: number | null) => {
   if (!text) return "Đang cập nhật";
-
   return text + "m²";
 };
 
 export const formTextNull = (text: string | number | null) => {
   if (!text) return "Đang cập nhật";
-
   return text;
 };
+
+export const formatDirection = (direction: string) => {
+  if (direction === "Bac") return "Bắc";
+  if (direction === "Nam") return "Nam";
+  if (direction === "Dong") return "Đông";
+  if (direction === "Tay") return "Tây";
+  if (direction === "DongBac") return "Đông Bắc";
+  if (direction === "TayBac") return "Tây Bắc";
+  if (direction === "DongNam") return "Đông Nam";
+  if (direction === "TayNam") return "Tây Nam";
+  return direction;
+};
+
+
+export const formatRole = (role: string) => {
+  console.log("Roleeeeeee", role);
+  
+  if (role === "admin") return "Quản trị viên";
+  if (role === "Management") return "Quản lý hệ thống";
+  if (role === "Staff") return "Nhân viên quản lý";
+  if (role === "Seller") return "Nhân viên môi giới";
+  if (role === "Provider") return "Nhà cung cấp";
+  return role;
+}

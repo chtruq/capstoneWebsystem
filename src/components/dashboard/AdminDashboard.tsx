@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,11 +16,71 @@ import BarChartMultipleDashboard from "./chart/BarChartMultipleDashboard";
 import PieChartComponent from "./chart/PieChart";
 import DashboardTable from "./table/DashboardTable";
 import { AreaChartDashboard } from "./chart/AreaChartDashboard";
+import { useUserAccount } from '@/lib/context/UserAccountContext';
+import { FolderKanban ,X, Banknote, Building, HandCoins, ListTodo, CreditCard, Users, PiggyBank, Building2 } from "lucide-react";
 
 import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
+import { getProviderStatisticsByAccount } from "@/app/actions/provider";
+
+
+interface CartStatisticsProps {
+  title: string;
+  value: string;
+  icon: React.ElementType; // Để nhận component React từ Lucide
+}
+
+const CartStatistics: FC<CartStatisticsProps> = ({ title, value, icon: Icon }) => {
+  return (
+    <div className="flex flex-row justify-between p-4 border-2 rounded-xl h-[106.5px]">
+      <div className="space-y-2">
+        <p className="text-blur">{title}</p>
+        <p className="text-2xl font-semibold">{value}</p>
+      </div>
+      <div className="w-fit h-fit p-2 bg-[#DCBA87] rounded-lg">
+        <Icon color="#ffffff" size={20} />
+      </div>
+    </div>
+  );
+};
+
 
 const AdminDashboard = () => {
+
+
+
+  const defaultStatistics = {
+    providerName: "",
+    accountId: "",
+    timePeriod: "",
+    startDate: "",
+    endDate: "",
+    totalProjects: 0,
+    totalApartments: 0,
+    availableApartments: 0,
+    totalDeposits: 0,
+  };
+
+  const [dataStatistics, setDataStatistics] = useState<StatisticsForProvider>(defaultStatistics);
+  const { user } = useUserAccount();
+  // console.log("User in Admin Dashboard", user);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user?.id) {
+        const fetchedData = await getProviderStatisticsByAccount({
+          accountId: user.id,
+          timePeriod: "all",
+        });
+        setDataStatistics(fetchedData);
+      }
+    };
+    fetchData();
+  }, [user?.id]); // Chỉ theo dõi user.id
+
+  console.log("Data in Provider Dashboard", dataStatistics);
+
+
   const cardData = [
     {
       id: 1,
@@ -48,56 +108,12 @@ const AdminDashboard = () => {
     },
   ];
 
-  const chartData = [
-    { type: "Đang tiến hành", data: 111, fill: "var(--color-chrome)" },
-    { type: "Đã hoàn thành", data: 200, fill: "var(--color-safari)" },
-    { type: "Đã huỷ", data: 187, fill: "var(--color-firefox)" },
-  ];
 
-  // const chartData = [
-  //   { month: "January", desktop: 186, mobile: 80 },
-  //   { month: "February", desktop: 305, mobile: 200 },
-  //   { month: "March", desktop: 237, mobile: 120 },
-  //   { month: "April", desktop: 73, mobile: 190 },
-  //   { month: "May", desktop: 209, mobile: 130 },
-  //   { month: "June", desktop: 214, mobile: 140 },
-  // ];
-
-  const tableData = [
-    {
-      id: 1,
-      apartment: "Căn hộ view sống Sài gòn",
-      view: 100,
-      status: "Đã hoàn thành",
-      price: "1.000.000",
-    },
-    {
-      id: 2,
-      apartment: "Căn hộ view sống Sài gòn",
-      view: 100,
-      status: "Đã hoàn thành",
-      price: "1.000.000",
-    },
-    {
-      id: 3,
-      apartment: "Căn hộ view sống Sài gòn",
-      view: 100,
-      status: "Đã hoàn thành",
-      price: "1.000.000",
-    },
-    {
-      id: 4,
-      apartment: "Căn hộ view sống Sài gòn",
-      view: 100,
-      status: "Đã hoàn thành",
-      price: "1.000.000",
-    },
-  ];
 
   return (
     <div className="relative w-full">
       <h1 className="text-2xl font-bold">Tổng quan</h1>
-      <div>
+      {/* <div>
         <DropdownMenu>
           <DropdownMenuTrigger className="w-[40%]" asChild>
             <Button variant="outline">Khung thời gian</Button>
@@ -108,36 +124,20 @@ const AdminDashboard = () => {
             </DropdownMenuLabel>
           </DropdownMenuContent>
         </DropdownMenu>
-      </div>
-      <div className="w-full flex justify-center items-center gap-4">
-        {cardData?.map((item) => (
-          <div
-            key={item.id}
-            className=" w-[25%] h-32 border p-4 my-4 rounded-md relative"
-          >
-            <div className="absolute bg-primary p-1 rounded-md top-2 right-2">
-              {item.icon}
-            </div>
-            <h2 className="text-lg font-bold">{item.title}</h2>
-            <p className="text-2xl">{item.amount}</p>
+      </div> */}
+
+      <div className="w-full grid grid-cols-6 gap-4">
+        <div className="col-span-6">
+          <div className="grid grid-cols-4 gap-4">
+            <CartStatistics title="Tổng tiền ký quỹ" value={dataStatistics.totalDeposits.toString()} icon={Banknote} />
+            <CartStatistics title="Số dự án" value={dataStatistics.totalProjects.toString()} icon={FolderKanban} />
+            <CartStatistics title="Tổng số căn hộ" value={dataStatistics.totalApartments.toString()} icon={Building2} />
+            <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.availableApartments.toString()} icon={Building} />
           </div>
-        ))}
-      </div>
-      <div className="w-full">
-        {/* <BarChartMultipleDashboard data={chartData} /> */}
-      </div>
-      <div className="flex w-full">
-        <div className="w-[30%]">
-          {/* <PieChartComponent chartData={chartData} /> */}
-          {/* <PieChartComponent data={tableData} /> */}
-        </div>
-        <div className="w-[70%] bg-white rounded-md border m-1 p-1">
-          <DashboardTable tableData={tableData} />
         </div>
       </div>
-      <div className="my-2">
-        <AreaChartDashboard />
-      </div>
+
+
     </div>
   );
 };

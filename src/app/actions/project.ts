@@ -213,8 +213,27 @@ interface BulkFile {
 export const addProjectBulkFIle = async (data: any) => {
   try {
     console.log("data upload bulk file", data);
+    const formData = new FormData();
+    formData.append("file", data.file);
+    formData.append("description", data.description);
+    if (data.expiryDate) {
+      formData.append("expiryDate", data.expiryDate);
+    }
+    if (data.projectApartmentId) {
+      formData.append("projectApartmentId", data.projectApartmentId);
+    }
+    data.images.forEach((image: any) => {
+      formData.append("images", image); // Truyền trực tiếp File object
+    });
+    data.vrFiles.forEach((vrFile: any) => {
+      formData.append("vrFiles", vrFile); // Truyền trực tiếp File object
+    });
+    console.log(
+      "formData",
+      formData.forEach((value, key) => console.log(key, value))
+    );
 
-    const res = await apiClient.post("/apartments/bulk-upload", data, {
+    const res = await apiClient.post("/apartments/bulk-upload", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

@@ -23,56 +23,55 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { createTeam } from "@/app/actions/team";
 import { DialogDescription } from "@radix-ui/react-dialog";
-import { accountSchema, accountUpdateSchema } from "@/lib/schema/accountSchema";
+import { accountSchema, accountUpdateSchema, updatePasswordSchema } from "@/lib/schema/accountSchema";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
-import { updateAccount } from "@/app/actions/user";
+import { updatePassword } from "@/app/actions/user";
+
 interface Props {
-  data: User;
+  accountId: string;
 }
 
-const UpdateAccountDialog: FC<Props> = ({ data }) => {
+const UpdatePasswordAccountDialog: FC<Props> = ({ accountId }) => {
   const pathName = usePathname();
   const [isOpen, setIsOpen] = useState(false); // Quản lý trạng thái mở/đóng Dialog
-  // console.log("Data in update account dialog", data);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const form = useForm<z.infer<typeof accountUpdateSchema>>({
-    resolver: zodResolver(accountUpdateSchema),
+  const form = useForm<z.infer<typeof updatePasswordSchema>>({
+    resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      Name: "",
-      PhoneNumber: "",
-      UnlockAccount: "true"
+      accountId: accountId,
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
     },
   });
 
-  useEffect(() => {
-    if (data) {
-      form.setValue("Name", data.name);
-      form.setValue("PhoneNumber", data.phoneNumber || "");
-    }
-  }, [data]);
-
-
-  const onSubmit = async (value: z.infer<typeof accountUpdateSchema>) => {
+  const onSubmit = async (value: z.infer<typeof updatePasswordSchema>) => {
     try {
       const payload = { ...value };
-      console.log("Payload in update account", payload);
-      const res = await updateAccount(data.id, payload);
+      console.log("Payload in update password", payload);
+      const res = await updatePassword(accountId, payload.currentPassword, payload.newPassword);
       console.log("Response in update account", res);
-      revalidateProjectPath(pathName);
-      setIsOpen(false);
+      // revalidateProjectPath(pathName);
+      // setIsOpen(false);
+      // form.reset();
     } catch (error) {
-      console.error("Error update account:", error);
+      if (error instanceof Error) {
+        console.error("Error update password:", error.message);
+        setErrorMessage(error.message); // Ghi lại thông báo lỗi
+      }
     }
   };
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={() => {
         setIsOpen(!isOpen)
-        // form.reset()
+        form.reset()
       }}>
         <DialogTrigger asChild>
-          <Button onClick={() => setIsOpen(true)}>Cập nhật</Button>
+          <Button onClick={() => setIsOpen(true)}>Thay đổi mật khẩu</Button>
         </DialogTrigger>
         <DialogContent>
           <Form {...form}>
@@ -83,38 +82,59 @@ const UpdateAccountDialog: FC<Props> = ({ data }) => {
               className="space-y-2"
             >
               <DialogHeader>
-                <DialogTitle>Cập nhật thông tin</DialogTitle>
+                <DialogTitle>Cập nhật mật khẩu</DialogTitle>
               </DialogHeader>
               <DialogDescription>
 
                 <div className="grid grid-cols-1 gap-1 space-y-2">
                   <FormField
                     control={form.control}
-                    name="Name"
+                    name="currentPassword"
                     render={({ field }) => (
                       <FormItem>
                         <span className="text-sm text-blur">
-                          Tên tài khoản
+                          Mật khẩu hiện tại
                         </span>
                         <FormControl>
-                          <Input placeholder="Nhập tên tài khoản" {...field} />
+                          <Input placeholder="Nhập mật khẩu hiện tại" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500 text-sm"/>
+                      </FormItem>
+                    )}
+                  />
+                  {/* Hiển thị lỗi nếu có */}
+                  {errorMessage && (
+                    <div className="text-red-500 text-sm">
+                      {errorMessage}
+                    </div>
+                  )}
+                  <FormField
+                    control={form.control}
+                    name="newPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <span className="text-sm text-blur">
+                          Mật khẩu mới
+                        </span>
+                        <FormControl>
+                          <Input placeholder="Nhập mật khẩu mới" {...field} />
+                        </FormControl>
+                        <FormMessage className="text-red-500 text-sm"/>
                       </FormItem>
                     )}
                   />
                   <FormField
                     control={form.control}
-                    name="PhoneNumber"
+                    name="confirmNewPassword"
                     render={({ field }) => (
                       <FormItem>
                         <span className="text-sm text-blur">
-                          Số điện thoại
+                          Xác nhận mật khẩu
                         </span>
                         <FormControl>
-                          <Input placeholder="Nhập tên tài khoản" {...field} />
+                          <Input placeholder="Nhập lại mật khẩu mới" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500 text-sm"/>
                       </FormItem>
                     )}
                   />
@@ -132,4 +152,5 @@ const UpdateAccountDialog: FC<Props> = ({ data }) => {
   )
 }
 
-export default UpdateAccountDialog;
+
+export default UpdatePasswordAccountDialog;

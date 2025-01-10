@@ -32,7 +32,6 @@ interface Props {
   ProjectApartmentID: string;
 }
 
-
 type ImageType = {
   url?: string;
 };
@@ -40,13 +39,12 @@ type VRVideoFile = {
   url?: string;
 };
 
-
 const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [selectedImages, setSelectedImages] = useState<File[]>([]);
-  const [selectedVRImages, setSelectedVRImages] = useState<File[]>([]);
+  const [selectedImageFiles, setSelectedImageFiles] = useState<File[]>([]);
+  const [selectedVRFiles, setSelectedVRFiles] = useState<File[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const inputImageRef = useRef<HTMLInputElement>(null);
   const inputVRRef = useRef<HTMLInputElement>(null);
@@ -66,14 +64,18 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
     }
   };
 
-  const validateImage = (file: File) => {
+  const validateZipOrRar = (file: File) => {
     const maxFileSize = 15 * 1024 * 1024; // 15MB
-    const validMimeTypes = ["image/jpeg", "image/png"];
+    const validMimeTypes = ["application/zip", "application/x-rar-compressed"];
+    const validExtensions = ["zip", "rar"];
+    const fileExtension = file.name.split(".").pop()?.toLowerCase();
+  
     if (file.size > maxFileSize) {
       throw new Error("Dung lượng file không được vượt quá 15MB.");
     }
-    if (!validMimeTypes.includes(file.type)) {
-      throw new Error("Chỉ chấp nhận file định dạng JPEG hoặc PNG.");
+  
+    if (!validMimeTypes.includes(file.type) && !validExtensions.includes(fileExtension || "")) {
+      throw new Error("Chỉ chấp nhận file định dạng ZIP hoặc RAR.");
     }
   };
 
@@ -85,7 +87,6 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
         validateFile(file); // Gọi hàm kiểm tra file
         setSelectedFile(file); // Lưu file vào state
         console.log("File in handleFileChange", file);
-
       } catch (error: any) {
         alert(error.message); // Hiển thị thông báo lỗi cho người dùng
         console.error("Error adding file:", error);
@@ -95,32 +96,30 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const imagesArray = Array.from(event.target.files);
+      const imageFilesArray = Array.from(event.target.files);
 
       try {
-        imagesArray.forEach(validateImage);
-        imagesArray.forEach(validateImage);
-        const updatedImages = [...selectedImages, ...imagesArray];
-        setSelectedImages(updatedImages);;
+        imageFilesArray.forEach(validateZipOrRar);
+        const updatedImageFiles = [...selectedImageFiles, ...imageFilesArray];
+        setSelectedImageFiles(updatedImageFiles);
       } catch (error: any) {
         alert(error.message); // Hiển thị thông báo lỗi cho người dùng
-        console.error("Error adding image:", error);
+        console.error("Error adding image files:", error);
       }
     }
   };
 
-  const handleVRImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVRFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      const vrImagesArray = Array.from(event.target.files);
+      const vrFilesArray = Array.from(event.target.files);
 
       try {
-        vrImagesArray.forEach(validateImage);
-        vrImagesArray.forEach(validateImage);
-        const updatedVRImages = [...selectedVRImages, ...vrImagesArray];
-        setSelectedVRImages(updatedVRImages);;
+        vrFilesArray.forEach(validateZipOrRar);
+        const updatedVRFiles = [...selectedVRFiles, ...vrFilesArray];
+        setSelectedVRFiles(updatedVRFiles);
       } catch (error: any) {
         alert(error.message); // Hiển thị thông báo lỗi cho người dùng
-        console.error("Error adding image:", error);
+        console.error("Error adding VR files:", error);
       }
     }
   };
@@ -146,37 +145,34 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
     }
   };
 
-
-  //Xóa file
+  // Xóa file
   const handleRemoveFile = () => {
     setSelectedFile(null); // Xóa file đã chọn
     form.setValue("file", null); // Đồng bộ với form
   };
 
-  const handleRemoveImages = (index: number) => {
-    setSelectedImages((prevImages) => {
-      const updatedImages = prevImages.filter((_, i) => i !== index);
-      form.setValue("images", updatedImages); // Đồng bộ với form
-      return updatedImages;
+  const handleRemoveImageFiles = (index: number) => {
+    setSelectedImageFiles((prevFiles) => {
+      const updatedFiles = prevFiles.filter((_, i) => i !== index);
+      form.setValue("images", updatedFiles); // Đồng bộ với form
+      return updatedFiles;
     });
   };
 
-  const handleRemoveVRImages = (index: number) => {
-    setSelectedVRImages((prevVRImages) => {
-      const updatedVRImages = prevVRImages.filter((_, i) => i !== index);
-      form.setValue("vrFiles", updatedVRImages); // Đồng bộ với form
-      return updatedVRImages;
+  const handleRemoveVRFiles = (index: number) => {
+    setSelectedVRFiles((prevFiles) => {
+      const updatedFiles = prevFiles.filter((_, i) => i !== index);
+      form.setValue("vrFiles", updatedFiles); // Đồng bộ với form
+      return updatedFiles;
     });
   };
 
-
-  //Cập nhật form khi file thay đổi
+  // Cập nhật form khi file thay đổi
   useEffect(() => {
     form.setValue("file", selectedFile); // Đồng bộ hóa sau khi trạng thái cập nhật
-    form.setValue("images", selectedImages); // Đồng bộ hóa sau khi trạng thái cập nhật
-    form.setValue("vrFiles", selectedVRImages); // Đồng bộ hóa sau khi trạng thái cập nhật
-  }, [selectedFile, selectedImages, selectedVRImages]);
-
+    form.setValue("images", selectedImageFiles); // Đồng bộ hóa sau khi trạng thái cập nhật
+    form.setValue("vrFiles", selectedVRFiles); // Đồng bộ hóa sau khi trạng thái cập nhật
+  }, [selectedFile, selectedImageFiles, selectedVRFiles]);
 
   const form = useForm<z.infer<typeof ProjectBulkFileSchema>>({
     resolver: zodResolver(ProjectBulkFileSchema),
@@ -194,12 +190,12 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
     try {
       setIsSubmitting(true);
       const payload = { ...value, FileBulk: selectedFile };
-      console.log("Payload in uplaod bulk file", payload);
+      console.log("Payload in upload bulk file", payload);
       const response = await addProjectBulkFIle(payload);
       console.log("Response in upload bulk file", response);
       setSelectedFile(null);
-      setSelectedImages([]);
-      setSelectedVRImages([]);
+      setSelectedImageFiles([]);
+      setSelectedVRFiles([]);
       form.reset();
       revalidateProjectPath(pathName);
       setIsSubmitting(false);
@@ -211,18 +207,19 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
   };
 
   const onClosed = () => {
-    // form.reset();
-    // setSelectedFile(null);
     setIsDialogOpen(false);
   };
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={(open) => {
-      setIsDialogOpen(open);
-      if (!open) {
-        onClosed();
-      }
-    }} >
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(open) => {
+        setIsDialogOpen(open);
+        if (!open) {
+          onClosed();
+        }
+      }}
+    >
       <DialogTrigger>
         <Button variant="outline">
           Danh sách bàn giao
@@ -292,13 +289,10 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                     {selectedFile && (
                       <div className="relative">
                         <div className="flex justify-between items-center">
-                          {/* Nếu là File hoặc object từ API */}
-                          <p className="w-[90%] py-1">
-                            {selectedFile.name}
-                          </p>
+                          <p className="w-[90%] py-1">{selectedFile.name}</p>
                           <button
                             type="button"
-                            onClick={handleRemoveFile} // Chỉ cần hàm xử lý một file
+                            onClick={handleRemoveFile}
                             className="w-6 h-6 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
                           >
                             <span className="text-sm">X</span>
@@ -308,9 +302,8 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                     )}
                   </div>
 
-                  {/* Quản lý hình ảnh */}
                   <div>
-                    <h1 className="font-semibold">Hình ảnh căn hộ</h1>
+                    <h1 className="font-semibold">File nén hình ảnh</h1>
                     <div className="flex justify-start gap-5">
                       <FormField
                         control={form.control}
@@ -319,19 +312,19 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                           return (
                             <FormItem className="w-3/5">
                               <Button onClick={handleOpenFileImagePicker} variant="outline">
-                                Chọn hình ảnh ({selectedImages.length} đã chọn)
+                                Chọn file hình ảnh ({selectedImageFiles.length} đã chọn)
                               </Button>
 
                               <FormControl>
                                 <Input
                                   className="hidden"
                                   ref={inputImageRef}
-                                  accept=".png,.jpg,.webp"
+                                  accept=".zip,.rar"
                                   type="file"
                                   multiple
                                   onChange={(e) => {
                                     handleImageChange(e);
-                                    field.onChange(selectedImages); // Cập nhật giá trị form
+                                    field.onChange(selectedImageFiles); // Cập nhật giá trị form
                                   }}
                                 />
                               </FormControl>
@@ -343,39 +336,22 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {selectedImages.map((image, index) => {
-                      // Check if the image is a File or an object from the API response
-                      const imageUrl =
-                        typeof image === "string" // If it's already a URL string
-                          ? image
-                          : image instanceof File // If it's a File object
-                            ? URL?.createObjectURL(image)
-                            : (image as ImageType).url; // If it's an object from the API
-
-                      return (
-                        <div key={index} className="relative">
-                          <Image
-                            src={imageUrl || ""} // Use the resolved URL
-                            alt={`selected ${index}`}
-                            className="w-16 h-16 object-cover"
-                            width={128}
-                            height={128}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveImages(index)}
-                            className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
-                          >
-                            <span className="text-sm">X</span>
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {selectedImageFiles.map((file, index) => (
+                      <div key={index} className="relative">
+                        <p className="text-sm">{file.name}</p>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveImageFiles(index)}
+                          className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
+                        >
+                          <span className="text-sm">X</span>
+                        </button>
+                      </div>
+                    ))}
                   </div>
 
-                  {/* Quản lý hình ảnh VR */}
                   <div>
-                    <h1 className="font-semibold">Hình ảnh VR</h1>
+                    <h1 className="font-semibold">File nén hình ảnh VR</h1>
                     <div className="flex justify-start gap-5">
                       <FormField
                         control={form.control}
@@ -384,19 +360,19 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                           return (
                             <FormItem className="w-3/5">
                               <Button onClick={handleOpenFileVRPicker} variant="outline">
-                                Chọn hình ảnh VR ({selectedVRImages.length} đã chọn)
+                                Chọn file nén VR ({selectedVRFiles.length} đã chọn)
                               </Button>
 
                               <FormControl>
                                 <Input
                                   className="hidden"
                                   ref={inputVRRef}
-                                  accept=".png,.jpg,.webp"
+                                  accept=".zip,.rar"
                                   type="file"
                                   multiple
                                   onChange={(e) => {
-                                    handleVRImageChange(e);
-                                    field.onChange(selectedVRImages); // Cập nhật giá trị form
+                                    handleVRFileChange(e);
+                                    field.onChange(selectedVRFiles); // Cập nhật giá trị form
                                   }}
                                 />
                               </FormControl>
@@ -408,41 +384,21 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
                     </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    {selectedVRImages.map((image, index) => {
-                      // Check if the image is a File or an object from the API response
-                      const imageUrl =
-                        typeof image === "string" // If it's already a URL string
-                          ? image
-                          : image instanceof File // If it's a File object
-                            ? URL?.createObjectURL(image)
-                            : (image as VRVideoFile).url; // If it's an object from the API
-
-                      return (
-                        <div key={index} className="relative">
-                          <Image
-                            src={imageUrl || ""} // Use the resolved URL
-                            alt={`selected ${index}`}
-                            className="w-16 h-16 object-cover"
-                            width={128}
-                            height={128}
-                          />
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveVRImages(index)}
-                            className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
-                          >
-                            <span className="text-sm">X</span>
-                          </button>
-                        </div>
-                      );
-                    })}
+                    {selectedVRFiles.map((file, index) => (
+                      <div key={index} className="relative">
+                        <p className="text-sm">{file.name}</p>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveVRFiles(index)}
+                          className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
+                        >
+                          <span className="text-sm">X</span>
+                        </button>
+                      </div>
+                    ))}
                   </div>
 
-
                   <div className="flex justify-end">
-                    {/* <Button variant="default" type="submit">
-                              Tạo hợp đồng
-                            </Button> */}
                     <Button
                       type="submit"
                       variant={"default"}
@@ -458,13 +414,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 export default AddProjectBulkFile;
-
-
-
-
-
-

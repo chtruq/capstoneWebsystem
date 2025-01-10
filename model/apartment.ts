@@ -14,7 +14,7 @@ interface Apartment {
   numberOfRooms: number;
   numberOfBathrooms: number;
   location: string;
-  direction: number;
+  direction: string;
   pricePerSquareMeter: number;
   price: number;
   expiryDate: string;

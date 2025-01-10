@@ -68,7 +68,7 @@ export const projectSchema = z.object({
   ProjectType: z
     .number()
     .min(1, "Chọn trạng thái hợp lệ.")
-    .max(2, "Chọn trạng thái hợp lệ."),
+    .max(3, "Chọn trạng thái hợp lệ."),
   TeamID: z
     .string()
     .refine(

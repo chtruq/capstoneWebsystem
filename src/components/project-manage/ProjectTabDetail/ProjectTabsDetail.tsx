@@ -45,7 +45,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
     <div className="w-full">
       {/* <h1>data {data?.projectApartmentID}</h1> */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid max-w-screen-sm grid-cols-5">
+        <TabsList className="grid max-w-screen-sm grid-cols-4">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
           <TabsTrigger value="cart">Giỏ hàng</TabsTrigger>

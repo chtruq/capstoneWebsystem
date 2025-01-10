@@ -32,20 +32,55 @@ interface Props {
   data: Deposit[];
 }
 
-const depositType = (type: string) => {
+const tableType = (type: string) => {
   switch (type) {
-    case "Trade":
+    case "Pending":
       return (
-        type = "Trao đổi"
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-pending">Chờ duyệt</span>
+        </div>
       );
-    case "Deposit":
+    case "Accept":
       return (
-        type = "Đặt cọc"
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-success">Thành công</span>
+        </div>
+      );
+    case "Reject":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Từ chối</span>
+        </div>
+      );
+    case "Disable":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Hết hạn thanh toán</span>
+        </div>
+      );
+    case "Paid":
+      return (
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-success">Đã thanh toán</span>
+        </div>
+      );
+    case "RefundRequest":
+      return (
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-pending">Yêu cầu hoàn tiền</span>
+        </div>
+      );
+    case "Refund":
+      return (
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-success">Đã hoàn tiền</span>
+        </div>
       );
     default:
       return type;
   }
 };
+
 
 
 
@@ -68,7 +103,6 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
             <TableHead className='font-semibold'>Khách hàng</TableHead>
             <TableHead className='font-semibold text-center'>Số điện thoại</TableHead>
             <TableHead className='font-semibold text-center'>Giá giữ chỗ</TableHead>
-            <TableHead className='font-semibold text-center'>Loại yêu cầu</TableHead>
             <TableHead className='font-semibold text-center'>Trạng thái</TableHead>
             <TableHead className='font-semibold text-center'>Thao tác</TableHead>
           </TableRow>
@@ -82,8 +116,7 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
                 <TableCell>{item?.depositProfile[0]?.fullName}</TableCell>
                 <TableCell className='text-center'>{item?.depositProfile[0]?.phoneNumber}</TableCell>
                 <TableCell className='text-center'>{formatMoneyShortcut(item?.depositAmount)}</TableCell>
-                <TableCell className='text-center'>{depositType(item?.depositType)}</TableCell>
-                <TableCell className='flex justify-center'>{item?.depositStatus}</TableCell>
+                <TableCell className='flex justify-center'>{tableType(item?.depositStatus)}</TableCell>
                 <TableCell className='text-center'>
                   <DropdownMenu>
                     <DropdownMenuTrigger>
