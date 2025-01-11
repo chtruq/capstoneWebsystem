@@ -61,7 +61,6 @@ const FacilityDialog: FC<FacilityDialogProps> = ({ data, facility }) => {
     if (res) {
       router.refresh();
     }
-    //close dialog
 
     return res;
   };
