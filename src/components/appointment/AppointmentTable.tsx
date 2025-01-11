@@ -134,8 +134,8 @@ const AppointmentTable: FC<Props> = ({ data }) => {
             data?.map((data: Appointment) => (
               <TableRow key={data.appointmentID}>
                 <TableCell>{data.appointmentCode}</TableCell>
-                <TableCell>{data.customerName}</TableCell>
-                <TableCell className="text-center">{data.customerPhone}</TableCell>
+                <TableCell>{data.username}</TableCell>
+                <TableCell className="text-center">{data.phone}</TableCell>
                 <TableCell className="text-center">{formatDateTime(data.appointmentDate)}</TableCell>
                 <TableCell className="text-center">{appoinmentType(data.appointmentTypes)}</TableCell>
                 <TableCell className="flex justify-center">{statusType(data.appointmentStatus)}</TableCell>

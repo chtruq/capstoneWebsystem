@@ -141,10 +141,10 @@ const DialogDetailAppointment: FC<Props> = ({ data, isOpen, onClose }) => {
                   <div className="font-semibold col-span-2 underline underline-offset-1"> Thông tin khách hàng:</div>
 
                   <div className="font-semibold">Tên khách hàng:</div>
-                  <div>{data.customerName || "Đang cập nhật"}</div>
+                  <div>{data.username || "Đang cập nhật"}</div>
 
                   <div className="font-semibold">Số điện thoại:</div>
-                  <div>{data.customerPhone || "Đang cập nhật"}</div>
+                  <div>{data.phone || "Đang cập nhật"}</div>
 
                   <div className="font-semibold col-span-2 underline underline-offset-1"> Thông tin nhân viên:</div>
 
