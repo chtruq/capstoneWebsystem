@@ -26,7 +26,7 @@ import { useUserAccount } from '@/lib/context/UserAccountContext';
 import DialogDetailDepositRequest from './DialogDetailDepositRequest';
 import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
 import RejectRequestDialog from '../RejectRequestDialog';
-import { approveDepositRequest } from '@/app/actions/deposit';
+import { approveDepositRequest, approveRefundRequest } from '@/app/actions/deposit';
 
 interface Props {
   data: Deposit[];
@@ -42,37 +42,37 @@ const tableType = (type: string) => {
       );
     case "Accept":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-success">Thành công</span>
         </div>
       );
     case "Reject":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-failed text-center">Từ chối</span>
         </div>
       );
     case "Disable":
       return (
-        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-failed text-center">Hết hạn thanh toán</span>
         </div>
       );
     case "Paid":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-success">Đã thanh toán</span>
         </div>
       );
     case "RefundRequest":
       return (
-        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-pending">Yêu cầu hoàn tiền</span>
         </div>
       );
     case "Refund":
       return (
-        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24 text-center">
           <span className="text-success">Đã hoàn tiền</span>
         </div>
       );
@@ -131,18 +131,34 @@ const RequestDepositMangeTable: FC<Props> = ({ data }) => {
                       }}>
                         Xem chi tiết
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={async () => {
-                        await approveDepositRequest(item.depositID, user?.id || "");
-                        revalidateProjectPath(pathName);
-                      }}>
-                        Chấp nhận ngay
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setAddAppointmentDialog(item)}>
-                        Xác nhận
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setRejectDialog(item)}>
-                        Từ chối
-                      </DropdownMenuItem>
+                      {(item?.depositStatus === "Pending") && (
+                        <>
+                          <DropdownMenuItem onClick={async () => {
+                            await approveDepositRequest(item.depositID, user?.id || "");
+                            revalidateProjectPath(pathName);
+                          }}>
+                            Chấp nhận ngay
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setAddAppointmentDialog(item)}>
+                            Xác nhận
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => setRejectDialog(item)}>
+                            Từ chối
+                          </DropdownMenuItem>
+                        </>
+                      )}
+
+                      {(item?.depositStatus === "RefundRequest") && (
+                        <>
+                          <DropdownMenuItem onClick={async () => {
+                            await approveRefundRequest(item.depositID, user?.id || "");
+                            revalidateProjectPath(pathName);
+                          }}>
+                            Chấp nhận hoàn tiền
+                          </DropdownMenuItem>
+                        </>
+                      )}
+
                       {/* <DropdownMenuItem>Team</DropdownMenuItem>
                       <DropdownMenuItem>Subscription</DropdownMenuItem> */}
                     </DropdownMenuContent>

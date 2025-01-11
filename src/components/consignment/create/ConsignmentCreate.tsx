@@ -218,7 +218,7 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
 
           <div className="flex justify-between  gap-4">
             <div className="flex justify-start w-1/2 items-center gap-5">
-              <span className="text-blur text-sm w-1/5">Nhà cung cấp</span>
+              <span className="text-blur text-sm w-1/5">Chủ ký gửi</span>
               <FormField
                 control={form.control}
                 name="ApartmentOwnerID"

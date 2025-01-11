@@ -60,7 +60,7 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
       throw new Error("Dung lượng file không được vượt quá 10MB.");
     }
     if (!validMimeTypes.includes(file.type)) {
-      throw new Error("Chỉ chấp nhận file định dạng doc, docx hoặc pdf.");
+      throw new Error("Chỉ chấp nhận file định dạng xlsx, xls.");
     }
   };
 
@@ -69,11 +69,11 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
     const validMimeTypes = ["application/zip", "application/x-rar-compressed"];
     const validExtensions = ["zip", "rar"];
     const fileExtension = file.name.split(".").pop()?.toLowerCase();
-  
+
     if (file.size > maxFileSize) {
       throw new Error("Dung lượng file không được vượt quá 15MB.");
     }
-  
+
     if (!validMimeTypes.includes(file.type) && !validExtensions.includes(fileExtension || "")) {
       throw new Error("Chỉ chấp nhận file định dạng ZIP hoặc RAR.");
     }
@@ -192,22 +192,36 @@ const AddProjectBulkFile: FC<Props> = ({ ProjectApartmentID }) => {
       const payload = { ...value, FileBulk: selectedFile };
       console.log("Payload in upload bulk file", payload);
       const response = await addProjectBulkFIle(payload);
+
+      if (response?.status === 400) {
+        console.error("API returned 400 error:", response.data);
+        alert("API Error: " + (response.data.message || "Invalid request data")); // Thông báo lỗi cho người dùng
+        return; // Dừng thực thi các hàm tiếp theo
+      }
+
       console.log("Response in upload bulk file", response);
       setSelectedFile(null);
       setSelectedImageFiles([]);
       setSelectedVRFiles([]);
       form.reset();
       revalidateProjectPath(pathName);
-      setIsSubmitting(false);
       setIsDialogOpen(false);
     } catch (error) {
       console.error("Error creating project:", error);
+      // Hiển thị thông báo lỗi từ API
+      console.error("Error creating project:", error);
+      alert(error || "An unexpected error occurred.");
     } finally {
+      setIsSubmitting(false);
     }
   };
 
   const onClosed = () => {
     setIsDialogOpen(false);
+    setSelectedFile(null);
+    setSelectedImageFiles([]);
+    setSelectedVRFiles([]);
+    form.reset();
   };
 
   return (

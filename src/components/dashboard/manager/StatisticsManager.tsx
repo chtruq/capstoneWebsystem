@@ -97,7 +97,7 @@ const StatisticsManager = () => {
           <div className="col-span-4">
             <div className="grid grid-cols-3 gap-4">
               <CartStatistics title="Doanh thu" value={formatMoneyShortcut(dataStatistics.totalRevenue)} icon={Banknote} />
-              <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.totalAppointments.toString()} icon={Building} />
+              <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.totalAvailableApartments.toString()} icon={Building} />
               <CartStatistics title="Tiền ký quỹ" value={formatMoneyShortcut(dataStatistics.totalSecurityDeposit)} icon={HandCoins} />
               <CartStatistics title="Tiền môi giới" value={formatMoneyShortcut(dataStatistics.totalBrokerageFee)} icon={PiggyBank} />
               <CartStatistics title="Giao dịch" value={dataStatistics.totalTransactions.toString()} icon={CreditCard} />

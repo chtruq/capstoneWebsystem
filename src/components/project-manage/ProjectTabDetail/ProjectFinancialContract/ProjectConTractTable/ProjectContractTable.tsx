@@ -14,6 +14,8 @@ import DialogAction from "@/components/dialog/DialogAction";
 import { deleteFinancialContract } from "@/app/actions/project";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
+import { formatMoney, formatPercentage, formatCurrency } from "@/lib/utils/dataFormat";
+
 interface Props {
   data: Project;
   role: string;
@@ -26,10 +28,10 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Loại căn hộ</TableHead>
-          <TableHead>Giá trị đặt cọc </TableHead>
-          <TableHead>Tiền môi giới</TableHead>
-          <TableHead>Hoa hồng</TableHead>
+          <TableHead className="font-semibold">Loại căn hộ</TableHead>
+          <TableHead className="font-semibold">Giá trị đặt cọc </TableHead>
+          <TableHead className="font-semibold">Tiền môi giới</TableHead>
+          <TableHead className="font-semibold">Hoa hồng</TableHead>
 
           {
             role === "Management" || role === "Project Provider" && (
@@ -44,13 +46,13 @@ const ProjectContractTable: FC<Props> = ({ data, role }) => {
           data?.financialContracts?.map((contract: FinancialContract) => (
             <TableRow key={contract.financialContractID}>
               <TableCell>
-                {contract.lowestPrice} - {contract.highestPrice}
+                {formatCurrency(contract.lowestPrice)} - {formatCurrency(contract.highestPrice)} VND
               </TableCell>
-              <TableCell>{contract.depositAmount}</TableCell>
-              <TableCell>{contract.brokerageFee}</TableCell>
-              <TableCell>{contract.commissionFee}</TableCell>
+              <TableCell>{formatMoney(contract.depositAmount)}</TableCell>
+              <TableCell>{formatPercentage(contract.brokerageFee)}</TableCell>
+              <TableCell>{formatPercentage(contract.commissionFee)}</TableCell>
               <TableCell>
-                {role === "Management" || role === "Project Provider" && (
+                {(role === "Management" || role === "Project Provider") && (
                   <div className="flex gap-1">
                     <AddFinancialContract
                       projectApartmentId={data?.projectApartmentID}

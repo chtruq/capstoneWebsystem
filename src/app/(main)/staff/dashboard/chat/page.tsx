@@ -12,7 +12,7 @@ const ChatPage = async () => {
   const userToken = await getUserInforFromCookie();
   return (
     <div>
-      <p>Tư vấn khách hàng</p>
+      <p className="text-lg font-semibold">Danh sách các cuộc tư vấn cho khách hàng</p>
       {userToken && (
         <ChatList
           data={chatList?.data}

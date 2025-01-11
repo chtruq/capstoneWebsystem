@@ -39,6 +39,22 @@ export const approveDepositRequest = async (depositRequestId: string, staffId: s
   }
 };
 
+
+export const approveRefundRequest = async (depositRequestId: string, staffId: string) => {
+  try {
+    console.log("Refund apartment id:", depositRequestId);
+    console.log("Refund staff id:", staffId);
+
+    const res = await apiClient.put(
+      `/deposits/refund/${depositRequestId}?staffId=${staffId}`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error approve apartment:", error);
+    throw error;
+  }
+};
+
 export const rejectDepositRequest = async (requestId: string, sellerId: string, reason: string) => {
   try {
     const res = await apiClient.post(`/deposits/reject/${requestId}?staffID=${sellerId}&note=${reason}`);

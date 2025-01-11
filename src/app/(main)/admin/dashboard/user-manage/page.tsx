@@ -16,14 +16,14 @@ async function UserManage(props: {
   return (
     <div className="h-screen">
       <h1 className="text-2xl font-semibold">Quản lý tài khoản</h1>
-      <div>
+      <div className="w-[40%] mt-2">
         <SearchInput placeholder="Tìm kiếm email" query="email" />
       </div>
 
       <div>
         <UserTable query={query} currentPage={currentPage} />
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div className="">
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
       </div>
     </div>

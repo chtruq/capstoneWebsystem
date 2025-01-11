@@ -4,6 +4,12 @@ interface ApartmentImage {
   description: string;
 }
 
+interface VRImage {
+  vrExperienceID: string;
+  videoUrl: string;
+  description: string;
+}
+
 interface Apartment {
   apartmentID: string;
   apartmentName: string;
@@ -27,6 +33,6 @@ interface Apartment {
   projectApartmentName: string;
   images: ApartmentImage[];
   userLiked: boolean;
-  vrVideoUrl: string;
+  vrVideoUrls: VRImage[];
   assignedAccount: string;
 }

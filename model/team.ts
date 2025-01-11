@@ -16,6 +16,7 @@ interface Team {
   members: Member[];
   results: Member[];
   teamCode: string;
+  memberCount: number;
 }
 
 interface Leader {

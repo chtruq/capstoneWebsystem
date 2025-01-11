@@ -28,7 +28,11 @@ export const lockAccount = async (id: string) => {
 };
 
 export const creatAccount = async (data: any) => {
-  const response = await apiClient.post(`/accounts/create-account`, data);
+  const response = await apiClient.post(`/accounts/create-account`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response.data;
 };
 
