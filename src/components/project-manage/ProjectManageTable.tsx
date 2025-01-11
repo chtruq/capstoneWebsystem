@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Ellipsis } from 'lucide-react';
+import { useUserAccount } from '@/lib/context/UserAccountContext';
 
 
 interface Props {
@@ -31,6 +32,21 @@ interface Props {
 const ProjectManageTable: FC<Props> = ({ data }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const { user } = useUserAccount();
+  console.log("Use r", user?.role);
+
+  console.log("my pathnemaaa", pathname);
+
+  const updatePathName = (pathname: string) => {
+    if (pathname.includes("provider-manage")) {
+      return "/manager/dashboard/project-manage";
+    }
+    return pathname;
+  };
+
+  console.log("my udpate path", updatePathName(pathname));
+
+
 
   const tableType = (type: string) => {
     switch (type) {
@@ -99,21 +115,24 @@ const ProjectManageTable: FC<Props> = ({ data }) => {
                       <DropdownMenuItem
                         onClick={() => {
                           router.push(
-                            `${pathname}/${project.projectApartmentID}/detail`
+                            `${updatePathName(pathname)}/${project.projectApartmentID}/detail`
                           );
                         }}
                       >
                         Chi tiết
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          router.push(
-                            `${pathname}/${project.projectApartmentID}/edit`
-                          );
-                        }}
-                      >
-                        Sửa
-                      </DropdownMenuItem>
+                      {user?.role === "Management" && (
+                        <DropdownMenuItem
+                          onClick={() => {
+                            router.push(
+                              `${updatePathName(pathname)}/${project.projectApartmentID}/edit`
+                            );
+                          }}
+                        >
+                          Sửa
+                        </DropdownMenuItem>
+                      )}
+
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

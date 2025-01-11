@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { FC } from "react";
 import { formatDirection } from "@/lib/utils/dataFormat";
 import ImageVR from "@/components/ui/imageVr";
+import ImageGalleryApt from "@/components/ui/imageApt";
 interface Props {
   data: Apartment;
 }
@@ -17,9 +18,9 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         <TabsList>
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
-          {data?.apartmentType === "CanHoTruyenThong" ? (
+          {/* {data?.projectApartmentName === "Dự án ký gửi" ? (
             <TabsTrigger value="contract">Hợp đồng ký gửi</TabsTrigger>
-          ) : null}
+          ) : null} */}
         </TabsList>
         <TabsContent value="overview">
           <div>
@@ -98,17 +99,17 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                 />
               ))}
             </div> */}
-            <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
+            <ImageGalleryApt images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
 
             <h1 className="font-semibold">Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})</h1>
             <ImageVR images={data.vrVideoUrls} />
           </div>
         </TabsContent>
-        <TabsContent value="contract" >
+        {/* <TabsContent value="contract" >
           <div>
             <h1 className="font-semibold">Hợp đồng ký gửi</h1>
             <div>
-              {/* {data.contracts.map((contract) => (
+              {data.contracts.map((contract) => (
                     <div key={contract.contractID}>
                     <div>
                         <span className="text-sm text-blur">Ngày ký</span>
@@ -123,10 +124,10 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                         <span>{contract.description}</span>
                     </div>
                     </div>
-                ))} */}
+                ))}
             </div>
           </div>
-        </TabsContent>
+        </TabsContent> */}
       </Tabs>
     </div>
   );

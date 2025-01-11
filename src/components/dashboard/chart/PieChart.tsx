@@ -25,12 +25,14 @@ interface Props {
 const PieChartComponent: FC<Props> = ({ data }) => {
   // console.log("Data in PieChartComponenttttttttttt", data[0].count);
 
+  console.log("Data in PieChartComponent", data);
+  
   const chartData = [
     { browser: "chrome", visitors: data[0].count, fill: "var(--color-chrome)" },
     { browser: "safari", visitors: data[1].count, fill: "var(--color-safari)" },
     // { browser: "firefox", visitors: 287, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: data[2].count, fill: "var(--color-edge)" },
-    { browser: "other", visitors: data[3].count, fill: "var(--color-other)" },
+    { browser: "edge", visitors: data[3].count, fill: "var(--color-edge)" },
+    // { browser: "other", visitors: data[2].count, fill: "var(--color-other)" },
   ]
   const chartConfig = {
     visitors: {
@@ -52,10 +54,10 @@ const PieChartComponent: FC<Props> = ({ data }) => {
       label: "Ký gửi",
       color: "hsl(var(--chart-4))",
     },
-    other: {
-      label: "Tái ký",
-      color: "hsl(var(--chart-5))",
-    },
+    // other: {
+    //   label: "Tái ký",
+    //   color: "hsl(var(--chart-5))",
+    // },
   } satisfies ChartConfig
 
   const totalVisitors = React.useMemo(() => {
@@ -131,10 +133,10 @@ const PieChartComponent: FC<Props> = ({ data }) => {
             <div className="bg-[hsl(var(--chart-4))] w-6 h-4 rounded-sm" />
             <p>Ký gửi</p>
           </div>
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <div className="bg-[hsl(var(--chart-5))] w-6 h-4 rounded-sm" />
             <p>Tái ký</p>
-          </div>
+          </div> */}
         </div>
       </CardContent>
     </Card>

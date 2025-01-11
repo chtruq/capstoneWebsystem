@@ -29,7 +29,7 @@ async function ProjectManage(props: {
       <div>
         {/* <ProjectTable query={query} currentPage={currentPage} /> */}
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div className="">
         {!totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
       </div>
     </div>

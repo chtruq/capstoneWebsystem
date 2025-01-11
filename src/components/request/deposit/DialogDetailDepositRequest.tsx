@@ -9,12 +9,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { formatDateTime, formatDate } from "@/lib/utils/dataFormat";
+import { formatDateTime, formatDate, formatMoney } from "@/lib/utils/dataFormat";
 import { Button } from "@/components/ui/button";
 import AddNewAppointmentDialog from "@/components/appointment/AddNewAppointmentDialog";
 import RejectRequestDialog from "../RejectRequestDialog";
 import { accepttRequestAppointment } from "@/app/actions/apointment";
-
 interface Props {
   accountID: string;
   data: Deposit;
@@ -134,7 +133,7 @@ const DialogDetailDepositRequest: FC<Props> = ({ accountID, data, isOpen, onClos
                   )}
 
                   <div className="font-semibold">Số tiền thanh toán:</div>
-                  <div className="font-normal">{data.paymentAmount}</div>
+                  <div className="font-normal">{formatMoney(data.paymentAmount)}</div>
 
                   <div className="font-semibold">Trạng thái:</div>
                   <div className="font-normal">{tableType(data.depositStatus)}</div>

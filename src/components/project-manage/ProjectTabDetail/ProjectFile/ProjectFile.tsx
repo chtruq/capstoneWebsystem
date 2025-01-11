@@ -1,3 +1,5 @@
+"use client";
+
 import React, { FC } from "react";
 import {
   Table,
@@ -14,6 +16,8 @@ interface Props {
 }
 
 const ProjectFile: FC<Props> = ({ data }) => {
+  console.log("datssssssassss", data);
+
   return (
     <div>
       <Table>
@@ -25,15 +29,22 @@ const ProjectFile: FC<Props> = ({ data }) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data?.projectFiles?.map((file) => (
-            <TableRow key={file.projectFileID}>
-              <TableHead>{formatDateTime(file.updateDate)}</TableHead>
-              <TableHead>{file.description}</TableHead>
-              <TableHead>
-                <Button variant="outline">Tải xuống</Button>
-              </TableHead>
-            </TableRow>
-          ))}
+          {data?.projectFiles
+            ?.filter((file) => file.projectFileTypes === "File") // Lọc file có loại là "File"
+            .map((file) => (
+              <TableRow key={file.projectFileID}>
+                <TableHead>{formatDateTime(file.updateDate)}</TableHead>
+                <TableHead>{file.description}</TableHead>
+                <TableHead>
+                  <Button
+                    variant="outline"
+                    onClick={() => window.open(file.projectFileUrl, "_blank")} // Tải xuống hoặc mở link
+                  >
+                    Tải xuống
+                  </Button>
+                </TableHead>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </div>

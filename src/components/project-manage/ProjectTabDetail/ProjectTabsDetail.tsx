@@ -24,6 +24,38 @@ interface Props {
   }>;
 }
 
+const tableType = (type: string) => {
+  switch (type) {
+    case "OnSale":
+      return (
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-money text-center">Đã bàn giao</p>
+        </div>
+      );
+    case "UpcomingforSale":
+      return (
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-money text-center">Đã bàn giao</p>
+        </div>
+      );
+    case "HandedOver":
+      return (
+        <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <span className="text-success">Đang mở bán</span>
+        </div>
+      );
+    // case "HandedOver":
+    //   return (
+    //     <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center">
+    //       <span className="text-success">HandedOver</span>
+    //     </div>
+    //   );
+
+    default:
+      return type;
+  }
+};
+
 const ProjectTabsDetail: FC<Props> = async (props) => {
   const { data, searchParam } = props;
   const searchParams = await searchParam;
@@ -77,7 +109,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.teamName)}</div>
 
                     <div className="text-base text-blur font-semibold ">Diện tích dự án:</div>
-                    <div>{tableText(data?.apartmentArea)}</div>
+                    <div>{tableText(data?.projectArea)} ha</div>
 
                     <div className="text-base text-blur font-semibold ">Địa chỉ:</div>
                     <div>{tableText(data?.address)}</div>
@@ -96,15 +128,26 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div className="text-base text-blur font-semibold ">Diện tích căn hộ:</div>
                     <div>{tableText(data?.apartmentArea)}</div>
 
-                    <div className="text-sm text-blur ">Năm khởi công</div>
+                    <div className="text-base text-blur font-semibold ">Năm khởi công:</div>
                     <div>
                       {tableText(formatDate(data?.constructionStartYear ?? ""))}
                     </div>
 
-                    <div className="text-sm text-blur ">Năm bàn giao</div>
+                    <div className="text-base text-blur font-semibold ">Năm bàn giao:</div>
                     <div>
-                      {tableText(formatDate(data?.constructionStartYear ?? ""))}
+                      {tableText(formatDate(data?.constructionEndYear ?? ""))}
                     </div>
+
+                    <div className="text-base text-blur font-semibold ">Năm cấp phép:</div>
+                    <div>
+                      {tableText(formatDate(data?.licensingDate?.toString() ?? ""))}
+                    </div>
+
+                    <div className="text-base text-blur font-semibold ">Cơ quan cấp phép:</div>
+                    <div>
+                      {data.licensingAuthority}
+                    </div>
+
                   </div>
                 </div>
               </div>
@@ -186,7 +229,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
         </TabsContent>
         <TabsContent value="cart">
           <div>
-            <div className="flex justify-between">
+            {/* <div className="flex justify-between">
               {userInfor?.role === "Staff" ? (
                 <div className="w-3/4 flex justify-end mr-20">
                   <Button variant="default">
@@ -200,7 +243,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               ) : (
                 <></>
               )}
-            </div>
+            </div> */}
             <div>
               <ProjectCartTable
                 data={projectCart.apartments}
@@ -246,7 +289,7 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
             {/* Hợp đồng */}
             <div className="mt-4">
               <h1 className="font-semibold">Danh sách bàn giao</h1>
-              <AddProjectBulkFile ProjectApartmentID={data.projectApartmentID}/>
+              <AddProjectBulkFile ProjectApartmentID={data.projectApartmentID} />
               <div>
                 <ProjectFile data={data} />
               </div>
