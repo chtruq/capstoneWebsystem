@@ -96,6 +96,10 @@ const NotificationComponent = ({
 
   useEffect(() => {
     fetchNotification();
+  }, []);
+
+  useEffect(() => {
+    fetchNotification();
     toast("Có thông báo mới!!", {
       position: "top-right",
       autoClose: 5000,
@@ -105,7 +109,6 @@ const NotificationComponent = ({
       draggable: true,
       progress: undefined,
       theme: "light",
-      // transition: Bounce,
     });
   }, [newReceivedNotification]);
 
