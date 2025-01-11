@@ -50,22 +50,22 @@ async function TeamDetails({
       <div className="w-1/2">
         <div className="my-2 w-full">
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Mã nhóm</div>
+            <div className="text-blur text-base w-1/3 font-semibold">Mã nhóm</div>
             <div className="justify-start w-2/3">
               {tableText(teamData?.teamCode)}
             </div>
           </div>
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Tên nhóm</div>
+            <div className="text-blur text-base w-1/3 font-semibold">Tên nhóm</div>
             <div className="justify-start w-2/3">{teamData?.teamName}</div>
           </div>
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Người quản lý</div>
+            <div className="text-blur text-base w-1/3 font-semibold">Người quản lý</div>
             <div className="justify-start w-2/3">{teamData?.managerName}</div>
           </div>
 
           <div className="flex justify-between">
-            <div className="text-blur text-sm w-1/3">Nhóm quản lý</div>
+            <div className="text-blur text-base w-1/3 font-semibold">Nhóm quản lý</div>
             <div className="justify-start w-2/3">
               {teamData?.teamType === "ProjectManagement"
                 ? "Theo dự án"
@@ -73,13 +73,13 @@ async function TeamDetails({
             </div>
           </div>
         </div>
-        <div className="flex ">
-          <div className="text-blur text-sm w-1/3">Mô tả</div>
+        <div className="flex">
+          <div className="text-blur text-base w-1/3 font-semibold">Mô tả</div>
           <div className="justify-start">{teamData?.teamDescription}</div>
         </div>
       </div>
 
-      <div>
+      <div className="mt-4">
         <h1 className="font-semibold w-[20%] ">Danh sách thành viên</h1>
         <div className="w-[80%]">
           <SearchInput

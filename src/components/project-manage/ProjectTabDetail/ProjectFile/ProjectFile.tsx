@@ -7,6 +7,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { formatDateTime } from "@/lib/utils/dataFormat";
 
 interface Props {
   data: Project;
@@ -18,15 +19,15 @@ const ProjectFile: FC<Props> = ({ data }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Ngày bàn giao</TableHead>
-            <TableHead>Mô tả file</TableHead>
-            <TableHead>Tải xuống</TableHead>
+            <TableHead className="font-medium">Ngày bàn giao</TableHead>
+            <TableHead className="font-medium">Mô tả file</TableHead>
+            <TableHead className="font-medium">Tải xuống</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data?.projectFiles?.map((file) => (
             <TableRow key={file.projectFileID}>
-              <TableHead>{file.updateDate}</TableHead>
+              <TableHead>{formatDateTime(file.updateDate)}</TableHead>
               <TableHead>{file.description}</TableHead>
               <TableHead>
                 <Button variant="outline">Tải xuống</Button>

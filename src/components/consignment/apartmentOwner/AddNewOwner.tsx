@@ -41,8 +41,8 @@ interface Props {
 
 const gender = [
   { label: "Nam", value: 1 },
-  { label: "Nư", value: 2 },
-  { label: "Kh", value: 3 },
+  { label: "Nữ", value: 2 },
+  { label: "Khác", value: 3 },
 ];
 
 const AddNewOwner: FC<Props> = ({ onClose, AccountID, data }) => {

@@ -4,6 +4,7 @@ import { TextPrice } from "@/lib/utils/project";
 import Image from "next/image";
 import React, { FC } from "react";
 import { formatDirection } from "@/lib/utils/dataFormat";
+import ImageVR from "@/components/ui/imageVr";
 interface Props {
   data: Apartment;
 }
@@ -98,9 +99,12 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               ))}
             </div> */}
             <ImageGallery images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
+
+            <h1 className="font-semibold">Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})</h1>
+            <ImageVR images={data.vrVideoUrls} />
           </div>
         </TabsContent>
-        <TabsContent value="contract">
+        <TabsContent value="contract" >
           <div>
             <h1 className="font-semibold">Hợp đồng ký gửi</h1>
             <div>

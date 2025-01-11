@@ -280,8 +280,13 @@ export const addProjectBulkFIle = async (data: any) => {
       },
     });
     return res;
-  } catch (error) {
-    console.log(error);
+  } catch (error : any) {
+   if (error.response) {
+      console.error("API Error:", error.response.data);
+      return Promise.reject(error.response.data.message || "Unknown error");
+    }
+    console.error("Unexpected Error:", error);
+    return Promise.reject("Unexpected error occurred");
   }
 };
 

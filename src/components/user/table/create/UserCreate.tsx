@@ -44,21 +44,23 @@ const UserCreate = () => {
   }
 
   const handleSubmitForm = async (values: z.infer<typeof accountSchema>) => {
-    console.log(values);
     try {
+      // Chuẩn bị FormData
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("phoneNumber", values.phoneNumber);
-      formData.append("password", values.password);
-      formData.append("role", values.role);
-      if (values.avatar) {
-        formData.append("avatar", values.avatar); // Append the avatar file
-      }
+      formData.append("Email", values.email); // Đặt Email
+      formData.append("Password", values.password); // Đặt Password
+      formData.append("ConfirmPassword", values.confirmPassword); // Đặt ConfirmPassword
+      formData.append("Name", values.name); // Đặt Name
+      formData.append("Role", values.role); // Đặt Role
+      formData.append("Avatar", values.avatar || ""); // Đặt Avatar, có thể để trống
 
-      await creatAccount(formData); // Adjust your API call to handle FormData
-    } catch (error) {
-      console.log(error);
+      console.log("FormData:", Object.fromEntries(formData.entries()));
+
+      // Gửi yêu cầu tới API
+      const response = await creatAccount(formData);
+      console.log("Account created successfully:", response);
+    } catch (error: any) {
+      console.error("Error creating account:", error.response?.data || error.message);
     }
   };
 
@@ -106,7 +108,7 @@ const UserCreate = () => {
                 <FormItem>
                   <Label htmlFor="email">Mật khẩu</Label>
                   <FormControl>
-                    <Input id="email" {...field} type="password" placeholder="Nhập mật khẩu"/>
+                    <Input id="email" {...field} type="password" placeholder="Nhập mật khẩu" />
                   </FormControl>
 
                   <FormMessage className="text-error" />
@@ -120,7 +122,7 @@ const UserCreate = () => {
                 <FormItem>
                   <Label htmlFor="email">Nhập lại mật khẩu</Label>
                   <FormControl>
-                    <Input id="email" {...field} type="password" placeholder="Nhập lại mật khẩu"/>
+                    <Input id="email" {...field} type="password" placeholder="Nhập lại mật khẩu" />
                   </FormControl>
 
                   <FormMessage className="text-error" />

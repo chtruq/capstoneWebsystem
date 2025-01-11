@@ -41,7 +41,7 @@ const TeamTable: FC<Props> = async ({
                 <TableHead className="font-semibold">Tên nhóm</TableHead>
                 <TableHead className="font-semibold">Trưởng nhóm</TableHead>
                 <TableHead className="font-semibold text-center">Số nhân viên</TableHead>
-                <TableHead className="font-semibold">Đơn vị</TableHead>
+                <TableHead className="font-semibold text-center">Đơn vị</TableHead>
                 <TableHead className="font-semibold text-center">Thao tác</TableHead>
               </TableRow>
             </TableHeader>
@@ -51,8 +51,8 @@ const TeamTable: FC<Props> = async ({
                   <TableCell>{team.teamCode}</TableCell>
                   <TableCell>{team.teamName}</TableCell>
                   <TableCell>{team.managerName}</TableCell>
-                  <TableCell className="text-center">{team.teamCode}</TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">{team.memberCount}</TableCell>
+                  <TableCell className="text-center">
                     {team.teamType === "ProjectManagement"
                       ? "Theo dự án"
                       : "Ký gửi"}

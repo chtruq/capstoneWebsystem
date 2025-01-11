@@ -71,7 +71,7 @@ const BarChartMultipleDashboard: FC<Props> = ({ data, onYearChange, selectedYear
       color: "hsl(var(--chart-2))",
     },
     cash: {
-      label: "Phí trao đổi",
+      label: "Phí hoàn tiền",
       color: "hsl(var(--chart-4))",
     },
   } satisfies ChartConfig

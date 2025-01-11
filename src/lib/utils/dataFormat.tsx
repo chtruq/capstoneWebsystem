@@ -23,14 +23,14 @@ export const formatDate = (isoDateString: string): string => {
 }
 
 export const formatMoney = (moneyString: number): string => {
-  if (moneyString === 0) return "0 VNĐ"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
+  if (moneyString === 0) return "0 VND"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
   if (!moneyString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
   const moneyNumber = Number(moneyString); // Chuyển đổi string thành số
   if (isNaN(moneyNumber)) return "N/A"; // Kiểm tra nếu không phải số
 
   return moneyNumber
     .toLocaleString("vi-VN", { style: "currency", currency: "VND" })
-    .replace("₫", "VNĐ"); // Thay ₫ thành VNĐ nếu cần
+    .replace("₫", "VND"); // Thay ₫ thành VNĐ nếu cần
 };
 
 
@@ -56,7 +56,7 @@ export const formatTime = (isoDateString: string): string => {
 }
 
 export const formatMoneyShortcut = (price: number) => {
-  if (price === 0) return "0 VNĐ"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
+  if (price === 0) return "0 VND"; // Kiểm tra nếu giá trị là 0 và trả về 0 VNĐ
   if (price === undefined || price === null || isNaN(price)) {
     return "Đang cập nhật";
   }
@@ -106,3 +106,14 @@ export const formatRole = (role: string) => {
   if (role === "Project Provider") return "Nhà cung cấp";
   return role;
 }
+
+export const formatPercentage = (value: number): string => {
+  if (isNaN(value)) return "N/A"; // Xử lý trường hợp giá trị không hợp lệ
+  const percentage = (value * 100).toFixed(0); // Chuyển đổi sang phần trăm và làm tròn
+  return `${percentage} %`;
+};
+
+export const formatCurrency = (value: number): string => {
+  if (isNaN(value)) return "N/A"; // Xử lý trường hợp giá trị không hợp lệ
+  return value.toLocaleString("vi-VN"); // Định dạng số theo chuẩn Việt Nam
+};

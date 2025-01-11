@@ -44,12 +44,12 @@ const UserManageTable = ({ data }: { data: User[] }) => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Tên</TableHead>
-            <TableHead>Email</TableHead>
-            <TableHead>Số điện thoại</TableHead>
-            <TableHead>Trạng thái</TableHead>
-            <TableHead>Vai trò</TableHead>
-            <TableHead>Hành động</TableHead>
+            <TableHead className="font-semibold">Tên tài khoản</TableHead>
+            <TableHead className="font-semibold">Email</TableHead>
+            <TableHead className="font-semibold">Số điện thoại</TableHead>
+            <TableHead className="font-semibold">Trạng thái</TableHead>
+            <TableHead className="font-semibold">Vai trò</TableHead>
+            <TableHead className="font-semibold">Hành động</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
