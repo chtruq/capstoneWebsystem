@@ -1,5 +1,10 @@
 import apiClient from "./apiClient";
 
+interface ImageType {
+  url: string;
+  description?: string;
+}
+
 export const getProjectApartment = async ({
   query,
   currentPage,
@@ -38,7 +43,6 @@ export const getProjectApartmentByStaff = async ({
   }
 };
 
-
 export const getProjectApartmentByProvider = async ({
   providerId,
   query,
@@ -71,7 +75,7 @@ export const getProjectApartmentByProviderCart = async ({
       `/projects/search-or-manager?ApartmentProjectProviderID=${providerId}&pageIndex=1&pageSize=100`
     );
     console.log("resssssss", res.data.data);
-    
+
     return res.data.data;
   } catch (error) {
     console.error("Error fetching project apartments:", error);
@@ -130,7 +134,26 @@ interface ProjectValue {
   Images: File[];
 }
 
-export const createProject = async (value: ProjectValue) => {
+interface ProjectUpdate {
+  ProjectApartmentName: string;
+  ProjectApartmentDescription: string;
+  Price_range: string;
+  ApartmentArea?: string;
+  ProjectSize?: string;
+  ProjectArea?: string;
+  ConstructionStartYear?: string;
+  ConstructionEndYear?: string;
+  Address?: string;
+  AddressUrl?: string;
+  TotalApartment?: string;
+  LicensingAuthority: string;
+  LicensingDate: string;
+  ApartmentProjectProviderID: string;
+  ProjectType: number;
+  TeamID: string;
+}
+
+export const createProject = async (value: any) => {
   try {
     console.log("valueeeee", value);
     const formData = new FormData();
@@ -194,7 +217,6 @@ export const createProject = async (value: ProjectValue) => {
     console.log(error);
   }
 };
-
 
 export const createProjectFileContract = async (data: any) => {
   try {
@@ -260,5 +282,116 @@ export const addProjectBulkFIle = async (data: any) => {
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateProject = async (id: string, value: ProjectUpdate) => {
+  console.log("valueeeee", value);
+  const formData = new FormData();
+  formData.append("ProjectApartmentName", value.ProjectApartmentName);
+  formData.append(
+    "ProjectApartmentDescription",
+    value.ProjectApartmentDescription
+  );
+  formData.append("Price_range", value.Price_range);
+  if (value.ApartmentArea) {
+    formData.append("ApartmentArea", value.ApartmentArea);
+  }
+  if (value.ProjectSize) {
+    formData.append("ProjectSize", value.ProjectSize);
+  }
+  if (value.ProjectArea) {
+    formData.append("ProjectArea", value.ProjectArea);
+  }
+  if (value.ConstructionStartYear) {
+    formData.append("ConstructionStartYear", value.ConstructionStartYear);
+  }
+  if (value.ConstructionEndYear) {
+    formData.append("ConstructionEndYear", value.ConstructionEndYear);
+  }
+  if (value.Address) {
+    formData.append("Address", value.Address);
+  }
+  if (value.AddressUrl) {
+    formData.append("AddressUrl", value.AddressUrl);
+  }
+  if (value.TotalApartment) {
+    formData.append("TotalApartment", value.TotalApartment);
+  }
+  formData.append("LicensingAuthority", value.LicensingAuthority);
+  formData.append("LicensingDate", value.LicensingDate);
+  formData.append(
+    "ApartmentProjectProviderID",
+    value.ApartmentProjectProviderID
+  );
+  formData.append("ProjectType", value.ProjectType.toString());
+
+  const res = await apiClient.put(`/projects/update/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res;
+};
+
+export const updateFacility = async (
+  projectId: string | undefined,
+  value: any
+) => {
+  const formData = new FormData();
+  value.forEach((item: any) =>
+    formData.append("FacilityIDs", item.facilitiesID)
+  );
+  const res = await apiClient.put(`/projects/update/${projectId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res;
+};
+
+export const deleteFacility = async (id: any) => {
+  console.log("id", id);
+  const res = await apiClient.delete(`/project-facilities/${id}`);
+  return res;
+};
+
+export const deleteProjectImg = async (imageId: string) => {
+  try {
+    const res = await apiClient.delete(`/projects/image/${imageId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addProjectImg = async (projectId: string, image: any) => {
+  try {
+    console.log("image", image);
+    const formData = new FormData();
+    image.forEach((image: any) => {
+      formData.append("Images", image); // Truyền trực tiếp File object
+    });
+    console.log(
+      "formData",
+      formData.forEach((value, key) => console.log(key, value))
+    );
+    const res = await apiClient.put(`/projects/update/${projectId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getProjectFacility = async (id: string) => {
+  try {
+    const res = await apiClient.get(`/projects/${id}/facilities`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching project:", error);
   }
 };
