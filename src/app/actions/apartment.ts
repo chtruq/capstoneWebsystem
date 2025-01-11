@@ -76,6 +76,24 @@ export const getProjectApartmentCart = async ({
   }
 };
 
+export const getProjectProviderCart = async ({
+  apartmentProjectProviderID,
+}: {
+  apartmentProjectProviderID: string;
+}) => {
+  try {
+    console.log("apartmentProjectProviderIDaaaaaaaa", apartmentProjectProviderID);
+    
+    const res = await apiClient.get(
+      `/apartments/search?ApartmentProjectProviderID=${apartmentProjectProviderID}&pageIndex=1&pageSize=100`
+    );
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching project apartments:", error);
+    throw error;
+  }
+};
+
 export const getApartmentDetails = async ({ id }: { id: string }) => {
   try {
     const res = await apiClient.get(`/apartments/${id}`);

@@ -39,19 +39,37 @@ const statusType = (type: string) => {
     case "PendingApproval":
       return (
         <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
-          <p className="text-pending text-center">Chờ xác nhận</p>
+          <p className="text-pending text-center">Chờ phê duyệt</p>
         </div>
       );
-    case "Done":
-      return (
-        <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
-          <p className="text-success">Thành công</p>
-        </div>
-      );
-    case "Canceled":
+    case "Pending":
       return (
         <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
-          <p className="text-failed text-center">Đã được hủy</p>
+          <p className="text-pending text-center">Chờ thanh toán</p>
+        </div>
+      );
+    case "Sold":
+      return (
+        <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-success">Đã bán</p>
+        </div>
+      );
+    case "Available":
+      return (
+        <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-success">Đang mở bán</p>
+        </div>
+      );
+    case "UnAvailable":
+      return (
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-failed text-center">Căn hộ không hợp lệ</p>
+        </div>
+      );
+    case "Expired":
+      return (
+        <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+          <p className="text-failed text-center">Đã hết hạn</p>
         </div>
       );
     default:

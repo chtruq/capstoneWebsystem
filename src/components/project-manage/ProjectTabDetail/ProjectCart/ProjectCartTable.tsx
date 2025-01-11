@@ -41,18 +41,44 @@ const ProjectCartTable: FC<Props> = ({ data, role }) => {
 
   console.log("Updated pathname:", newPathname);
 
-  const tableType = (type: string) => {
+
+
+  const statusType = (type: string) => {
     switch (type) {
-      case "0":
+      case "PendingApproval":
         return (
-          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center">
-            <p className="text-money text-center">Đang mở bán</p>
+          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-pending text-center">Chờ xác nhận</p>
           </div>
         );
-      case "2":
+      case "Pending":
         return (
-          <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center">
-            <span className="text-success">Đang mở bán</span>
+          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-pending text-center">Chờ duyệt thanh toán</p>
+          </div>
+        );
+      case "Sold":
+        return (
+          <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-success">Đã bán</p>
+          </div>
+        );
+      case "Available":
+        return (
+          <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-success">Đang mở bán</p>
+          </div>
+        );
+      case "UnAvailable":
+        return (
+          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-failed text-center">Căn hộ không hợp lệ</p>
+          </div>
+        );
+      case "Expired":
+        return (
+          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-failed text-center">Đã hết hạn</p>
           </div>
         );
       default:
@@ -94,11 +120,11 @@ const ProjectCartTable: FC<Props> = ({ data, role }) => {
               <TableCell className="text-center">{formatTextArea(apartment.area)}</TableCell>
               <TableCell className="text-center">{tableText(apartment.numberOfRooms)}</TableCell>
               <TableCell className="text-center">{tableText(apartment.numberOfBathrooms)}</TableCell>
-              <TableCell className="text-center">{tableType(apartment.apartmentStatus)}</TableCell>
+              <TableCell className="mt-[18px] flex justify-center items-center">{statusType(apartment.apartmentStatus)}</TableCell>
               <TableCell className="text-center">
                 <DropdownMenu>
                   <DropdownMenuTrigger>
-                      <Ellipsis size={24}/>
+                    <Ellipsis size={24} />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuItem>
