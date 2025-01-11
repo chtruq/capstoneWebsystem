@@ -103,6 +103,6 @@ export const formatRole = (role: string) => {
   if (role === "Management") return "Quản lý hệ thống";
   if (role === "Staff") return "Nhân viên quản lý";
   if (role === "Seller") return "Nhân viên môi giới";
-  if (role === "Provider") return "Nhà cung cấp";
+  if (role === "Project Provider") return "Nhà cung cấp";
   return role;
 }

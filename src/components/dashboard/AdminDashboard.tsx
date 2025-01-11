@@ -129,10 +129,10 @@ const AdminDashboard = () => {
       <div className="w-full grid grid-cols-6 gap-4">
         <div className="col-span-6">
           <div className="grid grid-cols-4 gap-4">
-            <CartStatistics title="Tổng tiền ký quỹ" value={dataStatistics.totalDeposits.toString()} icon={Banknote} />
-            <CartStatistics title="Số dự án" value={dataStatistics.totalProjects.toString()} icon={FolderKanban} />
-            <CartStatistics title="Tổng số căn hộ" value={dataStatistics.totalApartments.toString()} icon={Building2} />
-            <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics.availableApartments.toString()} icon={Building} />
+            <CartStatistics title="Tổng tiền ký quỹ" value={dataStatistics?.totalDeposits.toString() || "0"} icon={Banknote} />
+            <CartStatistics title="Số dự án" value={dataStatistics?.totalProjects.toString() || "0"} icon={FolderKanban} />
+            <CartStatistics title="Tổng số căn hộ" value={dataStatistics?.totalApartments.toString() || "0"} icon={Building2} />
+            <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics?.availableApartments.toString() || "0"} icon={Building} />
           </div>
         </div>
       </div>

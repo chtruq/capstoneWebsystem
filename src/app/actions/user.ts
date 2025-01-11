@@ -47,7 +47,7 @@ export const updateAccount = async (accountId: string, data: updateAccount) => {
     formData.append("PhoneNumber", data.PhoneNumber);
     formData.append("UnlockAccount", data.UnlockAccount);
 
-    const res = await apiClient.put(`/accounts/update-account/${accountId}`)
+    const res = await apiClient.put(`/accounts/update-account/${accountId}`, formData);
     return res;
   } catch (error) {
     if (error instanceof AxiosError && error.response?.status === 400) {

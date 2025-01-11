@@ -19,7 +19,7 @@ const RequestDepositTable: FC<Props> = async ({ query, currentPage, teamID }) =>
 
   const data = await getRequestDepositByTeam({ query, currentPage, teamID });
   // console.log("Data request deposit", data);
-  const totalPages = data.totalPages;
+  const totalPages = data?.totalPages;
   console.log("Total pages", totalPages);
   return (
     <div>
