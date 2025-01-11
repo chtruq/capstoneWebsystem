@@ -60,6 +60,25 @@ export const getProjectApartmentByProvider = async ({
   }
 };
 
+export const getProjectApartmentByProviderCart = async ({
+  providerId,
+}: {
+  providerId: string;
+}) => {
+  try {
+    console.log("get project by provider", providerId);
+    const res = await apiClient.get(
+      `/projects/search-or-manager?ApartmentProjectProviderID=${providerId}&pageIndex=1&pageSize=100`
+    );
+    console.log("resssssss", res.data.data);
+    
+    return res.data.data;
+  } catch (error) {
+    console.error("Error fetching project apartments:", error);
+    throw error;
+  }
+};
+
 export const getProject = async (id: string) => {
   try {
     const res = await apiClient.get(`/projects/${id}`);

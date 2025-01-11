@@ -40,7 +40,8 @@ const ProjectTable: FC<Props> = async ({ data }: Props) => {
   
   // console.log("Data in protab", data);
   
-
+ console.log("dataaaaaaaaaassaaa", data);
+ 
   return (
     <div>
       {!data ? (

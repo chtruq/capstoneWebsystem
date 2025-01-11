@@ -40,6 +40,12 @@ const ProjectManageTable: FC<Props> = ({ data }) => {
             <p className="text-money text-center">Đã bàn giao</p>
           </div>
         );
+      case "UpcomingforSale":
+        return (
+          <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
+            <p className="text-money text-center">Đã bàn giao</p>
+          </div>
+        );
       case "HandedOver":
         return (
           <div className="bg-success-foreground rounded-md p-1 flex items-center justify-center w-28">

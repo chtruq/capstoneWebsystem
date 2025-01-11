@@ -131,7 +131,7 @@ const AddNewProviderDialog = () => {
         setIsDialogOpen(!isDialogOpen);
         form.reset();
       }}>
-        <DialogTrigger>
+        <DialogTrigger asChild>
           <Button>
             Thêm nhà cung cấp
             <p>

@@ -16,9 +16,9 @@ async function UserManage(props: {
   const totalPages = 4;
   return (
     <div className="">
-      <h1 className="text-2xl font-semibold">Quản lý căn hộ</h1>
+      <h1 className="text-2xl font-semibold">Quản lý người dùng</h1>
       <div>
-        <SearchInput placeholder="Tìm kiếm căn hộ" query="apartmentName" />
+        <SearchInput placeholder="Tìm kiếm người dùng" query="apartmentName" />
       </div>
       <div>
         <UserTable query={query} currentPage={currentPage} />
