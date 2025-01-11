@@ -22,7 +22,7 @@ import { FolderKanban ,X, Banknote, Building, HandCoins, ListTodo, CreditCard, U
 import { TrendingUp } from "lucide-react"
 import { Label, Pie, PieChart } from "recharts"
 import { getProviderStatisticsByAccount } from "@/app/actions/provider";
-
+import { formatMoney } from "@/lib/utils/dataFormat";
 
 interface CartStatisticsProps {
   title: string;
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
       <div className="w-full grid grid-cols-6 gap-4">
         <div className="col-span-6">
           <div className="grid grid-cols-4 gap-4">
-            <CartStatistics title="Tổng tiền ký quỹ" value={dataStatistics?.totalDeposits.toString() || "0"} icon={Banknote} />
+            <CartStatistics title="Tổng tiền ký quỹ" value={formatMoney(dataStatistics?.totalDeposits || 0)} icon={Banknote} />
             <CartStatistics title="Số dự án" value={dataStatistics?.totalProjects.toString() || "0"} icon={FolderKanban} />
             <CartStatistics title="Tổng số căn hộ" value={dataStatistics?.totalApartments.toString() || "0"} icon={Building2} />
             <CartStatistics title="Căn hộ hiện hữu" value={dataStatistics?.availableApartments.toString() || "0"} icon={Building} />
