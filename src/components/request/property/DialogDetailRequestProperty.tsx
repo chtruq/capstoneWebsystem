@@ -22,6 +22,33 @@ interface Props {
   onClose: () => void;
 }
 
+const tableType = (type: string) => {
+  switch (type) {
+    case "Pending":
+      return (
+        <div className="bg-pending-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-pending">Chờ duyệt</span>
+        </div>
+      );
+    case "Accepted":
+      return (
+        <div className="bg-success-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-success">Thành công</span>
+        </div>
+      );
+    case "Rejected":
+      return (
+        <div className="bg-primary-foreground rounded-md py-1 px-2 flex items-center justify-center w-24">
+          <span className="text-failed text-center">Từ chối</span>
+        </div>
+      );
+
+    default:
+      return type;
+  }
+};
+
+
 const DialogDetailRequestProperty: FC<Props> = ({ accountID, data, isOpen, onClose }) => {
   const [addAppointmentDialog, setAddAppointmentDialog] = useState(false)
   const [rejectRequestDialog, setRejectRequestDialog] = useState(false)
@@ -56,7 +83,7 @@ const DialogDetailRequestProperty: FC<Props> = ({ accountID, data, isOpen, onClo
                 <div className="col-span-2">{formatMoney(data.expectedPrice) || "Đang cập nhật"}</div>
 
                 <div className="font-semibold col-span-1">Trạng thái:</div>
-                <div className="col-span-2">{data.requestStatus || "Đang cập nhật"}</div>
+                <div className="col-span-2">{tableType(data.requestStatus || "Đang cập nhật")}</div>
 
                 <div className="font-semibold col-span-1">Địa chỉ:</div>
                 <div className="col-span-2">{data.address || "Đang cập nhật"}</div>

@@ -196,7 +196,7 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
               />
             </div>
             <div className="flex justify-start w-1/2 items-center gap-5">
-              <span className="text-blur text-sm w-1/5">Phí môi giới</span>
+              <span className="text-blur text-sm w-1/5">Tỉ lệ phí môi giới</span>
               <FormField
                 control={form.control}
                 name="BrokerageFee"
@@ -204,9 +204,18 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
                   <FormItem className="w-3/5">
                     <FormControl>
                       <Input
-                        placeholder="Nhập phí môi giới"
+                        placeholder="Nhập tỉ lệ phí môi giới"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -303,6 +312,15 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
                         placeholder="Nhập tỉ lệ hoa hồng"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -328,6 +346,15 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
                         type="number"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
 
@@ -405,6 +432,15 @@ const ConsignmentCreate: FC<Props> = ({ apartmentOwners, assignAccountId, data }
                         type="number"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
 

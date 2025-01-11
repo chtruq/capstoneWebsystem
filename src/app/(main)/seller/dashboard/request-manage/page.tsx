@@ -42,9 +42,9 @@ async function RequestManage(props: {
             <TabsTrigger value="appointment">
               <div className="flex items-center gap-2">
                 <h1 className="text-sm">Tư vấn căn hộ</h1>
-                <div className="text-xs text-white bg-yellow-500 rounded w-5 h-5 flex justify-center items-center">
+                {/* <div className="text-xs text-white bg-yellow-500 rounded w-5 h-5 flex justify-center items-center">
                   {totalPendingRequestsForAppointment}
-                </div>
+                </div> */}
               </div>
             </TabsTrigger>
           </Link>

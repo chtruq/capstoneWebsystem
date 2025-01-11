@@ -98,7 +98,7 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
       Floor: "",
       RoomNumber: "",
       PropertyVerificationID: PropertyVerificationID,
-      ProjectApartmentID: "404e6595-9ac2-4969-8bf7-5cf8f74731b2",
+      ProjectApartmentID: "edf966ee-4376-4ab2-bee4-582236c0dd41",
       Images: [],
       VRVideoFile: [],
     },
@@ -356,6 +356,15 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                           {...field}
                           type="number"
                           inputMode="numeric"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(Number(value) >= 0 ? value : "");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "-" || e.key === "e" || e.key === "E") {
+                              e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -381,6 +390,15 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                           {...field}
                           type="number"
                           inputMode="numeric"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(Number(value) >= 0 ? value : "");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "-" || e.key === "e" || e.key === "E") {
+                              e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -401,6 +419,15 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                           {...field}
                           type="number"
                           inputMode="numeric"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(Number(value) >= 0 ? value : "");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "-" || e.key === "e" || e.key === "E") {
+                              e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -424,6 +451,15 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                           {...field}
                           type="number"
                           inputMode="numeric"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(Number(value) >= 0 ? value : "");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "-" || e.key === "e" || e.key === "E") {
+                              e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -480,6 +516,15 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                           {...field}
                           type="number"
                           inputMode="numeric"
+                          onChange={(e) => {
+                            const value = e.target.value;
+                            field.onChange(Number(value) >= 0 ? value : "");
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "-" || e.key === "e" || e.key === "E") {
+                              e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                            }
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -488,7 +533,7 @@ const ApartmentCreateForOwner: FC<Props> = ({ PropertyVerificationID, data }) =>
                 />
               </div>
               <div className="flex justify-start w-1/2 items-center gap-2">
-                <span className="text-blur text-sm w-1/5">Hướng nhà</span>
+                <span className="text-blur text-sm w-1/5">Hướng ban công</span>
                 <FormField
                   control={form.control}
                   name="BalconyDirection"

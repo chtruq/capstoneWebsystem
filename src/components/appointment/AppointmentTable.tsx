@@ -162,7 +162,7 @@ const AppointmentTable: FC<Props> = ({ data }) => {
                       </DropdownMenuItem>
                       {isOwner === false && data.appointmentTypes === "Property" && isLoading ? (
                         <DropdownMenuItem onClick={() => setAccountID(data.customerID)}>
-                          Tạo chủ nhân
+                          Tạo chủ sở hữu
                         </DropdownMenuItem>
                       ) : (
                         <></>

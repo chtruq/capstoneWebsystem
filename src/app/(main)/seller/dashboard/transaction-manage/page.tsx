@@ -21,7 +21,7 @@ async function TransactionPage(props: {
   return (
     <div>
       <h1 className="text-2xl font-semibold">Giao dịch</h1>
-      <div>
+      <div className="w-[40%] my-2">
         <SearchInput
           placeholder="Tìm kiếm mã giao dịch, mã căn hộ"
           query="transactionId"
@@ -30,7 +30,7 @@ async function TransactionPage(props: {
       <div>
         <TransactionTable data={data?.data?.transactions} />
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div className="">
         {totalPages > 1 && <PaginationComponent totalPages={totalPages} />}
       </div>
     </div>

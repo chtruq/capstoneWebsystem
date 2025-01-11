@@ -26,7 +26,19 @@ interface Props {
   data: Owner[];
 }
 
-
+const tableType = (type: string) => {
+  switch (type) {
+    case "Female":
+      return "Nữ";
+    case "Male":
+      return "Nam";
+    case "Other":
+      return "Khác";
+  
+    default:
+      return type;
+  }
+};
 const OwnerManageTable: FC<Props> = ({ data }: Props) => {
   const [selectedData, setSelectedData] = useState<Owner | null>(null);
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false); // Quản lý trạng thái của dialog chi tiết
@@ -54,7 +66,7 @@ const OwnerManageTable: FC<Props> = ({ data }: Props) => {
                 <TableCell>{onwer.name}</TableCell>
                 <TableCell>{onwer.email}</TableCell>
                 <TableCell className="text-center">{onwer.phoneNumber}</TableCell>
-                <TableCell className="text-center">{onwer.gender}</TableCell>
+                <TableCell className="text-center">{tableType(onwer.gender)}</TableCell>
                 <TableCell className="text-center">{onwer.nationality}</TableCell>
                 <TableCell className="text-center">
                   <DropdownMenu>
@@ -65,9 +77,9 @@ const OwnerManageTable: FC<Props> = ({ data }: Props) => {
                       <DropdownMenuItem onClick={() => { setSelectedData(onwer); setIsDetailDialogOpen(true) }}>
                         Chi tiết
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      {/* <DropdownMenuItem>
                         Cập nhật
-                      </DropdownMenuItem>
+                      </DropdownMenuItem> */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

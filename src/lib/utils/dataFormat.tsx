@@ -34,6 +34,7 @@ export const formatMoney = (moneyString: number): string => {
 };
 
 
+
 export const formatDateWithoutYear = (isoDateString: string): string => {
   if (!isoDateString) return "N/A"; // Xử lý trường hợp dữ liệu không hợp lệ
   const date = new Date(isoDateString);

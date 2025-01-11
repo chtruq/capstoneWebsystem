@@ -23,7 +23,7 @@ async function UserManage(props: {
       <div>
         <UserTable query={query} currentPage={currentPage} />
       </div>
-      <div className="absolute bottom-0 right-0">
+      <div className="">
         {totalPages ? <PaginationComponent totalPages={totalPages} /> : <></>}
       </div>
     </div>

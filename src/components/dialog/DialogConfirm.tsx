@@ -48,7 +48,7 @@ const DialogConfirm: FC<Props> = ({ id, type, title, fileName }) => {
   return (
     <Dialog open={isOpened} onOpenChange={setIsOpened}>
       <DialogTrigger asChild>
-        <X />
+        <X className="cursor-pointer"/>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

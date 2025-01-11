@@ -104,8 +104,8 @@ const ConsignmentDetail: FC<Props> = ({ data }: Props) => {
               <p className="col-span-2">{formatMoney(data.depositValue)}</p>
             </div>
             <div className="grid grid-cols-3">
-              <p className="col-span-1 text-blur">Tiền môi giới:</p>
-              <p className="col-span-2">{formatMoney(data.brokerageFee)}</p>
+              <p className="col-span-1 text-blur">Tỷ lệ tiền môi giới:</p>
+              <p className="col-span-2">{data.brokerageFee}</p>
             </div>
             <div className="grid grid-cols-3">
               <p className="col-span-1 text-blur">Tỷ lệ tiền hoa hồng:</p>

@@ -60,7 +60,7 @@ const statusType = (type: string) => {
           <p className="text-success">Đang mở bán</p>
         </div>
       );
-    case "UnAvailable":
+    case "Unavailable":
       return (
         <div className="bg-primary-foreground rounded-md p-1 flex items-center justify-center w-28">
           <p className="text-failed text-center">Căn hộ không hợp lệ</p>

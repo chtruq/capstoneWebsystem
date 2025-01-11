@@ -76,45 +76,45 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
     resolver: zodResolver(data ? projectUpdateSchema : projectSchema),
     defaultValues: data
       ? {
-          ProjectApartmentName: data.projectApartmentName || "",
-          ProjectApartmentDescription: data.projectApartmentDescription || "",
-          Price_range: "2 - 10tỷ",
-          ApartmentArea: data.apartmentArea?.toString() || "",
-          ProjectArea: data.projectArea || "",
-          ProjectSize: data.projectSize?.toString() || "",
-          ConstructionStartYear: data.constructionStartYear || "",
-          ConstructionEndYear: data.constructionEndYear || "",
-          Address: data.address || "",
-          AddressUrl: data.addressUrl || "",
-          TotalApartment: data.totalApartment?.toString() || "",
-          LicensingAuthority: data.licensingAuthority || "",
-          LicensingDate: data.licensingDate
-            ? new Date(data.licensingDate).toISOString()
-            : "",
-          ApartmentProjectProviderID: data.apartmentProjectProviderID || "",
-          ProjectType: data.projectType === "projectType" ? 2 : 3,
-          TeamID: data.teamID || "",
-        }
+        ProjectApartmentName: data.projectApartmentName || "",
+        ProjectApartmentDescription: data.projectApartmentDescription || "",
+        Price_range: "2 - 10tỷ",
+        ApartmentArea: data.apartmentArea?.toString() || "",
+        ProjectArea: data.projectArea || "",
+        ProjectSize: data.projectSize?.toString() || "",
+        ConstructionStartYear: data.constructionStartYear || "",
+        ConstructionEndYear: data.constructionEndYear || "",
+        Address: data.address || "",
+        AddressUrl: data.addressUrl || "",
+        TotalApartment: data.totalApartment?.toString() || "",
+        LicensingAuthority: data.licensingAuthority || "",
+        LicensingDate: data.licensingDate
+          ? new Date(data.licensingDate).toISOString()
+          : "",
+        ApartmentProjectProviderID: data.apartmentProjectProviderID || "",
+        ProjectType: data.projectType === "projectType" ? 2 : 3,
+        TeamID: data.teamID || "",
+      }
       : {
-          ProjectApartmentName: "",
-          ProjectApartmentDescription: "",
-          Price_range: "2 - 10tỷ",
-          ApartmentArea: "",
-          ProjectArea: "",
-          ProjectSize: "",
-          ConstructionStartYear: "",
-          ConstructionEndYear: "",
-          Address: "",
-          AddressUrl: "",
-          TotalApartment: "",
-          LicensingAuthority: "",
-          LicensingDate: "",
-          ApartmentProjectProviderID: "",
-          FacilityIDs: [],
-          ProjectType: 0,
-          TeamID: "",
-          Images: [],
-        },
+        ProjectApartmentName: "",
+        ProjectApartmentDescription: "",
+        Price_range: "2 - 10tỷ",
+        ApartmentArea: "",
+        ProjectArea: "",
+        ProjectSize: "",
+        ConstructionStartYear: "",
+        ConstructionEndYear: "",
+        Address: "",
+        AddressUrl: "",
+        TotalApartment: "",
+        LicensingAuthority: "",
+        LicensingDate: "",
+        ApartmentProjectProviderID: "",
+        FacilityIDs: [],
+        ProjectType: 0,
+        TeamID: "",
+        Images: [],
+      },
   });
 
   const [open, setOpen] = useState(false);
@@ -225,11 +225,11 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
           onSubmit={
             data
               ? form.handleSubmit(onSubmit, (errors) => {
-                  console.log("Lỗi validation:", errors);
-                })
+                console.log("Lỗi validation:", errors);
+              })
               : form.handleSubmit(onSubmit, (errors) => {
-                  console.log("Lỗi validation:", errors);
-                })
+                console.log("Lỗi validation:", errors);
+              })
           }
           className="space-y-8"
         >
@@ -291,10 +291,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                  (provider) =>
-                                    provider.apartmentProjectProviderID ===
-                                    field.value
-                                )?.apartmentProjectProviderName
+                                (provider) =>
+                                  provider.apartmentProjectProviderID ===
+                                  field.value
+                              )?.apartmentProjectProviderName
                               : "Chọn nhà cung cấp"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -471,10 +471,20 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                   <FormItem className="w-3/5">
                     <FormControl>
                       <Input
-                        placeholder="Nhập diện tích dự án(ha)"
+                        placeholder="Nhập diện tích dự án (ha)"
                         type="number"
+                        min="0"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
 
@@ -555,6 +565,15 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                         type="number"
                         {...field}
                         value={field.value ?? ""}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(Number(value) >= 0 ? value : "");
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "-" || e.key === "e" || e.key === "E") {
+                            e.preventDefault(); // Ngăn nhập dấu trừ hoặc ký tự khoa học
+                          }
+                        }}
                       />
                     </FormControl>
 
@@ -822,8 +841,8 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                     typeof image === "string" // If it's already a URL string
                       ? image
                       : image instanceof File // If it's a File object
-                      ? URL?.createObjectURL(image)
-                      : (image as ImageType).url;
+                        ? URL?.createObjectURL(image)
+                        : (image as ImageType).url;
 
                   return (
                     <div key={index} className="relative">

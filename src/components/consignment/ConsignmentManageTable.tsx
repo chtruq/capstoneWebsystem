@@ -160,11 +160,11 @@ const ConsignmentManageTable: FC<Props> = ({ data }) => {
                           </Link>
                         </DropdownMenuItem>
                         )}
-                      <DropdownMenuItem>
-                        {/* <Link href={`${pathname}/${item.verificationID}/edit`}> */}
+                      {/* <DropdownMenuItem>
+                        <Link href={`${pathname}/${item.verificationID}/edit`}>
                         Sửa
-                        {/* </Link> */}
-                      </DropdownMenuItem>
+                        </Link>
+                      </DropdownMenuItem> */}
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

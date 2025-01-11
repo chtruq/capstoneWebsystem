@@ -16,6 +16,7 @@ interface Props {
 
 const ProjectContract: FC<Props> = ({ data, role }) => {
   const pathName = usePathname();
+  console.log("đaaaaa", data);
 
   return (
     <div className="w-full">
@@ -38,22 +39,34 @@ const ProjectContract: FC<Props> = ({ data, role }) => {
         <AddProjectFileContract ProjectApartmentID={data?.projectApartmentID} />
       </div>
       {/* File tài liêu */}
-      {data?.projectFiles?.length > 0 ? (
+      {data?.projectFiles?.filter((document: ProjectFile) => document.projectFileTypes !== "File").length > 0 ? (
         <div className="grid grid-cols-1 divide-y divide-slate-600 w-[60%]">
-          {data.projectFiles.map((document: ProjectFile, index: number) => (
-            <div key={index} className="flex justify-between items-center">
-              <p className="py-1">{document.description}</p>
-              <div className="flex space-x-1 items-center">
-                <FileDown className="h-5 w-5 cursor-pointer text-blur" onClick={() => {window.open(document.projectFileUrl)}} />
-                <DialogConfirm id={document.projectFileID} type="project-file" title="Bạn có muốn xóa file này không" fileName={document.description} />
+          {data.projectFiles
+            .filter((document: ProjectFile) => document.projectFileTypes !== "File")
+            .map((document: ProjectFile, index: number) => (
+              <div key={index} className="flex justify-between items-center">
+                <p className="py-1">{document.description}</p>
+                <div className="flex space-x-1 items-center">
+                  <FileDown
+                    className="h-5 w-5 cursor-pointer text-blur"
+                    onClick={() => {
+                      window.open(document.projectFileUrl);
+                    }}
+                  />
+                  <DialogConfirm
+                    id={document.projectFileID}
+                    type="project-file"
+                    title="Bạn có muốn xóa file này không"
+                    fileName={document.description}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       ) : (
         <p>Không có tài liệu liên quan</p>
-      )
-      }
+      )}
+
 
     </div>
   );

@@ -54,6 +54,8 @@ const AddFinancialContract: FC<Props> = ({
       projectApartmentID: projectApartmentId,
     },
   });
+  console.log("datasssss", data);
+  
 
   useEffect(() => {
     if (data) {

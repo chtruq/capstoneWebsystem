@@ -183,6 +183,11 @@ export function AppSidebar() {
       icon: FolderKanban,
     },
     {
+      title: "Giao dịch",
+      url: "/provider/dashboard/transaction-manage",
+      icon: CreditCard,
+    },
+    {
       title: "Cài đặt",
       url: "/provider/dashboard/setting",
       icon: Settings,
@@ -253,11 +258,10 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname === item.url
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span>{item.title}</span>
@@ -265,11 +269,10 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname.includes(item.url)
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span>{item.title}</span>
@@ -286,11 +289,10 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname === item.url
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
                               ? "bg-primary-foreground hover:text-black hover:bg-primary"
                               : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -302,11 +304,10 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname.includes(item.url)
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -326,11 +327,10 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname === item.url
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
                               ? "bg-primary-foreground hover:text-black hover:bg-primary"
                               : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -342,11 +342,10 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname.includes(item.url)
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -367,11 +366,10 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname === item.url
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
                               ? "bg-primary-foreground hover:text-black hover:bg-primary"
                               : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -383,11 +381,10 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname.includes(item.url)
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -408,11 +405,10 @@ export function AppSidebar() {
                       {item.title === "Tổng quan" ? (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname === item.url
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname === item.url
                               ? "bg-primary-foreground hover:text-black hover:bg-primary"
                               : "text-gray-700 hover:bg-gray-400 hover:text-black"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
@@ -424,11 +420,10 @@ export function AppSidebar() {
                       ) : (
                         <a
                           href={item.url}
-                          className={`flex items-center gap-2 p-5 rounded-xl ${
-                            pathname.includes(item.url)
+                          className={`flex items-center gap-2 p-5 rounded-xl ${pathname.includes(item.url)
                               ? "bg-primary-foreground  text-money hover:bg-primary-foreground hover:text-money  "
                               : "text-gray-700 hover:bg-gray-400"
-                          }`}
+                            }`}
                         >
                           <item.icon />
                           <span
