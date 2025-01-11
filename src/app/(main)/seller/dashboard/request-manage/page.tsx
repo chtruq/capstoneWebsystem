@@ -51,7 +51,7 @@ async function RequestManage(props: {
           <Link href={`?tab=deposit`} scroll={false}>
             <TabsTrigger value="deposit">Đặt cọc giữ chỗ</TabsTrigger>
           </Link>
-          {dataTeam.teamType !== "ProjectManagement" ? (
+          {dataTeam?.teamType !== "ProjectManagement" ? (
             <Link href={`?tab=property`} scroll={false}>
               <TabsTrigger value="property">Yêu cầu ký gửi</TabsTrigger>
             </Link>
@@ -62,17 +62,17 @@ async function RequestManage(props: {
           <RequestAppointmentTable
             query={query}
             currentPage={currentPage}
-            teamID={dataTeam.teamID}
+            teamID={dataTeam?.teamID}
           />
         </TabsContent>
         <TabsContent value="deposit">
           <RequestDepositTable
             query={query}
             currentPage={currentPage}
-            teamID={dataTeam.teamID}
+            teamID={dataTeam?.teamID}
           />
         </TabsContent>
-        {dataTeam.teamType !== "ProjectManagement" ? (
+        {dataTeam?.teamType !== "ProjectManagement" ? (
           <TabsContent value="property">
             <RequestPropertyTable
               query={query}

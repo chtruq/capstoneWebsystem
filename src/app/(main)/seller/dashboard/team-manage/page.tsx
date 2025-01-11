@@ -19,7 +19,13 @@ async function TeamManage(props: {
   console.log("User id", userToken?.id);
   const data = await getTeamByAccountId(userToken?.id);
   // console.log("Dataaaaaaa", data);
-
+  if (!data || !data.teamID) {
+    return (
+      <div>
+        <h1 className="text-2xl font-semibold">Không tìm thấy thông tin nhóm</h1>
+      </div>
+    );
+  }
   const resolvedSearchParams = await props.searchParams;
   const query = resolvedSearchParams?.teamMemberName || "";
   const currentPage = Number(resolvedSearchParams?.page) || 1;

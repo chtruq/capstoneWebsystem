@@ -230,6 +230,11 @@ export function AppSidebar() {
       url: "/seller/dashboard/team-manage",
       icon: ListTodo,
     },
+    {
+      title: "Cài đặt",
+      url: "/seller/dashboard/setting",
+      icon: Settings,
+    },
   ];
 
   return (

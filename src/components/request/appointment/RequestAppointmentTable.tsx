@@ -17,7 +17,7 @@ const RequestAppointmentTable: FC<Props> = async ({ query, currentPage, teamID }
 
   const data = await getRequestAppointmentByTeam({ query, currentPage, teamID });
   // console.log("Data request appointment", data);
-  const totalPages = data.totalPages;
+  const totalPages = data?.totalPages;
   console.log("Total pages", totalPages);
   return (
     <div>
