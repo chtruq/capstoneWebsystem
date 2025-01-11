@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { projectSchema } from "@/lib/schema/projectSchema";
+import { projectSchema, projectUpdateSchema } from "@/lib/schema/projectSchema";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -43,10 +43,11 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { createProject } from "@/app/actions/project";
+import { createProject, updateProject } from "@/app/actions/project";
 import { revalidateProjectPath } from "@/app/actions/revalidate";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface Props {
   facilities: Facility[];
@@ -64,35 +65,58 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
   console.log("data of projects", data);
   const router = useRouter();
   const pathname = usePathname();
-  console.log("Original pathname:", pathname);
+  // console.log("Original pathname:", pathname);
 
   const newPathname = pathname.split("/").slice(0, -1).join("/");
-  console.log("Updated pathname:", newPathname);
+  // console.log("Updated pathname:", newPathname);
 
-
-  const form = useForm<z.infer<typeof projectSchema>>({
-    resolver: zodResolver(projectSchema),
-    defaultValues: {
-      ProjectApartmentName: "",
-      ProjectApartmentDescription: "",
-      Price_range: "2 - 10tỷ",
-      ApartmentArea: "",
-      ProjectArea: "",
-      ProjectSize: "",
-      ConstructionStartYear: "",
-      ConstructionEndYear: "",
-      Address: "",
-      AddressUrl: "",
-      TotalApartment: "",
-      LicensingAuthority: "",
-      LicensingDate: "",
-      ApartmentProjectProviderID: "",
-      FacilityIDs: [],
-      ProjectType: 1,
-      TeamID: "",
-      Images: [],
-    },
+  const form = useForm<
+    z.infer<typeof projectSchema | typeof projectUpdateSchema>
+  >({
+    resolver: zodResolver(data ? projectUpdateSchema : projectSchema),
+    defaultValues: data
+      ? {
+          ProjectApartmentName: data.projectApartmentName || "",
+          ProjectApartmentDescription: data.projectApartmentDescription || "",
+          Price_range: "2 - 10tỷ",
+          ApartmentArea: data.apartmentArea?.toString() || "",
+          ProjectArea: data.projectArea || "",
+          ProjectSize: data.projectSize?.toString() || "",
+          ConstructionStartYear: data.constructionStartYear || "",
+          ConstructionEndYear: data.constructionEndYear || "",
+          Address: data.address || "",
+          AddressUrl: data.addressUrl || "",
+          TotalApartment: data.totalApartment?.toString() || "",
+          LicensingAuthority: data.licensingAuthority || "",
+          LicensingDate: data.licensingDate
+            ? new Date(data.licensingDate).toISOString()
+            : "",
+          ApartmentProjectProviderID: data.apartmentProjectProviderID || "",
+          ProjectType: data.projectType === "projectType" ? 2 : 3,
+          TeamID: data.teamID || "",
+        }
+      : {
+          ProjectApartmentName: "",
+          ProjectApartmentDescription: "",
+          Price_range: "2 - 10tỷ",
+          ApartmentArea: "",
+          ProjectArea: "",
+          ProjectSize: "",
+          ConstructionStartYear: "",
+          ConstructionEndYear: "",
+          Address: "",
+          AddressUrl: "",
+          TotalApartment: "",
+          LicensingAuthority: "",
+          LicensingDate: "",
+          ApartmentProjectProviderID: "",
+          FacilityIDs: [],
+          ProjectType: 0,
+          TeamID: "",
+          Images: [],
+        },
   });
+
   const [open, setOpen] = useState(false);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -153,12 +177,22 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
     { label: "Đã bàn giao", value: 3 },
   ];
 
-  const onSubmit = async (value: z.infer<typeof projectSchema>) => {
+  const onSubmit = async (
+    value: z.infer<typeof projectSchema | typeof projectUpdateSchema>
+  ) => {
     try {
-      const payload = { ...value, Images: selectedImages };
+      const payload = data
+        ? { ...value } // Omit Images and FacilityIDs for updates
+        : { ...value, Images: selectedImages };
       console.log("Create project payload", payload);
       if (data) {
-        // const res = await updateProject(data.projectApartmentID, payload);
+        const res = await updateProject(data.projectApartmentID, payload);
+        // window.location.href = newPathname;
+        if (res) {
+          router.back();
+          toast.success("Cập nhật dự án thành công");
+        }
+
         // console.log("Update project successfully", res);
       } else {
         const res = await createProject(payload);
@@ -170,48 +204,6 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
       console.error("Error creating project:", error);
     }
   };
-
-  //if have the data then fill the form
-  useEffect(() => {
-    if (data) {
-      // Chuyển đổi dữ liệu nếu cần
-      form.setValue("ProjectApartmentName", data.projectApartmentName || "");
-      form.setValue("ApartmentArea", data.apartmentArea?.toString() || "");
-      form.setValue(
-        "ApartmentProjectProviderID",
-        data.apartmentProjectProviderID || ""
-      );
-      form.setValue("ProjectSize", data.projectSize?.toString() || "");
-      form.setValue("ProjectType", Number(data.projectType || 0)); // Chuyển đổi sang số nếu cần
-      form.setValue(
-        "ConstructionStartYear",
-        data.constructionStartYear
-          ? new Date(data.constructionStartYear).toISOString()
-          : ""
-      );
-      form.setValue(
-        "ConstructionEndYear",
-        data.constructionEndYear
-          ? new Date(data.constructionEndYear).toISOString()
-          : ""
-      );
-      form.setValue("ProjectArea", data.projectArea || "");
-      form.setValue("TotalApartment", data.totalApartment?.toString() || "");
-      form.setValue("TeamID", data.teamID || ""); // Nếu TeamID không tồn tại, bạn có thể sử dụng teamName làm fallback
-      form.setValue("Address", data.address || "");
-      form.setValue("AddressUrl", data.addressUrl || "");
-      form.setValue(
-        "ProjectApartmentDescription",
-        data.projectApartmentDescription || ""
-      );
-      const facilityIDs: [string, ...string[]] = data?.facilities?.map(
-        (f) => f.facilitiesID
-      ) as [string, ...string[]];
-      form.setValue("FacilityIDs", facilityIDs);
-
-      form.setValue("Images", data.projectImages || []);
-    }
-  }, [data]);
 
   useEffect(() => {
     if (data?.projectImages?.length) {
@@ -230,9 +222,15 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
     <div>
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(onSubmit, (errors) => {
-            console.log("Lỗi validation:", errors);
-          })}
+          onSubmit={
+            data
+              ? form.handleSubmit(onSubmit, (errors) => {
+                  console.log("Lỗi validation:", errors);
+                })
+              : form.handleSubmit(onSubmit, (errors) => {
+                  console.log("Lỗi validation:", errors);
+                })
+          }
           className="space-y-8"
         >
           <h1 className="font-semibold">Thông tin dự án</h1>
@@ -293,10 +291,10 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                           >
                             {field.value
                               ? providers.find(
-                                (provider) =>
-                                  provider.apartmentProjectProviderID ===
-                                  field.value
-                              )?.apartmentProjectProviderName
+                                  (provider) =>
+                                    provider.apartmentProjectProviderID ===
+                                    field.value
+                                )?.apartmentProjectProviderName
                               : "Chọn nhà cung cấp"}
                             <ChevronDown className="items-end ml-2 h-4 w-4 opacity-50" />
                           </Button>
@@ -464,7 +462,7 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
           <div className="flex justify-between  gap-4">
             <div className="flex justify-start w-1/2 items-center gap-5">
               <span className="text-blur text-sm w-1/5">
-                Diện tích dự án(m²)
+                Diện tích dự án(ha)
               </span>
               <FormField
                 control={form.control}
@@ -473,7 +471,7 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                   <FormItem className="w-3/5">
                     <FormControl>
                       <Input
-                        placeholder="Nhập diện tích dự án(m²)"
+                        placeholder="Nhập diện tích dự án(ha)"
                         type="number"
                         {...field}
                         value={field.value ?? ""}
@@ -741,101 +739,117 @@ const ProjectCreate: FC<Props> = ({ facilities, teams, providers, data }) => {
                 )}
               />
             </div>
-            <div className=" w-1/2 ">
-              <h1 className="font-semibold">Tiện ích nội khu</h1>
-              <div className="flex justify-start gap-5 ">
-                <span className="text-blur text-sm w-1/5">Tiện ích</span>
+
+            {!data && (
+              <div className=" w-1/2 ">
+                <h1 className="font-semibold">Tiện ích nội khu</h1>
+                <div className="flex justify-start gap-5 ">
+                  <span className="text-blur text-sm w-1/5">Tiện ích</span>
+                  <FormField
+                    control={form.control}
+                    name="FacilityIDs"
+                    render={({ field }) => (
+                      <FormItem className="w-3/5">
+                        <FormControl>
+                          <MultiSelect
+                            options={
+                              facilities?.map((facility) => ({
+                                label: facility.facilitiesName,
+                                value: facility.facilitiesID,
+                              })) || []
+                            }
+                            value={
+                              Array.isArray(field.value) ? field.value : []
+                            }
+                            onValueChange={(value) => field.onChange(value)}
+                            placeholder="Chọn tiện ích nội khu"
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {!data && (
+            <div>
+              <h1 className="font-semibold">Hình ảnh dự án</h1>
+              <div className="flex justify-start gap-5">
                 <FormField
                   control={form.control}
-                  name="FacilityIDs"
-                  render={({ field }) => (
-                    <FormItem className="w-3/5">
-                      <FormControl>
-                        <MultiSelect
-                          options={
-                            facilities?.map((facility) => ({
-                              label: facility.facilitiesName,
-                              value: facility.facilitiesID,
-                            })) || []
-                          }
-                          value={Array.isArray(field.value) ? field.value : []}
-                          onValueChange={(value) => field.onChange(value)}
-                          placeholder="Chọn tiện ích nội khu"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  name="Images"
+                  render={({ field }) => {
+                    return (
+                      <FormItem className="w-3/5">
+                        <Button
+                          onClick={handleOpenFilePicker}
+                          variant="outline"
+                        >
+                          Chọn hình ảnh ({selectedImages.length} đã chọn)
+                        </Button>
+
+                        <FormControl>
+                          <Input
+                            className="hidden"
+                            ref={inputRef}
+                            accept="image/*"
+                            type="file"
+                            multiple
+                            onChange={(e) => {
+                              handleImageChange(e);
+                              field.onChange(selectedImages); // Cập nhật giá trị form
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
               </div>
             </div>
-          </div>
+          )}
 
-          <div>
-            <h1 className="font-semibold">Hình ảnh dự án</h1>
-            <div className="flex justify-start gap-5">
-              <FormField
-                control={form.control}
-                name="Images"
-                render={({ field }) => {
+          {!data && (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {selectedImages.map((image, index) => {
+                  // Check if the image is a File or an object from the API response
+                  const imageUrl =
+                    typeof image === "string" // If it's already a URL string
+                      ? image
+                      : image instanceof File // If it's a File object
+                      ? URL?.createObjectURL(image)
+                      : (image as ImageType).url;
+
                   return (
-                    <FormItem className="w-3/5">
-                      <Button onClick={handleOpenFilePicker} variant="outline">
-                        Chọn hình ảnh ({selectedImages.length} đã chọn)
-                      </Button>
-
-                      <FormControl>
-                        <Input
-                          className="hidden"
-                          ref={inputRef}
-                          accept="image/*"
-                          type="file"
-                          multiple
-                          onChange={(e) => {
-                            handleImageChange(e);
-                            field.onChange(selectedImages); // Cập nhật giá trị form
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                    <div key={index} className="relative">
+                      <Image
+                        src={imageUrl} // Use the resolved URL
+                        alt={`selected ${index}`}
+                        className="w-32 h-32 object-cover"
+                        width={128}
+                        height={128}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
+                      >
+                        <span className="text-sm">X</span>
+                      </button>
+                    </div>
                   );
-                }}
-              />
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {selectedImages.map((image, index) => {
-              // Check if the image is a File or an object from the API response
-              const imageUrl =
-                typeof image === "string" // If it's already a URL string
-                  ? image
-                  : image instanceof File // If it's a File object
-                    ? URL?.createObjectURL(image)
-                    : (image as ImageType).url;
+                })}
+              </div>
+            </>
+          )}
 
-              return (
-                <div key={index} className="relative">
-                  <Image
-                    src={imageUrl} // Use the resolved URL
-                    alt={`selected ${index}`}
-                    className="w-32 h-32 object-cover"
-                    width={128}
-                    height={128}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute w-6 h-6 top-0 right-0 bg-red-500 text-white flex text-center items-center justify-center rounded-full p-1"
-                  >
-                    <span className="text-sm">X</span>
-                  </button>
-                </div>
-              );
-            })}
-          </div>
           <Button variant="outline" type="submit">
-            Tạo dự án
+            {!data ? "Tạo dự án" : "Cập nhật dự án"}
           </Button>
         </form>
       </Form>
