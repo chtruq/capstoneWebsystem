@@ -22,4 +22,6 @@ interface Appointment {
   customerName: string;
   customerPhone: string;
   referenceCode: string;
+  username: string;
+  phone: string;
 }
