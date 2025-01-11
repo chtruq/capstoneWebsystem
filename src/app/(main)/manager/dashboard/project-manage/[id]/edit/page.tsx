@@ -11,11 +11,11 @@ const ProjectEdit = async ({ params }: { params: { id: string } }) => {
   const providers = await getAllProviders();
   const data = await getProject(params.id);
 
-  console.log(data);
-
   return (
     <div>
-      <h1 className="font-semibold text-2xl">Tạo mới dự án</h1>
+      <h1 className="font-semibold text-2xl">
+        {!providers ? "Tạo mới dự án " : "Chỉnh sửa dự án"}
+      </h1>
 
       <div>
         <ProjectCreate

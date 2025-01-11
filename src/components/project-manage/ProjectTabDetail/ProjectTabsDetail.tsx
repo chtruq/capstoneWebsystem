@@ -14,13 +14,15 @@ import { getUserInforFromCookie } from "@/app/actions/auth";
 import DepositTable from "./Deposit/DepositTable";
 import { formatDate } from "@/lib/utils/dataFormat";
 import AddProjectBulkFile from "./ProjectFinancialContract/AddProjectBulkFile";
+import FacilityDialog from "@/components/facilityDialog/FacilityDialog";
+import { getFacilities } from "@/app/actions/facility";
+import ImagePickerProject from "@/components/ImgpickerProject/ImagePickerProject";
 interface Props {
   data: Project;
   searchParam?: Promise<{
     page?: string;
   }>;
 }
-
 
 const ProjectTabsDetail: FC<Props> = async (props) => {
   const { data, searchParam } = props;
@@ -33,21 +35,21 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
 
   const userInfor = await getUserInforFromCookie();
 
-
   const totalPages = projectCart.totalPage;
   const totalItem = projectCart.totalItem;
   const count = projectCart.apartments.length;
-
+  const facilitiesRes = await getFacilities();
+  const facilities: Facility[] = facilitiesRes.data;
   console.log("imageeeeeeee", data?.projectImages);
-
 
   return (
     <div className="w-full">
       {/* <h1>data {data?.projectApartmentID}</h1> */}
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid max-w-screen-sm grid-cols-4">
+        <TabsList className="grid max-w-screen-sm grid-cols-5">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
+          <TabsTrigger value="facility">Tiện ích</TabsTrigger>
           <TabsTrigger value="cart">Giỏ hàng</TabsTrigger>
           <TabsTrigger value="contract">Hợp đồng</TabsTrigger>
           {/* <TabsTrigger value="request-deposit">Yêu cầu đặt cọc</TabsTrigger> */}
@@ -95,10 +97,14 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                     <div>{tableText(data?.apartmentArea)}</div>
 
                     <div className="text-sm text-blur ">Năm khởi công</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
+                    <div>
+                      {tableText(formatDate(data?.constructionStartYear ?? ""))}
+                    </div>
 
                     <div className="text-sm text-blur ">Năm bàn giao</div>
-                    <div>{tableText(formatDate(data?.constructionStartYear ?? ''))}</div>
+                    <div>
+                      {tableText(formatDate(data?.constructionStartYear ?? ""))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -122,11 +128,16 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
                 <h1 className="font-semibold">Tiện ích nội khu</h1>
                 <div>
                   <ul>
-                    {data?.facilities.map((facility: { facilitiesID: string; facilitiesName: string }) => (
-                      <li key={facility?.facilitiesID}>
-                        {facility?.facilitiesName}
-                      </li>
-                    ))}
+                    {data?.facilities.map(
+                      (facility: {
+                        facilitiesID: string;
+                        facilitiesName: string;
+                      }) => (
+                        <li key={facility?.facilitiesID}>
+                          {facility?.facilitiesName}
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               </div>
@@ -139,28 +150,49 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               Hình ảnh({data.projectImages?.length})
             </h1>
             <div>
-              {/* {data?.projectImages.map((image: { projectImageID: string }) => (
-                <div
-                  key={image.projectImageID}
-                  className="flex flex-wrap justify-start space-x-4 space-y-4"
-                >
-                  <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.id, url: img.imageUrl }))} />
-                </div>
-              ))} */}
+              <ImageGallery
+                images={data?.projectImages.map((img) => ({
+                  imageID: img.projectImageID,
+                  url: img.url,
+                  description: img.description,
+                }))}
+              />
+            </div>
 
-              <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.projectImageID, url: img.url, description: img.description }))} />
-              {/* <ImageGallery images={data?.projectImages.map((img) => ({ imageID: img.imageID, url: img.imageUrl }))} /> */}
+            <div>
+              <ImagePickerProject projectId={data?.projectApartmentID} />
+            </div>
+          </div>
+        </TabsContent>
+        <TabsContent value="facility">
+          <div>
+            <h1 className="font-semibold">Các tiện ích của dự án</h1>
+            <FacilityDialog data={data} facility={facilities} />
+            <div>
+              <ul>
+                {data?.facilities.map(
+                  (facility: {
+                    facilitiesID: string;
+                    facilitiesName: string;
+                  }) => (
+                    <li key={facility?.facilitiesID}>
+                      {facility?.facilitiesName}
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
           </div>
         </TabsContent>
         <TabsContent value="cart">
           <div>
             <div className="flex justify-between">
-
               {userInfor?.role === "Staff" ? (
                 <div className="w-3/4 flex justify-end mr-20">
                   <Button variant="default">
-                    <Link href={`/staff/dashboard/project-manage/${data?.projectApartmentID}/apartment-create`}>
+                    <Link
+                      href={`/staff/dashboard/project-manage/${data?.projectApartmentID}/apartment-create`}
+                    >
                       Tạo căn hộ
                     </Link>
                   </Button>
@@ -168,10 +200,12 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               ) : (
                 <></>
               )}
-
             </div>
             <div>
-              <ProjectCartTable data={projectCart.apartments} role={userInfor?.role} />
+              <ProjectCartTable
+                data={projectCart.apartments}
+                role={userInfor?.role}
+              />
             </div>
             <div>
               {totalPages ? (
@@ -209,19 +243,18 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
               <ProjectContract data={data} role={userInfor?.role} />
             </div>
 
-
             {/* Hợp đồng */}
             <div className="mt-4">
               <h1 className="font-semibold">Danh sách bàn giao</h1>
-              <AddProjectBulkFile ProjectApartmentID={data.projectApartmentID}/>
+              <AddProjectBulkFile
+                ProjectApartmentID={data.projectApartmentID}
+              />
               <div>
                 <ProjectFile data={data} />
               </div>
             </div>
           </div>
-
         </TabsContent>
-
 
         {/* <TabsContent value="request-deposit">
           <div>
@@ -230,8 +263,6 @@ const ProjectTabsDetail: FC<Props> = async (props) => {
         </TabsContent> */}
       </Tabs>
     </div>
-
-
   );
 };
 
