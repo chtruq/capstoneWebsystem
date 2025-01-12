@@ -99,7 +99,13 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
                 />
               ))}
             </div> */}
-            <ImageGalleryApt images={data?.images.map(image => ({ imageID: image.apartmentImageID, url: image.imageUrl, description: image.description }))} />
+            <ImageGalleryApt
+              images={data?.images.map((image) => ({
+                imageID: image.apartmentImageID,
+                url: image.imageUrl,
+                description: image.description
+              }))}
+            />
 
             <h1 className="font-semibold">Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})</h1>
             <ImageVR images={data.vrVideoUrls} />
