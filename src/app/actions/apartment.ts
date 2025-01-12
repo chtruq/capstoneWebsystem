@@ -417,6 +417,7 @@ export const deleteApartmentImg = async (imageId: string) => {
 
 export const deleteApartmentImgVR = async (imageId: string) => {
   try {
+    console.log("imageId", imageId);
     const res = await apiClient.delete(`/vrexperiences/${imageId}`);
     return res;
   } catch (error) {

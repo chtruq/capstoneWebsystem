@@ -13,15 +13,20 @@ import { Trash2 } from "lucide-react";
 import { deleteProjectImg } from "@/app/actions/project";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { deleteApartmentImg, deleteApartmentImgVR } from "@/app/actions/apartment";
+import {
+  deleteApartmentImg,
+  deleteApartmentImgVR,
+} from "@/app/actions/apartment";
 
 interface ConfirmDeleteDialogProps {
   imageID: string;
 }
 
-const ConfirmApartmentVRDeleteDialog: FC<ConfirmDeleteDialogProps> = ({ imageID }) => {
+const ConfirmApartmentVRDeleteDialog: FC<ConfirmDeleteDialogProps> = ({
+  imageID,
+}) => {
   const router = useRouter();
-  const handleDeleteImage = async (imageID: string) => {
+  const handleDeleteImage = async () => {
     try {
       const res = await deleteApartmentImgVR(imageID);
       if (res) {
@@ -60,7 +65,7 @@ const ConfirmApartmentVRDeleteDialog: FC<ConfirmDeleteDialogProps> = ({ imageID 
         <DialogFooter>
           <Button
             onClick={() => {
-              handleDeleteImage(imageID);
+              handleDeleteImage();
             }}
             type="submit"
           >

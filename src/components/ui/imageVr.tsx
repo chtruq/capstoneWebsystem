@@ -50,7 +50,6 @@ const ImageVR: React.FC<ImageGalleryProps> = ({ images }) => {
 
   console.log("URLsdaasd", selectedImage);
 
-
   return (
     <div>
       <div className="flex flex-wrap justify-start items-center space-x-4 pb-4">
@@ -83,10 +82,12 @@ const ImageVR: React.FC<ImageGalleryProps> = ({ images }) => {
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
       >
         {/* Lớp nền mờ phía sau */}
-        <div className="fixed inset-0 bg-black bg-opacity-50" aria-hidden="true" />
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50"
+          aria-hidden="true"
+        />
 
         <Dialog.Panel className="relative bg-white rounded-lg shadow-lg p-4 w-full max-w-5xl">
-
           {selectedImage && (
             <iframe
               srcDoc={generateHtmlContent(selectedImage)} // Nhúng nội dung HTML vào iframe

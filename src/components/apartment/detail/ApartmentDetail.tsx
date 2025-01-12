@@ -20,6 +20,9 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         <TabsList>
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
+          {/* {data?.projectApartmentName === "Dự án ký gửi" ? (
+            <TabsTrigger value="contract">Hợp đồng ký gửi</TabsTrigger>
+          ) : null} */}
         </TabsList>
         <TabsContent value="overview">
           <div>
@@ -92,7 +95,6 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               images={data?.images.map((image) => ({
                 imageID: image.apartmentImageID,
                 url: image.imageUrl,
-
                 description: image.description,
               }))}
             />
