@@ -20,9 +20,6 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
         <TabsList>
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="media">Phương tiện</TabsTrigger>
-          {/* {data?.projectApartmentName === "Dự án ký gửi" ? (
-            <TabsTrigger value="contract">Hợp đồng ký gửi</TabsTrigger>
-          ) : null} */}
         </TabsList>
         <TabsContent value="overview">
           <div>
@@ -91,7 +88,6 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
           <div>
             <h1 className="font-semibold">Hình ảnh ({data.images.length})</h1>
 
-
             <ImageGalleryApt
               images={data?.images.map((image) => ({
                 imageID: image.apartmentImageID,
@@ -102,8 +98,6 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
             />
 
             <ImagePickerApt apartmentId={data?.apartmentID} />
-
- 
 
             <h1 className="font-semibold">
               Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})
