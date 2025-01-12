@@ -363,6 +363,7 @@ export const createApartmentForOwner = async (value: ConsignmentValue) => {
   }
 };
 
+
 export const addAptImages = async (apartmentId: string, images: File[]) => {
   try {
     const formData = new FormData();
@@ -404,5 +405,23 @@ export const addVrImages = async (apartmentId: string, images: File[]) => {
   } catch (error) {
     console.error("Error adding images:", error);
     throw error;
+
+export const deleteApartmentImg = async (imageId: string) => {
+  try {
+    const res = await apiClient.delete(`/apartment-images/${imageId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const deleteApartmentImgVR = async (imageId: string) => {
+  try {
+    const res = await apiClient.delete(`/vrexperiences/${imageId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+
   }
 };
