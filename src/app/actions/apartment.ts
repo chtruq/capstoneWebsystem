@@ -356,3 +356,21 @@ export const createApartmentForOwner = async (value: ConsignmentValue) => {
   }
 };
 
+export const deleteApartmentImg = async (imageId: string) => {
+  try {
+    const res = await apiClient.delete(`/apartment-images/${imageId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const deleteApartmentImgVR = async (imageId: string) => {
+  try {
+    const res = await apiClient.delete(`/vrexperiences/${imageId}`);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};

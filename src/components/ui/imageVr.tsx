@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Dialog } from "@headlessui/react";
 import { CircleX } from "lucide-react";
+import ConfirmApartmentVRDeleteDialog from "../confirmdelete/ConfirmVRDeleteDialog";
 
 interface ImageFile {
   vrExperienceID: string;
@@ -48,24 +49,29 @@ const ImageVR: React.FC<ImageGalleryProps> = ({ images }) => {
 `;
 
   console.log("URLsdaasd", selectedImage);
-  
+
 
   return (
     <div>
       <div className="flex flex-wrap justify-start items-center space-x-4 pb-4">
         {images.map((image) => (
-          <div
-            key={image.vrExperienceID}
-            className="cursor-pointer"
-            onClick={() => setSelectedImage(image.videoUrl)} // Khi click, lưu URL ảnh vào state
-          >
-            <Image
-              className="rounded-lg object-cover w-[10rem] h-[10rem]"
-              src={image.videoUrl}
-              alt="image"
-              width={200}
-              height={200}
-            />
+          <div key={image.vrExperienceID} className="relative cursor-pointer">
+            <div
+              key={image.vrExperienceID}
+              className="relative cursor-pointer"
+              onClick={() => setSelectedImage(image.videoUrl)} // Khi click, lưu URL ảnh vào state
+            >
+              <Image
+                className="rounded-lg object-cover w-[10rem] h-[10rem]"
+                src={image.videoUrl}
+                alt="image"
+                width={200}
+                height={200}
+              />
+            </div>
+            <div className="absolute top-2 right-2 bg-white rounded-full">
+              <ConfirmApartmentVRDeleteDialog imageID={image.vrExperienceID} />
+            </div>
           </div>
         ))}
       </div>
@@ -80,7 +86,7 @@ const ImageVR: React.FC<ImageGalleryProps> = ({ images }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50" aria-hidden="true" />
 
         <Dialog.Panel className="relative bg-white rounded-lg shadow-lg p-4 w-full max-w-5xl">
-          
+
           {selectedImage && (
             <iframe
               srcDoc={generateHtmlContent(selectedImage)} // Nhúng nội dung HTML vào iframe

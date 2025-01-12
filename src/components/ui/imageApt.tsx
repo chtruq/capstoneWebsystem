@@ -7,6 +7,7 @@ import { deleteProjectImg } from "@/app/actions/project";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import ConfirmDeleteDialog from "../confirmdelete/ConfirmDeleteDialog";
+import ConfirmApartmentDeleteDialog from "../confirmdelete/ConfirmDeleteImageDialog";
 
 interface ImageFile {
   imageID: string;
@@ -40,9 +41,9 @@ const ImageGalleryApt: React.FC<ImageGalleryProps> = ({ images }) => {
                 height={200}
               />
             </div>
-            {/* <div className="absolute top-2 right-2 bg-white rounded-full">
-              <ConfirmDeleteDialog imageID={image.imageID} />
-            </div> */}
+            <div className="absolute top-2 right-2 bg-white rounded-full">
+              <ConfirmApartmentDeleteDialog imageID={image.imageID} />
+            </div>
           </div>
         ))}
       </div>
