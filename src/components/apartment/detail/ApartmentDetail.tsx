@@ -6,6 +6,8 @@ import React, { FC } from "react";
 import { formatDirection } from "@/lib/utils/dataFormat";
 import ImageVR from "@/components/ui/imageVr";
 import ImageGalleryApt from "@/components/ui/imageApt";
+import ImagePickerApt from "./ImagePickerApt";
+import ImageVrPicker from "./ImageVrPicker";
 interface Props {
   data: Apartment;
 }
@@ -76,7 +78,9 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
               </div>
               <div className="w-full flex">
                 <span className="text-sm text-blur w-1/3">Hướng ban công</span>
-                <span className="w-2/3">{formatDirection(data.balconyDirection)}</span>
+                <span className="w-2/3">
+                  {formatDirection(data.balconyDirection)}
+                </span>
               </div>
             </div>
             <h1 className="font-semibold mt-4">Mô tả căn hộ</h1>
@@ -87,28 +91,26 @@ const ApartmentDetail: FC<Props> = ({ data }) => {
           <div>
             <h1 className="font-semibold">Hình ảnh ({data.images.length})</h1>
 
-            {/* <div className="grid grid-cols-4 gap-4">
-              {data.images.map((image) => (
-                <Image
-                  key={image.apartmentImageID}
-                  src={image.imageUrl}
-                  alt={data.apartmentName}
-                  className="w-32 h-32 object-cover"
-                  width={200}
-                  height={200}
-                />
-              ))}
-            </div> */}
+
             <ImageGalleryApt
               images={data?.images.map((image) => ({
                 imageID: image.apartmentImageID,
                 url: image.imageUrl,
-                description: image.description
+
+                description: image.description,
               }))}
             />
 
-            <h1 className="font-semibold">Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})</h1>
+            <ImagePickerApt apartmentId={data?.apartmentID} />
+
+ 
+
+            <h1 className="font-semibold">
+              Hình ảnh 360 ({data.vrVideoUrls?.length || "0"})
+            </h1>
             <ImageVR images={data.vrVideoUrls} />
+
+            <ImageVrPicker apartmentId={data?.apartmentID} />
           </div>
         </TabsContent>
         {/* <TabsContent value="contract" >

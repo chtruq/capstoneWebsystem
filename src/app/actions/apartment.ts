@@ -21,7 +21,7 @@ export const getApartmentsTest = async ({
   statuses?: number[];
 }) => {
   try {
-    statuses = [1,2,3,4,5];
+    statuses = [1, 2, 3, 4, 5];
     const queryString = QueryString.stringify({
       apartmentCode: query,
       pageIndex: currentPage,
@@ -33,7 +33,7 @@ export const getApartmentsTest = async ({
       `/apartments/search?${queryString}`
     );
     console.log("ressssssssss", res?.data?.data?.apartments);
-    
+
     return res;
   } catch (error) {
     console.log(error);
@@ -82,8 +82,11 @@ export const getProjectProviderCart = async ({
   apartmentProjectProviderID: string;
 }) => {
   try {
-    console.log("apartmentProjectProviderIDaaaaaaaa", apartmentProjectProviderID);
-    
+    console.log(
+      "apartmentProjectProviderIDaaaaaaaa",
+      apartmentProjectProviderID
+    );
+
     const res = await apiClient.get(
       `/apartments/search?ApartmentProjectProviderID=${apartmentProjectProviderID}&pageIndex=1&pageSize=100`
     );
@@ -284,25 +287,25 @@ export const createMultipleApartment = async (
 };
 
 interface ConsignmentValue {
-  ApartmentName: string,
-  Description: string,
-  Address: string,
-  Area: string,
-  District?: string | null,
-  Ward?: string | null,
-  NumberOfRooms: string,
-  NumberOfBathrooms: string,
-  Location?: string | null,
-  Direction: number,
-  ApartmentType: number,
-  BalconyDirection: number,
-  Building: string,
-  Floor: string,
-  RoomNumber: string,
-  PropertyVerificationID: string,
-  ProjectApartmentID: string,
-  Images: File[],
-  VRVideoFiles: File[],
+  ApartmentName: string;
+  Description: string;
+  Address: string;
+  Area: string;
+  District?: string | null;
+  Ward?: string | null;
+  NumberOfRooms: string;
+  NumberOfBathrooms: string;
+  Location?: string | null;
+  Direction: number;
+  ApartmentType: number;
+  BalconyDirection: number;
+  Building: string;
+  Floor: string;
+  RoomNumber: string;
+  PropertyVerificationID: string;
+  ProjectApartmentID: string;
+  Images: File[];
+  VRVideoFiles: File[];
 }
 
 export const createApartmentForOwner = async (value: ConsignmentValue) => {
@@ -344,17 +347,64 @@ export const createApartmentForOwner = async (value: ConsignmentValue) => {
       formData.forEach((value, key) => console.log(key, value))
     );
 
-    const res = await apiClient.post("/apartments/create-apartment-for-owner", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await apiClient.post(
+      "/apartments/create-apartment-for-owner",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return res;
   } catch (error) {
     console.log(error);
   }
 };
+
+
+export const addAptImages = async (apartmentId: string, images: File[]) => {
+  try {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("Images", image);
+    });
+    const res = await apiClient.put(
+      `/apartments/update/${apartmentId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error("Error adding images:", error);
+    throw error;
+  }
+};
+
+export const addVrImages = async (apartmentId: string, images: File[]) => {
+  try {
+    const formData = new FormData();
+    images.forEach((image) => {
+      formData.append("VRVideoFiles", image);
+    });
+    const res = await apiClient.put(
+      `/apartments/update/${apartmentId}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return res;
+  } catch (error) {
+    console.error("Error adding images:", error);
+    throw error;
 
 export const deleteApartmentImg = async (imageId: string) => {
   try {
@@ -372,5 +422,6 @@ export const deleteApartmentImgVR = async (imageId: string) => {
     return res;
   } catch (error) {
     console.log(error);
+
   }
 };
